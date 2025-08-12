@@ -4,7 +4,7 @@
 
 **CultivApp** es una plataforma web que ayuda a pequeños y medianos productores a gestionar sus cultivos con recordatorios y alertas **sin sensores costosos**. Cruza datos del cultivo con el **clima real** (consultado desde SIATA vía web scraping o a través de un microservicio API propio) para sugerir acciones: riego, fertilización y alertas climáticas.
 
-## 👥 Equipo
+## Integrantes
 - **Equipo:** Equipo 5
 - **Integrantes:**
 - Nicolás Meneses — nicolas.meneses@upb.edu.co
@@ -13,7 +13,7 @@
   - <Nombre 4> — <correo 4>
 
 
-## 📚 Estructura y navegación
+## Estructura y navegación
 
 | Sección | Descripción | Enlace |
 |---|---|---|
