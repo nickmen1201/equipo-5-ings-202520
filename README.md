@@ -8,7 +8,7 @@
 - **Equipo:** Equipo 5
 - **Integrantes:**
 - Nicolás Meneses — nicolas.meneses@upb.edu.co
-  - <Nombre 2> — <correo 2>
+- Diego Villegas — diego.villegasv@upb.edu.co
   - <Nombre 3> — <correo 3>
   - <Nombre 4> — <correo 4>
 
