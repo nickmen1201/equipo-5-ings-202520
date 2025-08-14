@@ -243,90 +243,198 @@ Then veo "Sin alertas por hoy"
 **Prioridad:** P0
 
 
-## RF11 – Gestión de ubicaciones del productor (*P1*)
-*Feature:* Múltiples ubicaciones  
-*Scenario:* Añadir/editar ubicaciones  
-*Given* que opero en varias fincas  
-*When* agrego una nueva ubicación con coordenadas/municipio  
-*Then* puedo asignarla a nuevos cultivos
+## REQ-011
+**AG:** AG-FN
 
----
+**Título:** Detalle de cultivo en /cultivos/:id con clima y próximas tareas
 
-## RF12 – Panel con estado de cultivos (*P1*)
-*Feature:* Dashboard simple  
-*Scenario:* Ver resumen por cultivo  
-*Given* varios cultivos  
-*When* abro el panel  
-*Then* veo tarjetas con estado, próximas tareas y alerta de lluvia
+**Descripción:** Mostrar tarjeta de clima (lluvia última 24 h, hora de actualización) y lista de próximas tareas generadas por reglas. Valor: contexto operativo por cultivo.
 
----
+**Criterios de aceptación:**
+```
+Scenario: Visualización de clima
+Given cultivo con lluvia 3.2 mm y actualización 06:00
+When abro /cultivos/:id
+Then veo "Lluvia 24 h: 3.2 mm (06:00)"
 
-## RF13 – Historial exportable (*P1*) 
-*Feature:* Exportar bitácora  
-*Scenario:* Descargar CSV  
-*Given* actividades registradas  
-*When* exporto el historial  
-*Then* descargo CSV con fecha, tipo, notas y clima asociado
+Scenario: Sin datos climáticos
+Given scraping no ha corrido y no hay fallback
+When abro /cultivos/:id
+Then veo "Sin datos en las últimas 12 h" y un botón "Ingresar manual"
+```
+**Prioridad:** P1
 
----
+## REQ-012
+**AG:** AG-FN
 
-## RF14 – Catálogo de especies base (*P1*)
-*Feature:* Biblioteca de pautas  
-*Scenario:* Seleccionar especie con reglas predefinidas  
-*Given* lista base de cultivos (ej. café, maíz, hortalizas)  
-*When* selecciono “maíz”  
-*Then* se precargan reglas fenológicas sugeridas editables
+**Título:** Calendario (30 días) en /calendario y /cultivos/:id/calendario
 
----
+**Descripción:** Navegación y agendamiento máx. 30 días hacia adelante; franjas de 1:40 h iniciando en pares 08:00–16:00 (termina 17:40). Riego se bloquea si lluvia ≥ umbral. Valor: planificación simple y controlada.
 
-## RF15 – Microservicio de clima (Scraping→API) (*P1*)
-*Feature:* Integración con servicio clima interno  
-*Scenario:* Consumir API de clima propia  
-*Given* un endpoint interno /clima?lat&lon  
-*When* consulto el clima  
-*Then* recibo JSON normalizado (lluvia, temp, fecha, fuente) y cacheado
+**Criterios de aceptación:**
+```
+Scenario: Límite de 30 días
+Given estoy en /calendario
+When intento seleccionar una fecha a 31 días
+Then veo "La fecha excede el máximo de 30 días"
 
----
+Scenario: Generación de franjas
+Given selecciono un día habilitado
+Then veo franjas 08:00, 09:40, 11:20, 13:00, 14:40, 16:20
 
-## RF16 – Reglas configurables por cultivo (*P2*)
-*Feature:* Editor de reglas  
-*Scenario:* Ajustar umbral de lluvia  
-*Given* un cultivo  
-*When* modifico el umbral de lluvia de 60% a 70%  
-*Then* las recomendaciones futuras usan el nuevo umbral
+Scenario: Bloqueo por lluvia
+Given lluvia ≥ umbral
+Then las franjas de riego del día aparecen deshabilitadas con tooltip de regla
+```
+**Prioridad:** P0
 
----
+## REQ-013
+**AG:** AG-FN
 
-## RF17 – Roles básicos (*P2*)
-*Feature:* Rol Admin  
-*Scenario:* Administrar catálogo y usuarios  
-*Given* rol Admin  
-*When* ingreso al panel de administración  
-*Then* puedo gestionar especies base y desactivar usuarios
+**Título:** Ajustes de umbrales y preferencias en /ajustes
 
----
+**Descripción:** Productor ajusta umbral de lluvia (2–20 mm, por defecto 5 mm) y ventana de avisos (p. ej., avisar con 1–3 días de anticipación). Valor: adaptación local.
 
-## RF18 – Auditoría mínima (*P2*)
-*Feature:* Trazabilidad  
-*Scenario:* Ver quién cambió una regla  
-*Given* que se actualizó la pauta de fertilización  
-*When* abro el historial de cambios  
-*Then* veo usuario, fecha, cambio anterior y nuevo
+**Criterios de aceptación:**
+```
+Scenario: Guardar umbral válido
+Given ingreso 7 mm como umbral
+When guardo
+Then las reglas usan 7 mm en mi cuenta
 
----
+Scenario: Fuera de rango
+Given ingreso 25 mm
+Then veo "Rango permitido 2–20 mm"
+```
+**Prioridad:** P1
 
-## RF19 – Mapa simple de ubicaciones (*P2*)
-*Feature:* Mapa de cultivos  
-*Scenario:* Ver cultivos en el mapa  
-*Given* cultivos con coordenadas  
-*When* abro la vista mapa  
-*Then* veo marcadores por cultivo con acceso a su detalle
+## REQ-014
+**AG:** AG-FN
 
----
+**Título:** Bitácora de campo (texto) en /cultivos/:id/bitacora
 
-## RF20 – Salud del servicio clima (*P2*)
-*Feature:* Monitor de integración  
-*Scenario:* Ver estado del microservicio de clima  
-*Given* un panel de estado  
-*When* reviso “Clima SIATA”  
-*Then* veo “OK / Degradado / Caído” con último ping y latencia
+**Descripción:** Registrar entradas de texto con fecha, autor y etiqueta (riego, fertilización, observación). Valor: trazabilidad operativa sin imágenes/IA.
+
+**Criterios de aceptación (Gherkin):**
+```
+Scenario: Nueva entrada
+Given escribo "Observación de plaga leve"
+When guardo
+Then veo la entrada con timestamp y autor
+
+Scenario: Entrada vacía
+Given el texto está vacío
+Then el botón "Guardar" está deshabilitado
+```
+**Prioridad:** P1
+
+## REQ-015
+**AG:** AG-FN
+
+**Título:** Auditoría mínima en /admin/auditoria
+
+**Descripción:** Registrar (S6) para altas/bajas/ediciones, scraping y cambios de umbrales. Filtros por usuario, acción y rango de fechas. Valor: evidencia y control.
+
+**Criterios de aceptación:**
+```
+Scenario: Registro de scraping
+Given corre scraping 06:00
+Then se registra entrada "scraping: éxito/fallo" con duración
+
+Scenario: Filtro por usuario
+Given hay múltiples acciones
+When filtro por usuario X
+Then solo veo acciones de X
+```
+**Prioridad:** P1
+
+## REQ-016
+**AG:** AG-FN
+
+**Título:** Exportación CSV en /exportar
+
+**Descripción:** Exportar cultivos, tareas programadas y bitácora a CSV (UTF‑8, separador coma). Valor: portabilidad.
+
+**Criterios de aceptación:**
+```
+Scenario: Exportar cultivos
+Given entro a /exportar
+When descargo "cultivos.csv"
+Then el archivo contiene encabezados y registros visibles en /cultivos
+
+Scenario: Fechas y números
+Given exporto
+Then fechas ISO‑8601 y mm con punto decimal
+```
+**Prioridad:** P1
+
+## REQ-017
+**AG:** AG-FN
+
+**Título:** Notificaciones internas (campana)
+
+**Descripción:** Indicador de notificaciones no leídas en la barra superior y panel emergente con las últimas 20. Valor: atención rápida sin correo.
+
+**Criterios de aceptación:**
+```
+Scenario: Badge de no leídas
+Given tengo 3 notificaciones nuevas
+Then veo un badge "3" en la campana
+
+Scenario: Marcar como leídas
+When abro el panel y presiono "Marcar todo como leído"
+Then el badge desaparece
+```
+**Prioridad:** P1
+
+## REQ-018
+**AG:** AG-FN
+
+**Título:** Carga de datos semilla en /admin/demo-datos
+
+**Descripción:** Botón para cargar datos semilla (1 Admin, 1 Productor demo, 2 especies, 3 cultivos y 10 entradas de bitácora) si el scraping falla el día de la entrega. Valor: aseguramiento de demo.
+
+**Criterios de aceptación:**
+```
+Scenario: Carga única protegida
+Given no hay datos de demo cargados
+When presiono "Cargar datos semilla"
+Then se puebla la base y el botón queda deshabilitado
+
+Scenario: Segundo intento
+Given los datos semilla ya están cargados
+When presiono de nuevo
+Then veo "Ya se cargaron los datos de demo"
+```
+**Prioridad:** P1
+
+## REQ-019
+**AG:** AG-FN
+
+**Título:** Panel de salud del sistema en /admin/salud
+
+**Descripción:** Mostrar última hora de scraping, duración, éxito/fallo y edad del dato climático (en minutos). Valor: diagnóstico rápido.
+
+**Criterios de aceptación:**
+```
+Scenario: Semáforo de frescura
+Given última actualización hace 130 min
+Then veo indicador "Amarillo" y sugerencia "Actualizar ahora"
+```
+**Prioridad:** P2
+
+## REQ-020
+**AG:** AG-FN
+
+**Título:** Tour de ayuda inicial
+
+**Descripción:** Tour de 5 pasos en primera visita (login→cultivos→detalle→calendario→alertas) con opción “No volver a mostrar”. Valor: onboarding autónomo.
+
+**Criterios de aceptación:**
+```
+Scenario: Mostrar una sola vez
+Given es mi primera sesión
+Then veo el tour
+And al finalizar no vuelve a aparecer en la próxima sesión
+```
+**Prioridad:** P2
