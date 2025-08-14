@@ -9,7 +9,7 @@
 - **Integrantes:**
 - Nicolás Meneses — nicolas.meneses@upb.edu.co
 - Diego Villegas — diego.villegasv@upb.edu.co
-  - <Nombre 3> — <correo 3>
+  - Simón Bedoya  — simon.bedoyau@upb.edu.co
   - <Nombre 4> — <correo 4>
 
 
