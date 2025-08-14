@@ -9,8 +9,8 @@
 - **Integrantes:**
 - Nicolás Meneses — nicolas.meneses@upb.edu.co
 - Diego Villegas — diego.villegasv@upb.edu.co
-  - Simón Bedoya  — simon.bedoyau@upb.edu.co
-  - <Nombre 4> — <correo 4>
+- Simón Bedoya  — simon.bedoyau@upb.edu.co
+- <Nombre 4> — <correo 4>
 
 
 ## Estructura y navegación
