@@ -12,7 +12,7 @@
 ---
 
 ## Convenciones de priorización
-- **P0 (Crítico/MVP)**: imprescindible para validar el producto en <= 3 meses.
+- **P0 (Crítico/MVP)**: imprescindible para validar el producto.
 - **P1 (Alto)**: importante, puede ir tras MVP o si hay capacidad.
 - **P2 (Medio)**: aporte incremental / mejora. 
  
