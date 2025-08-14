@@ -15,12 +15,15 @@
 
 ## Estructura y navegación
 
-| Sección | Descripción | Enlace |
-|---|---|---|
-| Documentación | Portal de documentación | [`/doc/index.md`](doc/index.md) |
-| Análisis | Requisitos y artefactos de la fase de análisis | [`/doc/analysis/index.md`](doc/analysis/index.md) |
-| Requisitos Funcionales | 20 requisitos en notación Gherkin | [`/doc/analysis/requirements-fn.md`](doc/analysis/requirements-fn.md) |
-| Requisitos No Funcionales | 10 requisitos priorizados | [`/doc/analysis/requirements-nfn.md`](doc/analysis/requirements-nfn.md) |
+- **Documentación** — Portal de documentación  
+  → [index.md](doc/index.md)
+
+- **Análisis** — Requisitos y artefactos de la fase de análisis  
+  → [index.md](doc/analysis/index.md)
+  - **Requisitos Funcionales** — 20 requisitos en notación Gherkin  
+    → [requirements-fn.md](doc/analysis/requirements-fn.md)
+  - **Requisitos No Funcionales** — 10 requisitos priorizados  
+    → [requirements-nfn.md](doc/analysis/requirements-nfn.md)
 
 
 
