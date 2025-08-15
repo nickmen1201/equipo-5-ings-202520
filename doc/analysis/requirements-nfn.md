@@ -1,36 +1,67 @@
-# Requisitos No Funcionales – CultivApp
+# Requisitos No Funcionales
 
-> *P0* crítico/MVP, *P1* alto, *P2* medio
+## REQ-001
+**AG:** AG-NFN  
+**Título:** Disponibilidad del servicio  
+**Descripción:** La aplicación debe mantener un uptime mensual ≥ 99% para garantizar el acceso continuo a datos y recomendaciones.  
 
----
+**Criterios de aceptación:**  
+- Monitorear la disponibilidad con herramientas automáticas (ej. UptimeRobot).  
+- Registrar y reportar el tiempo total de indisponibilidad mensual.  
 
-## RNF01 – Disponibilidad del servicio (*P0*)
-*Descripción:* El front y el microservicio de clima deben estar disponibles.  
-*Criterio:* Uptime mensual ≥ *99.0%* en MVP (medido con ping/healthcheck y logs).
-
----
-
-## RNF02 – Desempeño de consulta de clima (*P0*)
-*Descripción:* Respuesta rápida a peticiones de clima.  
-*Criterio:* P95 de /clima *≤ 1200 ms* con caché; P95 de la UI *≤ 2000 ms* en red 4G.
+**Prioridad:** P0  
 
 ---
 
-## RNF03 – Seguridad básica (*P0*)
-*Descripción:* Autenticación y protección de credenciales.  
-*Criterio:* Passwords hash con algoritmo resistente (p. ej. bcrypt/argon2), TLS en tránsito, bloqueo tras *5 intentos* fallidos y expiración de sesión *≤ 12 h*.
+## REQ-002
+**AG:** AG-NFN  
+**Título:** Compatibilidad multiplataforma  
+**Descripción:** La aplicación debe ser funcional en navegadores modernos y dispositivos Android (≥8) e iOS (≥14), con diseño responsive.  
+
+**Criterios de aceptación:**  
+- Probar funcionalidad en Chrome, Firefox, Edge y Safari.  
+- Validar usabilidad en al menos 3 resoluciones de pantalla distintas.  
+
+**Prioridad:** P1  
 
 ---
 
-## RNF04 – Usabilidad mínima (*P0*)
-*Descripción:* UI clara para no expertos.  
-*Criterio:* 3 tareas clave (registrar cultivo, ver alerta, registrar actividad) completables en *≤ 3 clics* cada una en pruebas con ≥ 5 usuarios.
+## REQ-003
+**AG:** AG-NFN  
+**Título:** Rendimiento en consulta climática  
+**Descripción:** El tiempo de respuesta de las consultas a datos climáticos debe ser ≤ 3 s en condiciones de conectividad rural promedio (latencia 100-500 ms).  
+
+**Criterios de aceptación:**  
+- Simular consultas con latencia de 300 ms y verificar respuesta ≤ 3 s.  
+- Probar con 20 solicitudes consecutivas y cumplir el tiempo objetivo.  
+
+**Prioridad:** P1  
 
 ---
 
-## RNF05 – Accesibilidad (*P1*)
-*Descripción:* Cumplir criterios básicos de accesibilidad.  
-*Criterio:* Contraste AA, focus visible, navegación por teclado y etiquetas ARIA en formularios.
+## REQ-004
+**AG:** AG-NFN  
+**Título:** Escalabilidad  
+**Descripción:** El sistema debe soportar un aumento del 200% en usuarios activos sin degradar el rendimiento más de un 10% en tiempos de respuesta.  
+
+**Criterios de aceptación:**  
+- Realizar prueba de carga con el doble de usuarios concurrentes que el promedio.  
+- Verificar que el tiempo de respuesta no aumente más de un 10%.  
+
+**Prioridad:** P1  
+
+---
+
+## REQ-005
+**AG:** AG-NFN  
+**Título:** Seguridad de datos  
+**Descripción:** Toda comunicación debe realizarse mediante HTTPS y la información sensible debe almacenarse cifrada.  
+
+**Criterios de aceptación:**  
+- Ejecutar pruebas con OWASP ZAP para validar cifrado en tránsito.  
+- Verificar que los datos almacenados estén cifrados en reposo.  
+
+**Prioridad:** P0 
 
 ---
 
