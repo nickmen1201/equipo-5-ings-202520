@@ -13,7 +13,8 @@
 
 **Título:** Inicio de sesión básico en /login
 
-**Descripción:** Permitir que un usuario existente (Admin o Productor) autentique con correo y contraseña en /login. Aporta valor al restringir el acceso y reducir ambigüedades al fijar campos y mensajes de error concretos.
+**Descripción:** El sistema debe permitir que un usuario existente (con rol Admin o Productor) se autentique mediante correo electrónico y contraseña en la ruta /login.
+Este requisito asegura que solo usuarios autorizados puedan acceder a la plataforma, previniendo accesos no autorizados y protegiendo la información sensible. La autenticación debe validar las credenciales ingresadas contra los registros almacenados de forma segura (por ejemplo, usando contraseñas hasheadas) y, en caso de ser correctas, generar una sesión activa o token de autenticación que permita al usuario navegar por las funcionalidades de la aplicación según sus permisos.
 
 **Criterios de aceptación:**
 ```
@@ -41,7 +42,8 @@ Then veo "Cuenta deshabilitada, contacte al administrador" y permanezco en /logi
 
 **Título:** Registro de Productor en /register
 
-**Descripción:** Alta de nuevos Productores con nombre, correo único y contraseña (mín. 8 caracteres) en /register. Valor: habilita la adopción. Ambigüedad reducida con validaciones explícitas y unicidad de correo.
+**Descripción:** El sistema debe permitir la creación de nuevos usuarios con rol Productor a través de la ruta /register.
+Durante el registro, el formulario debe solicitar obligatoriamente nombre, correo electrónico único y contraseña.
 
 **Criterios de aceptación:**
 ```
@@ -66,9 +68,9 @@ Then veo "La contraseña debe tener al menos 8 caracteres"
 ## REQ-003
 **AG:** AG-FN
 
-**Título:** Control de acceso por rol (RBAC mínimo)
+**Título:** Control de acceso por rol 
 
-**Descripción:** Restringir vistas de administración (/admin/especies, /admin/tareas, /admin/auditoria) solo a Admin. Productor sin acceso a /admin. Valor: seguridad y orden operativo. Validación: intento de acceso directo devuelve 403 y UI oculta enlaces.
+**Descripción:** Restringir las vistas de administración (/admin/especies, /admin/tareas) solo a Admin. el Productor no tiene acceso a /admin.
 
 **Criterios de aceptación:**
 ```
@@ -87,7 +89,8 @@ Then recibo 403 y un mensaje "No autorizado"
 ## REQ-004
 **AG:** AG-FN
 **Título:** CRUD de Cultivos en /cultivos y /cultivos/:id
-**Descripción:** Crear, editar (nombre, especie, fecha siembra, superficie ha), archivar/activar cultivos. Valor: base de datos operativa para reglas. Ambigüedad reducida con rutas y campos concretos.
+**Descripción:** Crear, editar (nombre, especie, fecha siembra, superficie,etc), archivar/activar cultivos. Valor: base de datos operativa para reglas.
+
 **Criterios de aceptación:**
 ```
 Scenario: Crear cultivo
@@ -112,7 +115,7 @@ Then veo mensajes de campo requerido y no se guarda
 
 **Título:** Catálogo mínimo de especies en /admin/especies
 
-**Descripción:** Admin gestiona especies (crear/editar/eliminar) con parámetros base (p. ej., días recomendados para fertilización por defecto). Valor: estandariza configuraciones.
+**Descripción:** Admin gestiona especies (crear/editar/eliminar) con parámetros base (p. ej., días recomendados para fertilización por defecto).
 
 **Criterios de aceptación:**
 ```
@@ -131,9 +134,9 @@ Then veo "No se puede eliminar: tiene cultivos asociados"
 ## REQ-006
 **AG:** AG-FN
 
-**Título:** Catálogo de tareas plantilla en /admin/tareas
+**Título:** Plantillas de tareas en /admin/tareas
 
-**Descripción:** Plantillas determinísticas (riego, fertilización). Campos: nombre, tipo, regla (p. ej., "fertilizar a N días desde siembra"). Valor: consistencia en generación de tareas.
+**Descripción:** El sistema debe permitir que un Admin cree y gestione plantillas de tareas (por ejemplo: riego, fertilización). Cada plantilla tiene un nombre, tipo y una regla que indica cuándo se ejecuta (ejemplo: “Fertilizar a 20 días desde siembra”). Estas plantillas se usarán para generar tareas automáticamente en nuevos cultivos y evitar inconsistencias.
 
 **Criterios de aceptación:**
 ```
