@@ -159,7 +159,7 @@ Then veo "Ya existe una plantilla con ese nombre"
 
 **Título:** Scraping SIATA programado + reintento + /clima/actualizar
 
-**Descripción:** Ejecutar scraping a las 06:00 y 18:00 con 1 reintento después de 15 min si falla. Botón "Actualizar ahora" en /clima/actualizar (solo Admin) y en /cultivos/:id (Productor, solo su zona). Valor: datos oportunos pese a falta de API.
+**Descripción:** Ejecutar scraping a las 6 am y 6pm con 1 reintento después de 15 min si falla. Botón "Actualizar ahora" en /clima/actualizar (solo Admininstrador) y en /cultivos/:id (Productor, solo su zona).nos ayuda con los datos oportunos  aun sin tener API.
 
 **Criterios de aceptación:**
 ```
@@ -183,9 +183,9 @@ Then veo el estado "En curso" y resultado final
 ## REQ-008
 **AG:** AG-FN
 
-**Título:** Fallback manual de lluvia en /clima/manual
+**Título:** Registro  manual de lluvia en /clima/manual
 
-**Descripción:** Si no hay datos válidos en 12 h, permitir cargar lluvia manual (mm/24 h) por zona/cultivo con fuente y comentario. Valor: continuidad operativa.
+**Descripción:** Si el sistema no recibe datos de lluvia válidos durante más de 12 horas, debe permitir que el usuario ingrese manualmente la cantidad de lluvia registrada en las últimas 24 horas (en milímetros) para una zona o cultivo. Al registrar este dato, también se debe poder indicar la fuente de la información y un comentario opcional. Esto garantiza que el sistema pueda seguir funcionando aunque falle la fuente automática.
 
 **Criterios de aceptación:**
 ```
@@ -206,7 +206,7 @@ Then veo "Valor fuera de rango (0–200 mm)" y no se guarda
 
 **Título:** Motor de reglas determinísticas (riego/fertilización)
 
-**Descripción:** Evaluar por cultivo: No regar si lluvia ≥ 5 mm/24 h (umbral por defecto) y generar fertilización a N días desde siembra (según plantilla/especie). Valor: decisiones claras y reproducibles.
+**Descripción:** El sistema debe evaluar automáticamente cada cultivo usando reglas predefinidas.Riego, No se debe regar si la lluvia registrada en las últimas 24 horas es mayor o igual a 5 mm (valor por defecto).Fertilización: Se debe programar una tarea de fertilización cuando se cumpla el número de días desde la siembra definido en la plantilla o en la configuración de la especie.Estas reglas permiten tomar decisiones consistentes y repetibles sin intervención manual.
 
 **Criterios de aceptación:**
 ```
@@ -231,7 +231,9 @@ Then el riego no se bloquea por regla de lluvia
 
 **Título:** Centro de alertas en /alertas
 
-**Descripción:** Generar alertas accionables: "No riegues hoy" y "Fertilizar hoy/mañana", con enlace a la acción. Valor: guía diaria.
+**Descripción:** Generar alertas accionables: "No riegues hoy" y "Fertilizar hoy/mañana", con enlace a la acción. Esto ayuda a que el usuario tenga una guía diaria de lo que debe hacer.
+
+Criterios de aceptación:.
 
 **Criterios de aceptación:**
 ```
@@ -253,7 +255,7 @@ Then veo "Sin alertas por hoy"
 
 **Título:** Detalle de cultivo en /cultivos/:id con clima y próximas tareas
 
-**Descripción:** Mostrar tarjeta de clima (lluvia última 24 h, hora de actualización) y lista de próximas tareas generadas por reglas. Valor: contexto operativo por cultivo.
+**Descripción:** Mostrar una tarjeta del clima (lluvia las ultimas 24 horas y  hora de actualización) y lista de próximas tareas generadas por el motor de reglas del REQ-009.Esto le permitira al usuario que hacer con cada cultivo segun el contexto (clima,etapa del cultivo,con plaga ,etc ).
 
 **Criterios de aceptación:**
 ```
@@ -296,29 +298,42 @@ Then las franjas de riego del día aparecen deshabilitadas con tooltip de regla
 ## REQ-013
 **AG:** AG-FN
 
-**Título:** Ajustes de umbrales y preferencias en /ajustes
+**Título:** Recomendaciones automáticas de fertilización
 
-**Descripción:** Productor ajusta umbral de lluvia (2–20 mm, por defecto 5 mm) y ventana de avisos (p. ej., avisar con 1–3 días de anticipación). Valor: adaptación local.
+**Descripción:** El sistema debe generar recomendaciones de fertilización para cada cultivo basándose en:
+
+Los valores de minerales del suelo registrados (ver REQ-020)
+
+Los requerimientos nutricionales de la especie cultivada.
+
+La recomendación debe incluir el tipo de fertilizante, cantidad sugerida y fecha de aplicación. Estas sugerencias se actualizarán automáticamente cuando se ingresen nuevos datos de suelo o cambie la etapa de crecimiento del cultivo.
 
 **Criterios de aceptación:**
 ```
-Scenario: Guardar umbral válido
-Given ingreso 7 mm como umbral
-When guardo
-Then las reglas usan 7 mm en mi cuenta
+Scenario: Recomendación generada automáticamente
+  Given cultivo de maíz con registro de suelo N=25 ppm, P=8 ppm, K=20 ppm
+  And la especie maíz requiere N=40 ppm, P=12 ppm, K=25 ppm
+  When accedo al detalle del cultivo
+  Then veo una recomendación "Aplicar fertilizante NPK 15-15-15, 50 kg/ha, esta semana"
 
-Scenario: Fuera de rango
-Given ingreso 25 mm
-Then veo "Rango permitido 2–20 mm"
+Scenario: Sin datos de suelo
+  Given cultivo sin valores de minerales registrados
+  When accedo al detalle del cultivo
+  Then veo el mensaje "No hay datos de suelo para generar una recomendación"
+
+Scenario: Actualización por nuevos datos
+  Given cultivo con recomendación vigente
+  When registro nuevos valores de suelo que cumplen los requerimientos
+  Then la recomendación cambia a "No es necesaria fertilización en este momento"
 ```
 **Prioridad:** P1
 
 ## REQ-014
 **AG:** AG-FN
 
-**Título:** Bitácora de campo (texto) en /cultivos/:id/bitacora
+**Título:** Bitácora de campo  en /cultivos/:id/bitacora
 
-**Descripción:** Registrar entradas de texto con fecha, autor y etiqueta (riego, fertilización, observación). Valor: trazabilidad operativa sin imágenes/IA.
+**Descripción:** Registrar entradas de texto con fecha, autor y etiqueta (riego, fertilización, observación).La bitácora sirve como un registro histórico donde el productor puede documentar lo que observa o las acciones realizadas en el campo, manteniendo la información organizada y accesible.
 
 **Criterios de aceptación (Gherkin):**
 ```
@@ -358,7 +373,7 @@ Then solo veo acciones de X
 
 **Título:** Exportación CSV en /exportar
 
-**Descripción:** Exportar cultivos, tareas programadas y bitácora a CSV (UTF‑8, separador coma). Valor: portabilidad.
+**Descripción:** Exportar cultivos, tareas programadas y bitácora a CSV . Esta función facilita la portabilidad de la información para análisis externos, respaldos o intercambio de datos. El archivo CSV debe generarse con un formato estándar y codificación UTF-8 para asegurar su compatibilidad..
 
 **Criterios de aceptación:**
 ```
@@ -376,9 +391,11 @@ Then fechas ISO‑8601 y mm con punto decimal
 ## REQ-017
 **AG:** AG-FN
 
-**Título:** Notificaciones internas (campana)
+**Título:** Notificaciones internas
 
-**Descripción:** Indicador de notificaciones no leídas en la barra superior y panel emergente con las últimas 20. Valor: atención rápida sin correo.
+**Descripción:** El sistema debe mostrar un indicador visual en la barra superior con la cantidad de notificaciones no leídas.
+Al hacer clic en este indicador, debe abrirse un panel emergente que muestre las últimas 20 notificaciones en orden cronológico, con su fecha, título y un breve resumen.
+Esto permite que el usuario atienda rápidamente las novedades sin depender del correo electrónico.
 
 **Criterios de aceptación:**
 ```
@@ -395,21 +412,40 @@ Then el badge desaparece
 ## REQ-018
 **AG:** AG-FN
 
-**Título:** Carga de datos semilla en /admin/demo-datos
+**Título:** Dashboard de rendimiento por cultivo
 
-**Descripción:** Botón para cargar datos semilla (1 Admin, 1 Productor demo, 2 especies, 3 cultivos y 10 entradas de bitácora) si el scraping falla el día de la entrega. Valor: aseguramiento de demo.
+**Descripción:** El sistema debe mostrar un panel visual para cada cultivo que incluya:
+
+Gráfica de crecimiento (altura o biomasa) a lo largo del tiempo.
+
+Producción acumulada (kg cosechados por periodo).
+
+Tareas realizadas vs. pendientes, separadas por tipo (riego, fertilización, mantenimiento).
+
+
+Este panel debe ayudar a los productores y administradores a evaluar la salud y productividad de cada cultivo, identificar patrones y optimizar decisiones de manejo.
 
 **Criterios de aceptación:**
 ```
-Scenario: Carga única protegida
-Given no hay datos de demo cargados
-When presiono "Cargar datos semilla"
-Then se puebla la base y el botón queda deshabilitado
+Scenario: Ver dashboard de cultivo
+  Given estoy en /cultivos/123/dashboard
+  When el cultivo tiene datos de crecimiento, cosecha y tareas
+  Then veo gráficas de crecimiento, producción y tareas con datos actualizados
 
-Scenario: Segundo intento
-Given los datos semilla ya están cargados
-When presiono de nuevo
-Then veo "Ya se cargaron los datos de demo"
+Scenario: Filtro por fechas
+  Given estoy en el dashboard del cultivo
+  When selecciono rango de fechas "01/01/2025 a 31/03/2025"
+  Then las gráficas muestran solo datos de ese periodo
+
+Scenario: Cultivo sin datos
+  Given cultivo recién registrado sin tareas ni cosechas
+  When entro al dashboard
+  Then veo mensaje "No hay datos suficientes para mostrar métricas"
+
+Scenario: Comparativa de rendimiento
+  Given cultivo con registros de años anteriores
+  When selecciono "Comparar con año previo"
+  Then veo gráficas superpuestas de crecimiento y producción año contra año
 ```
 **Prioridad:** P1
 
@@ -418,7 +454,8 @@ Then veo "Ya se cargaron los datos de demo"
 
 **Título:** Panel de salud del sistema en /admin/salud
 
-**Descripción:** Mostrar última hora de scraping, duración, éxito/fallo y edad del dato climático (en minutos). Valor: diagnóstico rápido.
+**Descripción:** El sistema debe mostrar en la ruta /admin/salud un panel con información clave para diagnosticar rápidamente el estado de los procesos y datos( Última hora de scraping ejecutado,Duración de la última ejecución,Resultado (éxito o fallo),tiempo de la data climática en minutos desde su última actualización)
+
 
 **Criterios de aceptación:**
 ```
@@ -431,15 +468,26 @@ Then veo indicador "Amarillo" y sugerencia "Actualizar ahora"
 ## REQ-020
 **AG:** AG-FN
 
-**Título:** Tour de ayuda inicial
+**Título:** Registro de minerales del suelo en /cultivos/:id/suelo
 
-**Descripción:** Tour de 5 pasos en primera visita (login→cultivos→detalle→calendario→alertas) con opción “No volver a mostrar”. Valor: onboarding autónomo.
+**Descripción:** El sistema debe permitir registrar y actualizar la composición mineral del suelo para cada cultivo, especificando valores en mg/kg o ppm (partes por millón) de nutrientes clave.La información debe guardarse con la fecha de medición y el usuario que la registró. Esto permite hacer seguimiento de la fertilidad del suelo y planificar riegos o fertilizaciones de forma más precisa.
 
 **Criterios de aceptación:**
 ```
-Scenario: Mostrar una sola vez
-Given es mi primera sesión
-Then veo el tour
-And al finalizar no vuelve a aparecer en la próxima sesión
+Scenario: Registrar minerales del suelo
+  Given estoy en /cultivos/123/suelo
+  When ingreso N=45 ppm, P=10 ppm, K=30 ppm, Ca=15 ppm, Mg=8 ppm
+  And presiono "Guardar"
+  Then los valores quedan registrados con la fecha y mi usuario
+
+Scenario: Editar valores existentes
+  Given ya existe un registro de minerales para el cultivo
+  When modifico N=50 ppm y guardo
+  Then el nuevo valor se actualiza con la fecha y mi usuario
+
+Scenario: Valores fuera de rango
+  Given estoy en /cultivos/123/suelo
+  When ingreso N=-5 ppm
+  Then veo "Valor inválido" y no se guarda el registro
 ```
-**Prioridad:** P2
+**Prioridad:** P1
