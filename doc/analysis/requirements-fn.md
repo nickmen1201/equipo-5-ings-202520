@@ -88,7 +88,9 @@ Then recibo 403 y un mensaje "No autorizado"
 
 ## REQ-004
 **AG:** AG-FN
+
 **Título:** CRUD de Cultivos en /cultivos y /cultivos/:id
+
 **Descripción:** Crear, editar (nombre, especie, fecha siembra, superficie,etc), archivar/activar cultivos. Valor: base de datos operativa para reglas.
 
 **Criterios de aceptación:**
