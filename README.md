@@ -10,6 +10,7 @@
 - Nicolás Meneses — nicolas.meneses@upb.edu.co
 - Diego Villegas — diego.villegasv@upb.edu.co
 - Simón Bedoya  — simon.bedoyau@upb.edu.co
+- Sebastián Quiceno  — sebastian.quicenol@upb.edu.co
 - <Nombre 4> — <correo 4>
 
 
