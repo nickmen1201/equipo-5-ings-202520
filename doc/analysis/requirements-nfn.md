@@ -1,7 +1,8 @@
 # Requisitos No Funcionales
 
 ## REQ-021
-**AG:** AG-NFN  
+
+
 **Título:** Disponibilidad del servicio  
 **Descripción:** La aplicación debe mantener un uptime mensual ≥ 99% para garantizar el acceso continuo a datos y recomendaciones.  
 
@@ -14,7 +15,8 @@
 ---
 
 ## REQ-022
-**AG:** AG-NFN  
+
+
 **Título:** Compatibilidad multiplataforma  
 **Descripción:** La aplicación debe ser funcional en navegadores modernos y dispositivos Android (≥8) e iOS (≥14), con diseño responsive.  
 
@@ -27,7 +29,8 @@
 ---
 
 ## REQ-023
-**AG:** AG-NFN  
+
+
 **Título:** Rendimiento en consulta climática  
 **Descripción:** El tiempo de respuesta de las consultas a datos climáticos debe ser ≤ 3 s en condiciones de conectividad rural promedio (latencia 100-500 ms).  
 
@@ -40,7 +43,8 @@
 ---
 
 ## REQ-024
-**AG:** AG-NFN  
+
+
 **Título:** Escalabilidad  
 **Descripción:** El sistema debe soportar un aumento del 200% en usuarios activos sin degradar el rendimiento más de un 10% en tiempos de respuesta.  
 
@@ -67,7 +71,8 @@
 ---
 
 ## REQ-026  
-**AG:** AG-NFN  
+
+
 **Título:** Consumo reducido de recursos  
 **Descripción:** La aplicación móvil no debe consumir más de 5 MB de datos al día en uso estándar y debe minimizar el uso de batería.  
 
@@ -80,7 +85,8 @@
 ---
 
 ## REQ-027  
-**AG:** AG-NFN  
+
+
 **Título:** Facilidad de uso  
 **Descripción:** La interfaz debe permitir que un usuario sin experiencia previa complete las funciones básicas en ≤ 2 minutos sin ayuda externa.  
 
@@ -93,7 +99,8 @@
 ---
 
 ## REQ-028  
-**AG:** AG-NFN  
+
+
 **Título:** Mantenibilidad con mínima interrupción  
 **Descripción:** Las actualizaciones del sistema no deben interrumpir el servicio más de 5 minutos.  
 
@@ -106,7 +113,8 @@
 ---
 
 ## REQ-029  
-**AG:** AG-NFN  
+
+
 **Título:** Confiabilidad de datos climáticos  
 **Descripción:** La información climática debe actualizarse al menos cada 15 minutos para asegurar precisión en las recomendaciones.  
 
@@ -119,7 +127,8 @@
 ---
 
 ## REQ-030  
-**AG:** AG-NFN  
+
+
 **Título:** Portabilidad de datos  
 **Descripción:** Los usuarios deben poder exportar sus registros en formato CSV o PDF para compartir con terceros.  
 

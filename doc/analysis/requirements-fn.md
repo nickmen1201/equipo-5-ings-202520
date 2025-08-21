@@ -9,7 +9,6 @@
 
 ---
 ## REQ-001
-**AG:** AG-FN
 
 **Título:** Inicio de sesión básico en /login
 
@@ -37,8 +36,8 @@ Then veo "Cuenta deshabilitada, contacte al administrador" y permanezco en /logi
 **Prioridad:** P0
 
 
+---
 ## REQ-002
-**AG:** AG-FN
 
 **Título:** Registro de Productor en /register
 
@@ -65,8 +64,8 @@ Then veo "La contraseña debe tener al menos 8 caracteres"
 ```
 **Prioridad:** P0
 
+---
 ## REQ-003
-**AG:** AG-FN
 
 **Título:** Control de acceso por rol 
 
@@ -86,8 +85,8 @@ Then recibo 403 y un mensaje "No autorizado"
 ```
 **Prioridad:** P1
 
+---
 ## REQ-004
-**AG:** AG-FN
 
 **Título:** CRUD de Cultivos en /cultivos y /cultivos/:id
 
@@ -112,8 +111,8 @@ Then veo mensajes de campo requerido y no se guarda
 ```
 **Prioridad:** P0
 
+---
 ## REQ-005
-**AG:** AG-FN
 
 **Título:** Catálogo mínimo de especies en /admin/especies
 
@@ -133,8 +132,8 @@ Then veo "No se puede eliminar: tiene cultivos asociados"
 ```
 **Prioridad:** P0
 
+---
 ## REQ-006
-**AG:** AG-FN
 
 **Título:** Plantillas de tareas en /admin/tareas
 
@@ -154,12 +153,12 @@ Then veo "Ya existe una plantilla con ese nombre"
 ```
 **Prioridad:** P0
 
+---
 ## REQ-007
-**AG:** AG-FN
 
 **Título:** Scraping SIATA programado + reintento + /clima/actualizar
 
-**Descripción:** Ejecutar scraping a las 6 am y 6pm con 1 reintento después de 15 min si falla. Botón "Actualizar ahora" en /clima/actualizar (solo Admininstrador) y en /cultivos/:id (Productor, solo su zona).nos ayuda con los datos oportunos  aun sin tener API.
+**Descripción:** Ejecutar scraping a las 6 am y 6pm con 1 reintento después de 15 min si falla. Botón "Actualizar ahora" en /clima/actualizar (solo Admininstrador) y en /cultivos/:id (Productor, solo su zona). nos ayuda con los datos oportunos  aun sin tener API.
 
 **Criterios de aceptación:**
 ```
@@ -180,8 +179,8 @@ Then veo el estado "En curso" y resultado final
 ```
 **Prioridad:** P0
 
+---
 ## REQ-008
-**AG:** AG-FN
 
 **Título:** Registro  manual de lluvia en /clima/manual
 
@@ -201,8 +200,8 @@ Then veo "Valor fuera de rango (0–200 mm)" y no se guarda
 ```
 **Prioridad:** P0
 
+---
 ## REQ-009
-**AG:** AG-FN
 
 **Título:** Motor de reglas determinísticas (riego/fertilización)
 
@@ -226,8 +225,8 @@ Then el riego no se bloquea por regla de lluvia
 ```
 **Prioridad:** P0
 
+---
 ## REQ-010
-**AG:** AG-FN
 
 **Título:** Centro de alertas en /alertas
 
@@ -250,8 +249,8 @@ Then veo "Sin alertas por hoy"
 **Prioridad:** P0
 
 
+---
 ## REQ-011
-**AG:** AG-FN
 
 **Título:** Detalle de cultivo en /cultivos/:id con clima y próximas tareas
 
@@ -271,8 +270,8 @@ Then veo "Sin datos en las últimas 12 h" y un botón "Ingresar manual"
 ```
 **Prioridad:** P1
 
+---
 ## REQ-012
-**AG:** AG-FN
 
 **Título:** Calendario (30 días) en /calendario y /cultivos/:id/calendario
 
@@ -295,8 +294,8 @@ Then las franjas de riego del día aparecen deshabilitadas con tooltip de regla
 ```
 **Prioridad:** P0
 
+---
 ## REQ-013
-**AG:** AG-FN
 
 **Título:** Recomendaciones automáticas de fertilización
 
@@ -328,8 +327,8 @@ Scenario: Actualización por nuevos datos
 ```
 **Prioridad:** P1
 
+---
 ## REQ-014
-**AG:** AG-FN
 
 **Título:** Bitácora de campo  en /cultivos/:id/bitacora
 
@@ -348,8 +347,8 @@ Then el botón "Guardar" está deshabilitado
 ```
 **Prioridad:** P1
 
+---
 ## REQ-015
-**AG:** AG-FN
 
 **Título:** Auditoría mínima en /admin/auditoria
 
@@ -368,8 +367,8 @@ Then solo veo acciones de X
 ```
 **Prioridad:** P1
 
+---
 ## REQ-016
-**AG:** AG-FN
 
 **Título:** Exportación CSV en /exportar
 
@@ -388,8 +387,8 @@ Then fechas ISO‑8601 y mm con punto decimal
 ```
 **Prioridad:** P1
 
+---
 ## REQ-017
-**AG:** AG-FN
 
 **Título:** Notificaciones internas
 
@@ -409,8 +408,8 @@ Then el badge desaparece
 ```
 **Prioridad:** P1
 
+---
 ## REQ-018
-**AG:** AG-FN
 
 **Título:** Dashboard de rendimiento por cultivo
 
@@ -449,12 +448,12 @@ Scenario: Comparativa de rendimiento
 ```
 **Prioridad:** P1
 
+---
 ## REQ-019
-**AG:** AG-FN
 
 **Título:** Panel de salud del sistema en /admin/salud
 
-**Descripción:** El sistema debe mostrar en la ruta /admin/salud un panel con información clave para diagnosticar rápidamente el estado de los procesos y datos( Última hora de scraping ejecutado,Duración de la última ejecución,Resultado (éxito o fallo),tiempo de la data climática en minutos desde su última actualización)
+**Descripción:** El sistema debe mostrar en la ruta /admin/salud un panel con información clave para diagnosticar rápidamente el estado de los procesos y datos( Última hora de scraping ejecutado, Duración de la última ejecución,Resultado (éxito o fallo),tiempo de la data climática en minutos desde su última actualización)
 
 
 **Criterios de aceptación:**
@@ -465,12 +464,12 @@ Then veo indicador "Amarillo" y sugerencia "Actualizar ahora"
 ```
 **Prioridad:** P2
 
+---
 ## REQ-020
-**AG:** AG-FN
 
 **Título:** Registro de minerales del suelo en /cultivos/:id/suelo
 
-**Descripción:** El sistema debe permitir registrar y actualizar la composición mineral del suelo para cada cultivo, especificando valores en mg/kg o ppm (partes por millón) de nutrientes clave.La información debe guardarse con la fecha de medición y el usuario que la registró. Esto permite hacer seguimiento de la fertilidad del suelo y planificar riegos o fertilizaciones de forma más precisa.
+**Descripción:** El sistema debe permitir registrar y actualizar la composición mineral del suelo para cada cultivo, especificando valores en mg/kg o ppm (partes por millón) de nutrientes clave. La información debe guardarse con la fecha de medición y el usuario que la registró. Esto permite hacer seguimiento de la fertilidad del suelo y planificar riegos o fertilizaciones de forma más precisa.
 
 **Criterios de aceptación:**
 ```

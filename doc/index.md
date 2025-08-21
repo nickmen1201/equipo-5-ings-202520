@@ -1,7 +1,8 @@
 # Documentación – CultivApp
 
 ## ¿Cuál es el problema?
-En Colombia, gran parte de la producción agrícola depende de dos factores: **recursos económicos** o **intuición heredada**. Para quienes no cuentan con acceso a tecnología de alto costo (sensores, estaciones meteorológicas propias, sistemas de riego automatizados), las decisiones diarias sobre el cultivo se toman con base en la experiencia, el “ojo” y la costumbre.  
+En Colombia, gran parte de la producción agrícola depende de dos factores: **recursos económicos** o **intuición heredada**. Para quienes no cuentan con acceso a tecnología de alto costo (sensores, estaciones meteorológicas propias, sistemas de riego automatizados), las decisiones diarias sobre el cultivo se toman con base en la experiencia, el “ojo” y la costumbre.
+
 Esto genera un riesgo alto de pérdida de productividad y calidad, ya que variables como el clima, la etapa fenológica del cultivo o el momento óptimo para una tarea (riego, fertilización, control de plagas) pueden pasar inadvertidas o malinterpretarse.
 
 A nivel macro, esta falta de tecnificación **amplía la brecha** entre productores con acceso a datos y quienes no lo tienen, limita la competitividad y dificulta la adopción de buenas prácticas. Además, perpetúa una dependencia en conocimientos no sistematizados, que no siempre se transmiten de manera efectiva a las nuevas generaciones.
@@ -29,11 +30,7 @@ De esta forma, **CultivApp** no reemplaza la experiencia del agricultor, sino qu
 
 ## Navegación de documentación
 
-- **Análisis** — Índice, requisitos funcionales y no funcionales con priorización  
-  → [index.md](analysis/index.md)
-
-- **Guía Markdown** — Referencia rápida de sintaxis  
-  → [Markdown Guide](https://www.markdownguide.org/basic-syntax/)
+- [Análisis](analysis/index.md) — Índice, requisitos funcionales y no funcionales con priorización
 
 ---
 
