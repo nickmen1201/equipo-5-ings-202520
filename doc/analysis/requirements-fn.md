@@ -35,6 +35,7 @@ Then veo "Cuenta deshabilitada, contacte al administrador" y permanezco en /logi
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 3
 
 ---
 ## REQ-002
@@ -64,6 +65,8 @@ Then veo "La contraseña debe tener al menos 8 caracteres"
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 2
+
 ---
 ## REQ-003
 
@@ -84,6 +87,8 @@ When navego a /admin/tareas
 Then recibo 403 y un mensaje "No autorizado"
 ```
 **Prioridad:** P1
+
+**Esfuerzo:** 3
 
 ---
 ## REQ-004
@@ -111,6 +116,8 @@ Then veo mensajes de campo requerido y no se guarda
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 2
+
 ---
 ## REQ-005
 
@@ -132,6 +139,8 @@ Then veo "No se puede eliminar: tiene cultivos asociados"
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 1
+
 ---
 ## REQ-006
 
@@ -152,6 +161,8 @@ When intento crear "Riego estándar"
 Then veo "Ya existe una plantilla con ese nombre"
 ```
 **Prioridad:** P0
+
+**Esfuerzo:** 2
 
 ---
 ## REQ-007
@@ -179,8 +190,9 @@ Then veo el estado "En curso" y resultado final
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 21
 ---
-## REQ-008
+## REQ-008 (revisión de coherencia)
 
 **Título:** Registro  manual de lluvia en /clima/manual
 
@@ -200,6 +212,7 @@ Then veo "Valor fuera de rango (0–200 mm)" y no se guarda
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 2
 ---
 ## REQ-009
 
@@ -225,6 +238,8 @@ Then el riego no se bloquea por regla de lluvia
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 1
+
 ---
 ## REQ-010
 
@@ -248,6 +263,7 @@ Then veo "Sin alertas por hoy"
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 2
 
 ---
 ## REQ-011
@@ -268,7 +284,9 @@ Given scraping no ha corrido y no hay fallback
 When abro /cultivos/:id
 Then veo "Sin datos en las últimas 12 h" y un botón "Ingresar manual"
 ```
-**Prioridad:** P1
+**Prioridad:** P2
+
+**Esfuerzo:** 2
 
 ---
 ## REQ-012
@@ -294,16 +312,14 @@ Then las franjas de riego del día aparecen deshabilitadas con tooltip de regla
 ```
 **Prioridad:** P0
 
+**Esfuerzo:** 5
+
 ---
 ## REQ-013
 
 **Título:** Recomendaciones automáticas de fertilización
 
-**Descripción:** El sistema debe generar recomendaciones de fertilización para cada cultivo basándose en:
-
-Los valores de minerales del suelo registrados (ver REQ-020)
-
-Los requerimientos nutricionales de la especie cultivada.
+**Descripción:** El sistema debe generar recomendaciones de fertilización para cada cultivo basándose en los requerimientos nutricionales de la especie cultivada.
 
 La recomendación debe incluir el tipo de fertilizante, cantidad sugerida y fecha de aplicación. Estas sugerencias se actualizarán automáticamente cuando se ingresen nuevos datos de suelo o cambie la etapa de crecimiento del cultivo.
 
@@ -327,6 +343,8 @@ Scenario: Actualización por nuevos datos
 ```
 **Prioridad:** P1
 
+**Esfuerzo:** 3
+
 ---
 ## REQ-014
 
@@ -346,6 +364,8 @@ Given el texto está vacío
 Then el botón "Guardar" está deshabilitado
 ```
 **Prioridad:** P1
+
+**Esfuerzo:** 1
 
 ---
 ## REQ-015
@@ -367,6 +387,10 @@ Then solo veo acciones de X
 ```
 **Prioridad:** P1
 
+**Esfuerzo:** 1
+
+**Esfuerzo:**
+
 ---
 ## REQ-016
 
@@ -386,6 +410,8 @@ Given exporto
 Then fechas ISO‑8601 y mm con punto decimal
 ```
 **Prioridad:** P1
+
+**Esfuerzo:** 3
 
 ---
 ## REQ-017
@@ -408,6 +434,8 @@ Then el badge desaparece
 ```
 **Prioridad:** P1
 
+**Esfuerzo:** 1
+
 ---
 ## REQ-018
 
@@ -415,9 +443,7 @@ Then el badge desaparece
 
 **Descripción:** El sistema debe mostrar un panel visual para cada cultivo que incluya:
 
-Gráfica de crecimiento (altura o biomasa) a lo largo del tiempo.
-
-Producción acumulada (kg cosechados por periodo).
+Producción acumulada (kg cosechados por periodo. Ingresado por usuario).
 
 Tareas realizadas vs. pendientes, separadas por tipo (riego, fertilización, mantenimiento).
 
@@ -448,6 +474,8 @@ Scenario: Comparativa de rendimiento
 ```
 **Prioridad:** P1
 
+**Esfuerzo:** 3
+
 ---
 ## REQ-019
 
@@ -464,8 +492,10 @@ Then veo indicador "Amarillo" y sugerencia "Actualizar ahora"
 ```
 **Prioridad:** P2
 
+**Esfuerzo:** 1
+
 ---
-## REQ-020
+## REQ-020 (Hay que cambiarlo)
 
 **Título:** Registro de minerales del suelo en /cultivos/:id/suelo
 
