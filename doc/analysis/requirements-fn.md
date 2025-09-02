@@ -190,7 +190,8 @@ Then veo el estado "En curso" y resultado final
 ```
 **Prioridad:** P0
 
-**Esfuerzo:** 21
+**Esfuerzo:** 5
+
 ---
 ## REQ-008 (revisión de coherencia)
 
