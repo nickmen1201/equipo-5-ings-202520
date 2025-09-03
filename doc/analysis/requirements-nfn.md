@@ -12,6 +12,8 @@
 
 **Prioridad:** P0  
 
+**Esfuerzo:** 3
+
 ---
 
 ## REQ-022
@@ -25,6 +27,8 @@
 - Validar usabilidad en al menos 3 resoluciones de pantalla distintas.  
 
 **Prioridad:** P1  
+
+**Esfuerzo:** 3
 
 ---
 
@@ -40,6 +44,8 @@
 
 **Prioridad:** P1  
 
+**Esfuerzo:** 5
+
 ---
 
 ## REQ-024
@@ -53,6 +59,8 @@
 - Verificar que el tiempo de respuesta no aumente más de un 10%.  
 
 **Prioridad:** P1  
+
+**Esfuerzo:** 3
 
 --- 
 ## REQ-025 
@@ -68,6 +76,8 @@
 
 **Prioridad:** P0 
 
+**Esfuerzo:** 1
+
 ---
 
 ## REQ-026  
@@ -81,6 +91,8 @@
 - Medir consumo de batería con Android Profiler y iOS Instruments.  
 
 **Prioridad:** P2  
+
+**Esfuerzo:** 3
 
 ---
 
@@ -96,6 +108,8 @@
 
 **Prioridad:** P1  
 
+**Esfuerzo:** 3
+
 ---
 
 ## REQ-028  
@@ -109,6 +123,8 @@
 - Validar despliegues con tiempo fuera ≤ 5 minutos.  
 
 **Prioridad:** P2  
+
+**Esfuerzo:** 3
 
 ---
 
@@ -124,6 +140,8 @@
 
 **Prioridad:** P1  
 
+**Esfuerzo:** 2
+
 ---
 
 ## REQ-030  
@@ -137,5 +155,7 @@
 - Verificar que la exportación incluya fecha y datos completos.  
 
 **Prioridad:** P2  
+
+**Esfuerzo:** 2
 
 ---
