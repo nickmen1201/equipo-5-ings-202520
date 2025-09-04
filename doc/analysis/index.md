@@ -6,6 +6,8 @@
 - [Requisitos funcionales (Gherkin)](requirements-fn.md)
 
 - [Requisitos no funcionales](requirements-nfn.md)
+  
+- [MVP](mvp.md)
 
 ---
 
