@@ -28,12 +28,6 @@
 
 ---
 
-## REQ-007
-
-**Título:** Scraping SIATA programado + reintento + /clima/actualizar
-
----
-
 ## REQ-009
 
 **Título:** Motor de reglas determinísticas (riego/fertilización)
