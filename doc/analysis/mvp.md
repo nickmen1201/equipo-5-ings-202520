@@ -1,83 +1,33 @@
 # Requisitos Funcionales
 
-## REQ-001
+REQ-001 Inicio de sesión básico en /login
 
-**Título:** Inicio de sesión básico en /login
+REQ-002 Registro de Productor en /register
 
----
+REQ-003 Control de acceso por rol 
 
-## REQ-002
+REQ-004 CRUD de Cultivos en /cultivos y /cultivos/:id
 
-**Título:** Registro de Productor en /register
+REQ-005 Catálogo mínimo de especies en /admin/especies
 
----
+REQ-009 Motor de reglas determinísticas (riego/fertilización)
 
-## REQ-003
+REQ-010 Centro de alertas en /alertas
 
-**Título:** Control de acceso por rol 
+REQ-011 Lista de próximas tareas
 
----
-## REQ-004
+REQ-013 Recomendaciones automáticas de fertilización
 
-**Título:** CRUD de Cultivos en /cultivos y /cultivos/:id
+REQ-017 Notificaciones internas
 
----
-## REQ-005
+REQ-018 Dashboard de rendimiento por cultivo
 
-**Título:** Catálogo mínimo de especies en /admin/especies
-
----
-
-## REQ-009
-
-**Título:** Motor de reglas determinísticas (riego/fertilización)
-
----
-## REQ-010
-
-**Título:** Centro de alertas en /alertas
-
----
-
-## REQ-011
-
-**Título:** Lista de próximas tareas
-
----
-
-## REQ-013
-
-**Título:** Recomendaciones automáticas de fertilización
-
----
-
-## REQ-017
-
-**Título:** Notificaciones internas
-
----
-## REQ-018
-
-**Título:** Dashboard de rendimiento por cultivo
-
----
 
 # Requisitos no funcionales
 
-## REQ-021
+REQ-021 Disponibilidad del servicio  
 
-**Título:** Disponibilidad del servicio  
+REQ-025  Seguridad de datos 
 
----
+REQ-027   Facilidad de uso  
 
-## REQ-025 
-
-**Título:** Seguridad de datos 
-
----
-
-## REQ-027  
-
-**Título:** Facilidad de uso  
-
----
