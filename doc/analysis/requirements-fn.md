@@ -21,7 +21,7 @@ Scenario: Login válido
 Given estoy en /login
 And ingreso "user@demo.com" y "Password123"
 When presiono "Ingresar"
-Then veo el tablero en /cultivos y mi nombre en la barra superior
+Then veo el tablero en /home
 
 Scenario: Credenciales inválidas
 Given estoy en /login
@@ -51,7 +51,7 @@ Scenario: Registro exitoso
 Given estoy en /register
 And ingreso nombre, correo único y contraseña válida
 When confirmo
-Then se crea el usuario Productor y se redirige a /cultivos
+Then se crea el usuario Productor y se redirige a /home
 
 Scenario: Correo duplicado
 Given existe un usuario con correo X
@@ -95,7 +95,7 @@ Then recibo 403 y un mensaje "No autorizado"
 
 **Título:** CRUD de Cultivos en /cultivos y /cultivos/:id
 
-**Descripción:** Crear, editar (nombre, especie, fecha siembra, superficie,etc), archivar/activar cultivos. Valor: base de datos operativa para reglas.
+**Descripción:** Crear, editar (nombre, especie, fecha siembra, superficie,etc), archivar/activar cultivos.
 
 **Criterios de aceptación:**
 ```
@@ -219,23 +219,20 @@ Then veo "Valor fuera de rango (0–200 mm)" y no se guarda
 
 **Título:** Motor de reglas determinísticas (riego/fertilización)
 
-**Descripción:** El sistema debe evaluar automáticamente cada cultivo usando reglas predefinidas.Riego, No se debe regar si la lluvia registrada en las últimas 24 horas es mayor o igual a 5 mm (valor por defecto).Fertilización: Se debe programar una tarea de fertilización cuando se cumpla el número de días desde la siembra definido en la plantilla o en la configuración de la especie.Estas reglas permiten tomar decisiones consistentes y repetibles sin intervención manual.
+**Descripción:** El sistema debe evaluar automáticamente cada cultivo usando reglas predefinidas.Riego, se debe regar si pasan x días, según reglas. Fertilización: Se debe programar una tarea de fertilización cuando se cumpla el número de días desde la siembra definido en la plantilla o en la configuración de la especie.Estas reglas permiten tomar decisiones consistentes y repetibles sin intervención manual.
 
 **Criterios de aceptación:**
 ```
-Scenario: Bloqueo de riego por lluvia
-Given lluvia registrada 5.0 mm/24 h
-When abro el calendario de riego
-Then las franjas de riego del día aparecen "bloqueadas por lluvia"
+Scenario: Programación de riego
+Given cultivo con siembra hace 1 día y plantilla N=1
+When entro a /cultivos/:id
+Then veo tarea "Riego" marcada "Pendiente"
 
 Scenario: Programación de fertilización
 Given cultivo con siembra hace 20 días y plantilla N=20
 When entro a /cultivos/:id
-Then veo tarea "Fertilizar" marcada "hoy"
+Then veo tarea "Fertilizante" marcada "Pendiente"
 
-Scenario: Umbral exacto (borde)
-Given lluvia 4.9 mm/24 h
-Then el riego no se bloquea por regla de lluvia
 ```
 **Prioridad:** P0
 
@@ -246,7 +243,7 @@ Then el riego no se bloquea por regla de lluvia
 
 **Título:** Centro de alertas en /alertas
 
-**Descripción:** Generar alertas accionables: "No riegues hoy" y "Fertilizar hoy/mañana", con enlace a la acción. Esto ayuda a que el usuario tenga una guía diaria de lo que debe hacer.
+**Descripción:** Generar alertas accionables: "No riegues hoy" y "Fertilizar hoy", con enlace a la acción. Esto ayuda a que el usuario tenga una guía diaria de lo que debe hacer.
 
 Criterios de aceptación:.
 
@@ -255,7 +252,7 @@ Criterios de aceptación:.
 Scenario: Alertas visibles
 Given reglas activas generan dos alertas
 When abro /alertas
-Then veo listado con fecha, cultivo, acción y botón "Ir"
+Then veo listado con fecha, cultivo, acción y botón "Ir al cultivo"
 
 Scenario: Sin alertas
 Given no hay condiciones
@@ -269,21 +266,21 @@ Then veo "Sin alertas por hoy"
 ---
 ## REQ-011
 
-**Título:** Detalle de cultivo en /cultivos/:id con clima y próximas tareas
+**Título:** Detalle de cultivo en /cultivos/:id con próximas tareas
 
-**Descripción:** Mostrar una tarjeta del clima (lluvia las ultimas 24 horas y  hora de actualización) y lista de próximas tareas generadas por el motor de reglas del REQ-009.Esto le permitira al usuario que hacer con cada cultivo segun el contexto (clima,etapa del cultivo,con plaga ,etc ).
+**Descripción:** Mostrar una tarjeta con lista de próximas tareas generadas por el motor de reglas del REQ-009. Esto le permitirá al usuario saber qué hacer con cada cultivo segun el contexto.
 
 **Criterios de aceptación:**
 ```
-Scenario: Visualización de clima
-Given cultivo con lluvia 3.2 mm y actualización 06:00
-When abro /cultivos/:id
-Then veo "Lluvia 24 h: 3.2 mm (06:00)"
+Scenario: Programación de riego
+Given cultivo con plantilla
+When entro a /cultivos/:id
+Then veo tarea "Riego" marcada "Próxima"
 
-Scenario: Sin datos climáticos
-Given scraping no ha corrido y no hay fallback
-When abro /cultivos/:id
-Then veo "Sin datos en las últimas 12 h" y un botón "Ingresar manual"
+Scenario: Programación de fertilización
+Given cultivo con plantilla
+When entro a /cultivos/:id
+Then veo tarea "Fertilizante" marcada "Próxima"
 ```
 **Prioridad:** P2
 
@@ -322,7 +319,7 @@ Then las franjas de riego del día aparecen deshabilitadas con tooltip de regla
 
 **Descripción:** El sistema debe generar recomendaciones de fertilización para cada cultivo basándose en los requerimientos nutricionales de la especie cultivada.
 
-La recomendación debe incluir el tipo de fertilizante, cantidad sugerida y fecha de aplicación. Estas sugerencias se actualizarán automáticamente cuando se ingresen nuevos datos de suelo o cambie la etapa de crecimiento del cultivo.
+La recomendación debe incluir el tipo de fertilizante, cantidad sugerida y fecha de aplicación. Estas sugerencias se actualizarán automáticamente cuando se ingresen nuevos datos o cambie la etapa de crecimiento del cultivo.
 
 **Criterios de aceptación:**
 ```
@@ -332,10 +329,6 @@ Scenario: Recomendación generada automáticamente
   When accedo al detalle del cultivo
   Then veo una recomendación "Aplicar fertilizante NPK 15-15-15, 50 kg/ha, esta semana"
 
-Scenario: Sin datos de suelo
-  Given cultivo sin valores de minerales registrados
-  When accedo al detalle del cultivo
-  Then veo el mensaje "No hay datos de suelo para generar una recomendación"
 
 Scenario: Actualización por nuevos datos
   Given cultivo con recomendación vigente
