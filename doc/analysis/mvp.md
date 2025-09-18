@@ -20,8 +20,6 @@ REQ-013 Recomendaciones automáticas de fertilización
 
 REQ-017 Notificaciones internas
 
-REQ-018 Dashboard de rendimiento por cultivo
-
 
 # Requisitos no funcionales
 
