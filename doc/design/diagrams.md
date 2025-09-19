@@ -5,7 +5,8 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ---
 
 ## 1. Diagrama Ad hoc
-![Diagrama Ad hoc](ruta/a/diagrama-adhoc.png)
+<img src="images/DAD-HOC-CultivApp.png" alt="Diagrama ad hoc" width="600"/>
+
 
 ---
 
@@ -48,3 +49,4 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 
 ## 5. Diagrama de Componentes
 ![Diagrama de Componentes](ruta/a/diagrama-componentes.png)
+
