@@ -13,6 +13,7 @@ Cada archivo tiene un propósito específico dentro del proceso de documentació
 - **ui.md** → Documento de **diseños finales (UI)**: capturas de pantallas en alta fidelidad, consistentes con los wireframes y guía de estilos, más una única URL al diseño final.
 - **diagrams.md** → Documento de **diagramas UML**: contiene diagramas ad hoc, casos de uso, secuencia, modelo relacional y componentes.
 - **index.md** → Este archivo: resume el propósito de todos los documentos de diseño y provee la tabla de navegación.
+- **images/** → Carpeta que almacena las **imágenes referenciadas** en los documentos (wireframes, diseños finales, diagramas).
 
 ---
 
@@ -24,3 +25,5 @@ Cada archivo tiene un propósito específico dentro del proceso de documentació
 - [Diseños UI](ui.md)  
 - [Diagramas UML](diagrams.md)  
 - [Índice de Diseño](index.md)  
+- [Carpeta de Imágenes](images/)  
+
