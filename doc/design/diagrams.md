@@ -43,10 +43,11 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ---
 
 ## 4. Diagrama de Modelo Relacional
-![Diagrama de Modelo Relacional](ruta/a/diagrama-modelo-relacional.png)
+<img src="images/DBD_CultivApp.png" alt="Diagrama modelo relacional" width="700"/> 
 
 ---
 
 ## 5. Diagrama de Componentes
 ![Diagrama de Componentes](ruta/a/diagrama-componentes.png)
+
 
