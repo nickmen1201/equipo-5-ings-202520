@@ -10,7 +10,7 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ---
 
 ## 2. Diagrama de Casos de Uso
-![Diagrama de Casos de Uso](images/DiagramaCasosUso.drawio.png)
+<img src="images/DiagramaCasosUso.drawio.png" alt="Diagrama de Casos de Uso" width="800"/>
 
 ---
 
