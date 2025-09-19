@@ -31,14 +31,13 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ![Cliente ver datos de produccion](images/ClienteVerDatosProduccion.png)
 
 ### 3.6 Diagrama de Secuencia - Caso de uso 6
-![Cliente consultar post cosecha](images/ClienteConsultarPostCosecha.png)
+![Cliente consultar post cosecha](images/ClienteConsultaPostCosecha.png)
 
 ### 3.7 Diagrama de Secuencia - Caso de uso 7
-![Cliente buscar etapa](images/ClienteBuscarEtapa.png)
+![Cliente buscar etapa](images/ClienteBuscarEtapa.drawio.png)
 
 ### 3.8 Diagrama de Secuencia - Caso de uso 8
-![Cliente ver reglas](images/ClienteVerReglas.png)
-
+<img src="images/ClienteVerReglas.drawio.png" alt="Cliente ver reglas" width="300"/>
 
 ---
 
