@@ -30,11 +30,7 @@ De esta forma, **CultivApp** no reemplaza la experiencia del agricultor, sino qu
 
 ## Navegación de documentación
 
+- [Análisis](analysis/index.md) — Índice, requisitos funcionales y no funcionales con priorización
 - [Diseño](design/index.md) — Wireframes (ux.md), diseños finales (ui.md), diagramas UML (diagrams.md) y decisiones de frameworks (fe.md, be.md)
 
----
 
-## Estado de ramas
-- **development**: integración de equipo.
-- **feature/design-2**: contenidos de este taller.
-- **feature/mvp**: mvp. 
