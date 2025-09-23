@@ -32,7 +32,7 @@ De esta forma, **CultivApp** no reemplaza la experiencia del agricultor, sino qu
 
 - [Análisis](analysis/index.md) — Índice, requisitos funcionales y no funcionales con priorización
 
-- [![Trello Board](https://img.shields.io/badge/Trello-Board-blue?logo=trello)](https://trello.com/b/irs5xrZO/tablero-kanban-mvp-cultivapp)
+- [Tablero Kanban - CultivApp](https://trello.com/b/irs5xrZO/tablero-kanban-mvp-cultivapp) 
 
 
 ---
