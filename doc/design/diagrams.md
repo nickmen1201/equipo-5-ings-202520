@@ -11,7 +11,7 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ---
 
 ## 2. Diagrama de Casos de Uso
-<img src="images/DiagramaCasosUso.drawio.png" alt="Diagrama de Casos de Uso" width="800"/>
+<img src="images/casosUsoV2.png" alt="Diagrama de Casos de Uso" width="800"/>
 
 ---
 
@@ -43,12 +43,13 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ---
 
 ## 4. Diagrama de Modelo Relacional
-<img src="images/DBD_CultivApp.png" alt="Diagrama modelo relacional" width="700"/> 
+<img src="images/bdimagen.png" alt="Diagrama modelo relacional" width="700"/> 
 
 ---
 
 ## 5. Diagrama de Componentes
 <img src="images/Dcomponentes-CultivApp.png" alt="Diagrama de componentes" width="700"/> 
+
 
 
 
