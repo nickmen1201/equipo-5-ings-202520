@@ -16,29 +16,35 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ---
 
 ## 3. Diagramas de Secuencia (todos los casos de uso)
-### 3.1 Diagrama de Secuencia - Caso de uso 1: Cliente Agregar cultivo
-<img src="images/ClienteAgregaCultivo.drawio.png" alt="Cliente Agregar cultivo" width="600"/>
+### 3.1 Diagrama de Secuencia - Caso de uso 1: Cliente se Logea
+<img src="images/ClienteLogin.png" alt="Cliente se Logea" width="600"/>
 
-### 3.2 Diagrama de Secuencia - Caso de uso 2: Cliente Eliminar cultivo
-<img src="images/ClienteEliminaCultivo.drawio.png" alt="Cliente Eliminar cultivo" width="600"/>
+### 3.2 Diagrama de Secuencia - Caso de uso 2: Cliente se registra como productor
+<img src="images/ClienteRegistraComoProductor.png" alt="Cliente se registra como productor" width="600"/>
 
-### 3.3 Diagrama de Secuencia - Caso de uso 3: Cliente ver cultivo
-<img src="images/ClienteVeCultivo.drawio.png" alt="Cliente ver cultivo" width="600"/>
+### 3.3 Diagrama de Secuencia - Caso de uso 3: Cliente ver las alertas
+<img src="images/ClienteVeAlertas.png" alt="Cliente ver las alertas" width="600"/>
 
-### 3.4 Diagrama de Secuencia - Caso de uso 4: Cliente ver especie
-<img src="images/ClienteVerEspecie.png" alt="Cliente ver especie" width="600"/>
+### 3.4 Diagrama de Secuencia - Caso de uso 4: Cliente ve cultivo
+<img src="images/ClienteVeCultivo.png" alt="Cliente ve cultivo" width="600"/>
 
-### 3.5 Diagrama de Secuencia - Caso de uso 5: Cliente ver datos de produccion
-<img src="images/ClienteVerDatosProduccion.png" alt="Cliente ver datos de produccion" width="600"/>
+### 3.5 Diagrama de Secuencia - Caso de uso 4: Cliente ve tareas
+<img src="images/ClienteVeTareas.png" alt="Cliente ve tareas" width="600"/>
 
-### 3.6 Diagrama de Secuencia - Caso de uso 6: Cliente consultar post cosecha
-<img src="images/ClienteConsultaPostCosecha.png" alt="Cliente consultar post cosecha" width="600"/>
+### 3.6 Diagrama de Secuencia - Caso de uso 5: Cliente ve notificaciones
+<img src="images/ClienteVeNotificaciones.png" alt="Cliente ve notificaciones" width="600"/>
 
-### 3.7 Diagrama de Secuencia - Caso de uso 7: Cliente buscar etapa
-<img src="images/ClienteBuscarEtapa.drawio.png" alt="Cliente buscar etapa" width="600"/>
+### 3.7 Diagrama de Secuencia - Caso de uso 6: Administrador se Logea
+<img src="images/AdminLogin.png" alt="Administrador se Logea" width="600"/>
 
-### 3.8 Diagrama de Secuencia - Caso de uso 8: Cliente ver reglas
-<img src="images/ClienteVerReglas.drawio.png" alt="Cliente ver reglas" width="600"/>
+### 3.8 Diagrama de Secuencia - Caso de uso 7: Administrador maneja motor de reglas
+<img src="images/AdministradorAdministra.png" alt="Administrador maneja motor de reglas" width="600"/>
+
+### 3.9 Diagrama de Secuencia - Caso de uso 8: Administrador configura las relgas de riego/fertilizacion
+<img src="images/AdministradorConfiguraReglas.png" alt="Administrador configura las relgas de riego/fertilizacion" width="600"/>
+
+### 3.10 Diagrama de Secuencia - Caso de uso 8: Administrador gestiona especie
+<img src="images/AdministradorGestionaEspecie.png" alt="Administrador gestiona especie" width="600"/>
 
 ---
 
