@@ -17,7 +17,7 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 
 ## 3. Diagramas de Secuencia (todos los casos de uso)
 ### 3.1 Diagrama de Secuencia - Caso de uso 1: Cliente se Logea
-<img src="images/ClienteLogin.png" alt="Cliente se Logea" width="600"/>
+<img src="images/ClienteLogin.drawio.png" alt="Cliente se Logea" width="600"/>
 
 ### 3.2 Diagrama de Secuencia - Caso de uso 2: Cliente se registra como productor
 <img src="images/ClienteRegistraComoProductor.png" alt="Cliente se registra como productor" width="600"/>
@@ -55,6 +55,7 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 
 ## 5. Diagrama de Componentes
 <img src="images/Dcomponentes-CultivApp.png" alt="Diagrama de componentes" width="700"/> 
+
 
 
 
