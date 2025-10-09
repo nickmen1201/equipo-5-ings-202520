@@ -10,4 +10,6 @@ public class CultivappApplication {
 		SpringApplication.run(CultivappApplication.class, args);
 	}
 
+
+
 }
