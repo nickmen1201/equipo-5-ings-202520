@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Especie</title>
+
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .campo-con-error {
+            border: 2px solid red;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Modificar Especie</h1>
+
+    <form th:action="@{/especies/actualizar}" method="post" th:object="${especie}">
+
+        <input type="hidden" th:field="*{id}">
+
+
+        <label>Nombre Común: *</label>
+        <input type="text"
+               th:field="*{nombreComun}"
+               th:classappend="${#fields.hasErrors('nombreComun')} ? 'campo-con-error' : ''"
+               required
+               minlength="3"
+               maxlength="50"
+               placeholder="Ej: Papa parda">
+        <span class="error" th:if="${#fields.hasErrors('nombreComun')}" th:errors="*{nombreComun}"></span>
+        <br><br>
+
+        <label>Nombre Científico: *</label>
+        <input type="text"
+               th:field="*{nombreCientifico}"
+               th:classappend="${#fields.hasErrors('nombreCientifico')} ? 'campo-con-error' : ''"
+               required
+               minlength="3"
+               maxlength="100"
+               placeholder="Ej: Solanum tuberosum">
+        <span class="error" th:if="${#fields.hasErrors('nombreCientifico')}" th:errors="*{nombreCientifico}"></span>
+        <br><br>
+
+        <!-- DROPDOWN para Tipo de Especie -->
+        <label>Tipo de Especie:</label>
+        <select th:field="*{tipoEspecie}" required
+                th:classappend="${#fields.hasErrors('tipoEspecie')} ? 'campo-con-error' : ''">
+            <option th:each="tipo : ${tiposEspecie}"
+                    th:value="${tipo}"
+                    th:text="${tipo}">
+            </option>
+        </select>
+        <span class="error" th:if="${#fields.hasErrors('tipoEspecie')}" th:errors="*{tipoEspecie}"></span>
+        <br><br>
+
+        <!-- DROPDOWN para Ciclo, Si da error REVISAR -->
+        <label>Ciclo:</label>
+        <select th:field="*{ciclo}" required
+                th:classappend="${#fields.hasErrors('ciclo')} ? 'campo-con-error' : ''">
+            <option th:each="ciclo : ${ciclos}"
+                    th:value="${ciclo}"
+                    th:text="${ciclo}">
+            </option>
+        </select>
+        <span class="error" th:if="${#fields.hasErrors('ciclo')}" th:errors="*{ciclo}"></span>
+        <br><br>
+
+        <!-- DROPDOWN para Suelo Ideal -->
+        <label>Suelo ideal:</label>
+        <select th:field="*{sueloIdeal}" required
+                th:classappend="${#fields.hasErrors('sueloIdeal')} ? 'campo-con-error' : ''">
+            <option th:each="suelo : ${suelos}"
+                    th:value="${suelo}"
+                    th:text="${suelo}">
+            </option>
+        </select>
+        <span class="error" th:if="${#fields.hasErrors('sueloIdeal')}" th:errors="*{sueloIdeal}"></span>
+        <br><br>
+
+
+        <label>Ph máximo: *</label>
+        <input type="number"
+               th:field="*{phMax}"
+               required
+               min="0"
+               max="14"
+               step="0.1"
+               placeholder="0.0 - 14.0"
+               th:classappend="${#fields.hasErrors('phMax')} ? 'campo-con-error' : ''">
+        <span class="error" th:if="${#fields.hasErrors('phMax')}" th:errors="*{phMax}"></span>
+        <br><br>>
+
+        <label>Ph mínimo: *</label>
+        <input type="number"
+               th:field="*{phMin}"
+               required
+               min="0"
+               max="14"
+               step="0.1"
+               placeholder="0.0 - 14.0"><br><br>
+
+<!--    Agrgar el resto de RESTRICCIONES-->
+        <label>Altura optima:</label>
+        <input type="text" th:field="*{altitudOptima}"><br><br>
+
+        <label>Temperatura optima:</label>
+        <input type="text" th:field="*{temperaturaOptima}"><br><br>
+
+        <label>Dias Para la germinacion:</label>
+        <input type="text" th:field="*{diasGerminacion}"><br><br>
+
+        <label>Dias para la floracion:</label>
+        <input type="text" th:field="*{diasFloracion}"><br><br>
+
+        <label>Dias para la cosecha:</label>
+        <input type="text" th:field="*{diasCosecha}"><br><br>
+
+        <label>Agua que necesita Semanalmente:</label>
+        <input type="text" th:field="*{aguaSemanalmm}"><br><br>
+
+
+        <a th:href="@{/etapas/{id}(id=${id})}">
+            <button type="button">Modificar etapas</button>
+        </a>
+
+        <button type="submit">Guardar Cambios</button>
+        <a th:href="@{/especies}"><button type="button">Cancelar</button></a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modificar Especies</title>
+</head>
+<body>
+    <h1>Lista de Especies</h1>
+
+    <table border="1" >
+        <thead>
+            <tr>
+                <th>Nombre Comun</th>
+                <th>Nombre Cientifico</th>
+                <th>Modificar</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- por cada Especie va a hacer a usar thymeleaf -->
+            <tr th:each="Especie : ${especies}">
+                <td th:text="${Especie.nombreComun}"></td>
+                <td th:text="${Especie.nombreCientifico}"></td>
+                <td>
+                    <a th:href="@{/especies/modificar/{id}(id=${Especie.id})}">
+                        <button type="button">Modificar especie</button>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "l_etapas": [
+      {
+        "l_reglas": [
+          {
+            "id": 1,
+            "descripcion": "Evitar exceso de riego en las primeras semanas.",
+            "accionRecomendada": "Regar solo cuando el suelo esté seco al tacto.",
+            "observaciones": "El exceso de agua puede causar pudrición en la raíz.",
+            "tipoRegla": "alta"
+          }
+        ],
+        "id": 1,
+        "nombreEtapa": "Germinación",
+        "descripcionEtapa": "Inicio del crecimiento del tubérculo.",
+        "duracionDias": 25,
+        "observaciones": "Temperaturas cálidas favorecen la germinación.",
+        "riesgo": "Riego moderado cada 3 días.",
+        "fertilizacion": "Aplicar fertilizante rico en fósforo."
+      }
+    ],
+    "nombreComun": "Papa criolla",
+    "nombreCientifico": "Solanum phureja",
+    "tipoEspecie": "Tuberculo",
+    "ciclo": "Corto",
+    "sueloIdeal": "Franco",
+    "phMax": 6.5,
+    "phMin": 5.0,
+    "altitudOptima": 2800,
+    "temperaturaOptimaCentigrados": 18,
+    "diasGerminacion": 25,
+    "diasFloracion": 60,
+    "diasCosecha": 120,
+    "aguaSemanalmm": 250
+  },
+  {
+    "id": 2,
+    "l_etapas": [
+      {
+        "l_reglas": [
+          {
+            "id": 1,
+            "descripcion": "Controlar malezas de forma manual.",
+            "accionRecomendada": "Remover hierbas cada semana.",
+            "observaciones": "Las malezas reducen la absorción de nutrientes.",
+            "tipoRegla": "baja"
+          }
+        ],
+        "id": 1,
+        "nombreEtapa": "Desarrollo vegetativo",
+        "descripcionEtapa": "Crecimiento activo de hojas y tallos.",
+        "duracionDias": 45,
+        "observaciones": "Evitar encharcamiento.",
+        "riesgo": "Riego constante y controlado.",
+        "fertilizacion": "Abono orgánico cada 15 días."
+      }
+    ],
+    "nombreComun": "Tomate",
+    "nombreCientifico": "Solanum lycopersicum",
+    "tipoEspecie": "Ortaliza",
+    "ciclo": "Intermedio",
+    "sueloIdeal": "Franco",
+    "phMax": 6.8,
+    "phMin": 5.5,
+    "altitudOptima": 1800,
+    "temperaturaOptimaCentigrados": 25,
+    "diasGerminacion": 10,
+    "diasFloracion": 40,
+    "diasCosecha": 100,
+    "aguaSemanalmm": 300
+  },
+  {
+    "id": 3,
+    "l_etapas": [
+      {
+        "l_reglas": [
+          {
+            "id": 1,
+            "descripcion": "Evitar exposición prolongada a heladas.",
+            "accionRecomendada": "Cubrir las plantas o usar túneles plásticos.",
+            "observaciones": "Las bajas temperaturas detienen el crecimiento.",
+            "tipoRegla": "alta"
+          }
+        ],
+        "id": 1,
+        "nombreEtapa": "Fructificación",
+        "descripcionEtapa": "Inicio de la formación de los frutos.",
+        "duracionDias": 60,
+        "observaciones": "Requiere alta luminosidad.",
+        "riesgo": "Riego diario por goteo.",
+        "fertilizacion": "Aplicar potasio y calcio."
+      }
+    ],
+    "nombreComun": "Fresa",
+    "nombreCientifico": "Fragaria × ananassa",
+    "tipoEspecie": "Fruta",
+    "ciclo": "Intermedio",
+    "sueloIdeal": "Arenoso",
+    "phMax": 6.5,
+    "phMin": 5.5,
+    "altitudOptima": 2200,
+    "temperaturaOptimaCentigrados": 20,
+    "diasGerminacion": 15,
+    "diasFloracion": 50,
+    "diasCosecha": 90,
+    "aguaSemanalmm": 400
+  },
+  {
+    "id": 4,
+    "l_etapas": [
+      {
+        "l_reglas": [
+          {
+            "id": 1,
+            "descripcion": "Evitar compactación del suelo.",
+            "accionRecomendada": "Labrar la tierra antes de sembrar.",
+            "observaciones": "El suelo suelto mejora la aireación.",
+            "tipoRegla": "baja"
+          }
+        ],
+        "id": 1,
+        "nombreEtapa": "Siembra",
+        "descripcionEtapa": "Inicio del cultivo y establecimiento de raíces.",
+        "duracionDias": 30,
+        "observaciones": "Usar semillas certificadas.",
+        "riesgo": "Riego por aspersión cada 2 días.",
+        "fertilizacion": "Incorporar nitrógeno en la base."
+      }
+    ],
+    "nombreComun": "Zanahoria",
+    "nombreCientifico": "Daucus carota",
+    "tipoEspecie": "Ortaliza",
+    "ciclo": "Corto",
+    "sueloIdeal": "Limoso",
+    "phMax": 7.0,
+    "phMin": 6.0,
+    "altitudOptima": 2500,
+    "temperaturaOptimaCentigrados": 16,
+    "diasGerminacion": 14,
+    "diasFloracion": 60,
+    "diasCosecha": 110,
+    "aguaSemanalmm": 280
+  },
+  {
+    "id": 5,
+    "l_etapas": [
+      {
+        "l_reglas": [
+          {
+            "id": 1,
+            "descripcion": "Mantener poda regular de ramas secas.",
+            "accionRecomendada": "Poda anual en época seca.",
+            "observaciones": "Evita plagas y mejora la producción.",
+            "tipoRegla": "alta"
+          }
+        ],
+        "id": 1,
+        "nombreEtapa": "Producción",
+        "descripcionEtapa": "Etapa de maduración y cosecha de frutos.",
+        "duracionDias": 180,
+        "observaciones": "Requiere monitoreo constante de humedad.",
+        "riesgo": "Riego profundo semanal.",
+        "fertilizacion": "Aplicar compost orgánico dos veces al año."
+      }
+    ],
+    "nombreComun": "Mango",
+    "nombreCientifico": "Mangifera indica",
+    "tipoEspecie": "Fruta",
+    "ciclo": "Perenne",
+    "sueloIdeal": "Arcilloso",
+    "phMax": 7.5,
+    "phMin": 5.5,
+    "altitudOptima": 800,
+    "temperaturaOptimaCentigrados": 30,
+    "diasGerminacion": 20,
+    "diasFloracion": 90,
+    "diasCosecha": 180,
+    "aguaSemanalmm": 200
+  }
+]
