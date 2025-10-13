@@ -1,5 +1,7 @@
 package com.cultivapp.cultivapp.auth;
 
+import com.cultivapp.cultivapp.model.Usuario;
+import com.cultivapp.cultivapp.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,7 @@ public class AuthService {
      * Repository for accessing user data from the database.
      * Injected by Spring via constructor (dependency injection).
      */
-    private final UserRepository userRepo;
+    private final UsuarioRepository userRepo;
     
     /**
      * Service for generating JWT tokens after successful authentication.
@@ -112,22 +114,22 @@ public class AuthService {
 
         // Step 2: Check if the user account is enabled
         // Disabled accounts cannot log in even with correct credentials
-        if (!user.isEnabled()) {
+        if (!user.getActivo()) {
             throw new DisabledException("Cuenta deshabilitada, contacte al administrador");
         }
         
         // Step 3: Validate the provided password against the stored BCrypt hash
         // encoder.matches() is time-constant to prevent timing attacks
-        if (!encoder.matches(password, user.getPasswordHash())) {
+        if (!encoder.matches(password, user.getPassword())) {
             throw new AuthException("Credenciales inválidas");
         }
         
         // Step 4: Generate JWT token with user's email and role
         // Token will be used for stateless authentication in future requests
-        String token = jwt.generate(user.getEmail(), Map.of("role", user.getRole().name()));
+        String token = jwt.generate(user.getEmail(), Map.of("role", user.getRol().name()));
         
         // Step 5: Return token and role to the controller
-        return new LoginResponse(token, user.getRole().name());
+        return new LoginResponse(token, user.getRol().name());
     }
 
     // ===== Data Transfer Objects (DTOs) =====
