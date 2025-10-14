@@ -4,14 +4,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Authentication Controller (REQ-001: Login)
+ * 
+ * Handles login HTTP requests:
+ * - POST /api/auth/login → validates credentials, returns JWT token + role
+ * - Returns 200 OK (success), 401 (invalid credentials), 403 (disabled account)
+ */
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*") // para Vite en dev
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthService auth;
 
+    /**
+     * POST /api/auth/login
+     * Request: { "email": "user@example.com", "password": "password123" }
+     * Response: { "token": "eyJhbGci...", "role": "ADMIN" }
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthService.LoginResponse> login(@RequestBody AuthService.LoginRequest body){
         var res = auth.login(body.email(), body.password());
