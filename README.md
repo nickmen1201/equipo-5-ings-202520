@@ -10,10 +10,132 @@
 - Simón Bedoya  — simon.bedoyau@upb.edu.co
 - Sebastián Quiceno  — sebastian.quicenol@upb.edu.co
 
+## Quick Start
+
+### Prerequisites
+- **Java 21** or higher (for backend)
+- **Node.js 18+** and npm (for frontend)
+- No database installation required (H2 embedded)
+
+### 🚀 Easy Start (Windows)
+
+**Option 1: Start everything at once**
+```cmd
+start-all.bat
+```
+This will open two new windows: one for backend, one for frontend.
+
+**Option 2: Start separately**
+```cmd
+start-backend.bat    # Backend only
+start-frontend.bat   # Frontend only
+```
+
+### Manual Start
+
+**Backend:**
+```powershell
+cd server\src\cultivapp\cultivapp
+.\mvnw.cmd spring-boot:run
+```
+Backend will start on **http://localhost:8080**
+
+**Frontend:**
+```powershell
+cd client\src
+npm install  # First time only
+npm run dev
+```
+Frontend will start on **http://localhost:5173** (or 5174 if 5173 is busy)
+
+### Access the Application
+
+- **Frontend UI**: http://localhost:5173 (or check terminal for actual port)
+- **Backend API**: http://localhost:8080
+- **H2 Console**: http://localhost:8080/h2-console
+
+### Login
+
+Use these sample users:
+- **Producer**: `productor@cultivapp.com` / `password`
+- **Admin**: `admin@cultivapp.com` / `password`
+
+## Database
+
+CultivApp uses **H2 database in file-based mode** for local development:
+
+- **Location**: `server/.data/cultivapp-dev.mv.db`
+- **Mode**: PostgreSQL-compatible
+- **Persistence**: Data survives restarts
+- **No installation**: Embedded database
+- **Reset**: Delete the file and restart
+
+See [Database Setup Guide](doc/db-setup.md) for details.
+
+## Project Structure
+
+```
+├── client/              # React + Vite frontend
+│   ├── src/
+│   │   ├── Components/  # Reusable UI components
+│   │   ├── pages/       # Page components (Login, etc.)
+│   │   ├── services/    # API communication layer
+│   │   └── context/     # React context (auth state)
+│   └── package.json
+│
+├── server/              # Spring Boot backend
+│   └── src/cultivapp/cultivapp/
+│       ├── src/main/java/com/cultivapp/cultivapp/
+│       │   ├── auth/        # Authentication (login, JWT)
+│       │   ├── model/       # JPA entities (database models)
+│       │   └── repository/  # Data access layer
+│       └── src/main/resources/
+│           ├── application.yml      # Base config
+│           ├── application-dev.yml  # Development config
+│           ├── schema.sql           # Database schema
+│           └── data.sql             # Sample data
+│
+└── doc/                 # Documentation
+    ├── db-setup.md      # Database setup guide
+    ├── analysis/        # Requirements and analysis
+    └── design/          # Design documents
+```
+
+## Implemented Features
+
+### ✅ REQ-001: Login Authentication
+- JWT-based authentication
+- Role-based access (ADMIN, PRODUCTOR)
+- Secure password hashing (BCrypt)
+- Account status management
+
+### 🚧 In Progress
+- CRUD for Cultivos (crops)
+- Admin catalog for Especies (plant species)
+- Task management
+- Alert system
+
+## Technology Stack
+
+### Backend
+- Java 21
+- Spring Boot 3.5.6
+- Spring Security (JWT)
+- Spring Data JPA (Hibernate)
+- H2 Database (file-based)
+- Maven
+
+### Frontend
+- React 18
+- Vite
+- React Router
+- Context API (state management)
+- Axios (HTTP client)
 
 ## Estructura y navegación
 
 - [Documentación](doc/index.md) — Portal de documentación  
+- [Database Setup](doc/db-setup.md) — Database configuration guide
 - [Análisis](doc/analysis/index.md) — Requisitos y artefactos de la fase de análisis  
   - [Requisitos Funcionales](doc/analysis/requirements-fn.md) — 20 requisitos en notación Gherkin  
   - [Requisitos No Funcionales](doc/analysis/requirements-nfn.md) — 10 requisitos priorizados   
