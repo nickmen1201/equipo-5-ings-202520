@@ -1,6 +1,6 @@
 #FileLock
-#Sun Oct 12 19:24:57 COT 2025
-hostName=DESKTOP-5D3VJ32
-id=199daf4c0f47d5dae2694a64943e8975b85faba59ee
+#Tue Oct 14 22:04:07 COT 2025
+hostName=10.8.164.185
+id=199e5d326f151c06f3ce5e8de0433a6180b5f80a17e
 method=file
-server=192.168.1.1\:58865
+server=10.8.164.185\:55538

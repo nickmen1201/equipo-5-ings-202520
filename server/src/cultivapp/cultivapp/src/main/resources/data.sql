@@ -75,3 +75,18 @@ INSERT INTO configuracion_sistema (id, clave, valor, descripcion, tipo, categori
 (2, 'ALERTA_DIAS_VENCIMIENTO', '7', 'Días hasta vencimiento de alertas', 'NUMERO', 'ALERTAS'),
 (3, 'APP_NAME', 'CultivApp', 'Nombre de la aplicación', 'TEXTO', 'GENERAL'),
 (4, 'NOTIFICACIONES_ACTIVAS', 'true', 'Activar notificaciones del sistema', 'BOOLEAN', 'NOTIFICACIONES');
+
+-- Reset all auto-increment sequences to continue from the last inserted ID
+-- This is CRITICAL to avoid primary key violations when inserting new records
+-- H2 uses SYSTEM_SEQUENCE_<TABLE>_<COLUMN> naming for SERIAL columns
+ALTER TABLE paises ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE ciudades ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE usuarios ALTER COLUMN id RESTART WITH 3;
+ALTER TABLE etapas ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE especies ALTER COLUMN id RESTART WITH 9;
+ALTER TABLE cultivos ALTER COLUMN id RESTART WITH 2;
+ALTER TABLE tareas ALTER COLUMN id RESTART WITH 3;
+ALTER TABLE reglas ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE alertas ALTER COLUMN id RESTART WITH 2;
+ALTER TABLE datos_climaticos ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE configuracion_sistema ALTER COLUMN id RESTART WITH 5;

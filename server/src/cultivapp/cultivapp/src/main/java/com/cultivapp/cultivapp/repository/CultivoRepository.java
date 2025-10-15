@@ -11,4 +11,7 @@ public interface CultivoRepository extends JpaRepository<Cultivo, Integer> {
     
     // Find all crops for a specific user
     List<Cultivo> findByUsuarioId(Integer usuarioId);
+    
+    // Check if any crop exists for a specific species (REQ-005)
+    boolean existsByEspecieId(Integer especieId);
 }

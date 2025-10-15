@@ -48,7 +48,7 @@ CREATE TABLE usuarios (
 CREATE INDEX idx_usuarios_email ON usuarios(email);
 CREATE INDEX idx_usuarios_ciudad ON usuarios(id_ciudad);
 
--- Especies table: plant species catalog
+-- Especies table: plant species catalog (REQ-005)
 CREATE TABLE especies (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -58,6 +58,9 @@ CREATE TABLE especies (
     dias_floracion INT NOT NULL,
     dias_cosecha INT NOT NULL,
     agua_semanal_mm INT,
+    descripcion TEXT,
+    dias_fertilizacion INT,
+    imagen_url VARCHAR(500),
     activo BOOLEAN NOT NULL DEFAULT TRUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
