@@ -17,32 +17,42 @@
 - **Node.js 18+** and npm (for frontend)
 - No database installation required (H2 embedded)
 
-### Run the Backend
+### 🚀 Easy Start (Windows)
 
-```bash
-cd server/src/cultivapp/cultivapp
-./mvnw spring-boot:run
+**Option 1: Start everything at once**
+```cmd
+start-all.bat
+```
+This will open two new windows: one for backend, one for frontend.
+
+**Option 2: Start separately**
+```cmd
+start-backend.bat    # Backend only
+start-frontend.bat   # Frontend only
 ```
 
-On Windows:
+### Manual Start
+
+**Backend:**
 ```powershell
 cd server\src\cultivapp\cultivapp
 .\mvnw.cmd spring-boot:run
 ```
-
 Backend will start on **http://localhost:8080**
 
-### Run the Frontend
-
-In a separate terminal:
-
-```bash
-cd client
+**Frontend:**
+```powershell
+cd client\src
 npm install  # First time only
 npm run dev
 ```
+Frontend will start on **http://localhost:5173** (or 5174 if 5173 is busy)
 
-Frontend will start on **http://localhost:5173**
+### Access the Application
+
+- **Frontend UI**: http://localhost:5173 (or check terminal for actual port)
+- **Backend API**: http://localhost:8080
+- **H2 Console**: http://localhost:8080/h2-console
 
 ### Login
 
