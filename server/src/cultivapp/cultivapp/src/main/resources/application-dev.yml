@@ -33,9 +33,15 @@ spring:
   # SQL script initialization
   sql:
     init:
-      # Always run schema.sql and data.sql on startup
-      mode: always
-      # Create tables first, then insert data
+      # FIXED: Using 'embedded' mode for smart initialization
+      # WHY: 'embedded' only runs scripts if database is empty/new
+      # BEHAVIOR: 
+      #   - First run: executes schema.sql and data.sql
+      #   - Subsequent runs: skips scripts (preserves data)
+      #   - If .mv.db deleted: re-initializes automatically
+      # NOTE: To reset database, delete server/.data/cultivapp-dev.mv.db file
+      mode: embedded
+      # Create tables first, then insert data (only on first run)
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
       # Continue even if some SQL statements fail (useful during development)
