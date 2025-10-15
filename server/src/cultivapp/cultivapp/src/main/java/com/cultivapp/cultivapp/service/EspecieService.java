@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -56,22 +57,49 @@ public class EspecieService {
     }
     
     /**
-     * Create new species
+     * Create new species or reactivate if exists as inactive
      * 
-     * PERSISTENCE: @Transactional ensures this saves to database
-     * HOW IT WORKS:
-     * 1. Build new Especie object from request data
-     * 2. Set activo = true (species is active by default)
-     * 3. Call especieRepository.save() - writes to database
-     * 4. @Transactional commits the transaction (data is persisted)
-     * 5. Return saved entity as DTO to confirm creation
+     * LOGIC:
+     * 1. Check if species with same name exists (case-insensitive)
+     * 2. If exists and inactive → reactivate with new data
+     * 3. If exists and active → throw error (duplicate)
+     * 4. If not exists → create new species
      * 
      * @param request Species data from frontend
-     * @return Created species DTO with generated ID
+     * @return Created or reactivated species DTO
      */
     @Transactional
     public EspecieDTO createEspecie(EspecieRequest request) {
-        // Build new species entity with all fields from request
+        // Check if species with this name already exists (case-insensitive)
+        // Uses findFirst to get most recent if duplicates exist
+        Optional<Especie> existingEspecie = especieRepository.findFirstByNombreIgnoreCaseOrderByIdDesc(request.getNombre());
+        
+        if (existingEspecie.isPresent()) {
+            Especie especie = existingEspecie.get();
+            
+            // If species exists and is active → duplicate error
+            if (Boolean.TRUE.equals(especie.getActivo())) {
+                throw new IllegalArgumentException("Ya existe una especie activa con el nombre: " + request.getNombre());
+            }
+            
+            // If species exists but inactive → reactivate with new data
+            especie.setNombre(request.getNombre());
+            especie.setNombreCientifico(request.getNombreCientifico());
+            especie.setDescripcion(request.getDescripcion());
+            especie.setDiasFertilizacion(request.getDiasFertilizacion());
+            especie.setImagenUrl(request.getImagenUrl());
+            especie.setCicloDias(request.getCicloDias());
+            especie.setDiasGerminacion(request.getDiasGerminacion());
+            especie.setDiasFloracion(request.getDiasFloracion());
+            especie.setDiasCosecha(request.getDiasCosecha());
+            especie.setAguaSemanalMm(request.getAguaSemanalMm());
+            especie.setActivo(true);  // Reactivate species
+            
+            Especie saved = especieRepository.save(especie);
+            return toDTO(saved);
+        }
+        
+        // Species doesn't exist → create new one
         Especie especie = Especie.builder()
             .nombre(request.getNombre())
             .nombreCientifico(request.getNombreCientifico())
@@ -83,10 +111,9 @@ public class EspecieService {
             .diasFloracion(request.getDiasFloracion())
             .diasCosecha(request.getDiasCosecha())
             .aguaSemanalMm(request.getAguaSemanalMm())
-            .activo(true)  // New species are active by default
+            .activo(true)
             .build();
         
-        // Save to database - this persists the new record
         Especie saved = especieRepository.save(especie);
         return toDTO(saved);
     }

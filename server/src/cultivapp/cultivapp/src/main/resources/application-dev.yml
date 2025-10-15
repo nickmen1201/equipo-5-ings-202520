@@ -33,11 +33,14 @@ spring:
   # SQL script initialization
   sql:
     init:
-      # FIXED: Changed from 'always' to 'never' for true persistence
-      # WHY: 'always' recreates database on every restart (loses all changes)
-      # NOW: Database persists between restarts (create/edit/delete saved)
+      # FIXED: Using 'embedded' mode for smart initialization
+      # WHY: 'embedded' only runs scripts if database is empty/new
+      # BEHAVIOR: 
+      #   - First run: executes schema.sql and data.sql
+      #   - Subsequent runs: skips scripts (preserves data)
+      #   - If .mv.db deleted: re-initializes automatically
       # NOTE: To reset database, delete server/.data/cultivapp-dev.mv.db file
-      mode: never
+      mode: embedded
       # Create tables first, then insert data (only on first run)
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
