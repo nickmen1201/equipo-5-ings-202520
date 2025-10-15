@@ -44,4 +44,8 @@ build/
 # java/maven
 server/target/
 
+# H2 database files (runtime only)
+**/.data/
+*.lock.db
+
 JDK_SETUP_README.md
