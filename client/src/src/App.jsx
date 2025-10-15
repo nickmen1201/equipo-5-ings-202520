@@ -30,6 +30,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import NavBar from './Components/NavBar'
 import Login from './pages/Login'
+import Especies from './pages/Especies'
 
 /**
  * Protected Route Component - Redirects to login if not authenticated.
@@ -147,6 +148,18 @@ function App() {
                 </p>
               </div>
             </div>
+          </ProtectedRoute>
+        } />
+        
+        {/* 
+         * Protected Route: Species Management (REQ-005)
+         * Path: /admin/especies
+         * Accessible only to authenticated ADMIN users.
+         * Allows admins to manage the species catalog.
+         */}
+        <Route path="/admin/especies" element={
+          <ProtectedRoute>
+            <Especies />
           </ProtectedRoute>
         } />
         
