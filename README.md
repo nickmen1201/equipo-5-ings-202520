@@ -18,10 +18,10 @@
   - [Requisitos Funcionales](doc/analysis/requirements-fn.md) — 20 requisitos en notación Gherkin  
   - [Requisitos No Funcionales](doc/analysis/requirements-nfn.md) — 10 requisitos priorizados
  - [Diseño](doc/design/index.md) — Portal de la fase de diseño y decisiones arquitectónicas
-  - [Frontend](doc/design/fe.md) — Decisiones de Frontend (React + Vite + TS)  
-  - [Backend](doc/design/be.md) — Decisiones de Backend (Spring Boot)  
-  - [UI](doc/design/ui.md) — Vistas
-  - [UX](doc/design/ux.md) — Wireframes
-  - [Diagramas](doc/design/diagrams.md) — Diagramas requeridos  
-  - [Imágenes](doc/design/images/) — Assets y capturas usadas en los documentos de diseño
+   - [Frontend](doc/design/fe.md) — Decisiones de Frontend (React + Vite + TS)  
+   - [Backend](doc/design/be.md) — Decisiones de Backend (Spring Boot)  
+   - [UI](doc/design/ui.md) — Vistas
+   - [UX](doc/design/ux.md) — Wireframes
+   - [Diagramas](doc/design/diagrams.md) — Diagramas requeridos  
+   - [Imágenes](doc/design/images/) — Assets y capturas usadas en los documentos de diseño
 - [Sprint](doc/sprint.md) — Diagramas Burndown y tablero Kanban 
