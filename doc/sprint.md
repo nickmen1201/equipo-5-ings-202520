@@ -2,7 +2,7 @@
 
 
 **Diagrama Burndown:**
-<img width="860" height="430" alt="image" src="https://github.com/user-attachments/assets/3b93bea2-e8e2-4fb3-b8b9-91b91f2e4dcf" />
+<img width="620" height="495" alt="image" src="https://github.com/user-attachments/assets/59e5864e-994e-447a-9d73-fc7fb55b090f" />
 
 
 **Tablero Kanban:**
@@ -13,7 +13,7 @@
 
 
 **Diagrama Burndown:**
-<img width="845" height="424" alt="image" src="https://github.com/user-attachments/assets/59768ab0-213a-4d3a-8876-20dff6a661cc" />
+<img width="603" height="475" alt="image" src="https://github.com/user-attachments/assets/b0611ad9-f821-48a1-a411-ba7777a81fc6" />
 
 
 **Tablero Kanban:**
