@@ -1,113 +1,83 @@
-# CultivApp Backend
+# CULTIVAAPVDOS — README
 
-Spring Boot REST API for agricultural crop management.
+Este README explica la parte principal del proyecto, cómo instalar y ejecutar, los estándares aplicados, la versión de Java y la base de datos requerida, y una breve guía para resolver un error común (conflicto de clave primaria al inicializar datos).
 
----
+## ¿Qué hace esta carpeta?
+La raíz del repositorio contiene una aplicación Spring Boot. Es un backend CRUD para gestionar usuarios, especies y cultivos. La estructura principal relevante:
 
-## Tech Stack
+- `src/main/java/.../auth` — Autenticación y seguridad (controladores, servicio JWT, configuración de seguridad).
+- `src/main/java/.../controllers` — Controladores REST para `usuarios`, `especies`, `cultivos`.
+- `src/main/java/.../models` — Entidades JPA (`Usuario`, `Especie`, `Cultivo`) y enums.
+- `src/main/java/.../repositories` — Repositorios Spring Data JPA.
+- `src/main/java/.../services` — Lógica de negocio.
+- `src/main/resources` — Configuración y datos iniciales (`application.properties`, `application-dev.properties`, `data.sql`).
 
-- Java 21
-- Spring Boot 3.5.6
-- Spring Security (JWT)
-- Spring Data JPA
-- H2 Database (file-based, PostgreSQL-compatible)
-- Maven
+## ¿Cómo se instala esta parte del proyecto?
+Requisitos previos:
+- Java 21 (el proyecto está configurado con `<java.version>21</java.version>` en `pom.xml`).
+- Maven (opcional si usas los wrappers `mvnw`/`mvnw.cmd`).
 
----
-
-## Quick Start
+Pasos:
+1. Clona el repositorio o descarga el código.
+2. Abre una terminal en la carpeta raíz donde está `pom.xml`.
+3. Construye el proyecto (opcional, Spring Boot lo hará al ejecutar):
 
 ```powershell
-cd server\src\cultivapp\cultivapp
-.\mvnw.cmd spring-boot:run
-```
-→ API on http://localhost:8080
-
-On first run:
-1. Creates `server/.data/` folder
-2. Creates H2 database file
-3. Runs `schema.sql` (tables)
-4. Runs `data.sql` (sample data)
-
----
-
-## API Endpoints
-
-### Authentication (REQ-001)
-
-**POST /api/auth/login**
-
-Request:
-```json
-{
-  "email": "productor@cultivapp.com",
-  "password": "password"
-}
+# Si usas mvnw en Windows (desde PowerShell)
+./mvnw.cmd clean package -DskipTests
 ```
 
-Response (200 OK):
-```json
-{
-  "token": "eyJhbGci...",
-  "role": "PRODUCTOR"
-}
-```
+## ¿Cómo se corre esta parte del proyecto?
+Puedes ejecutar con Maven wrapper o desde tu IDE (Run as Spring Boot app). Ejemplos:
 
-**Sample Users:**
-- Admin: `admin@cultivapp.com` / `password` (ADMIN)
-- Producer: `productor@cultivapp.com` / `password` (PRODUCTOR)
-
----
-
-## Project Structure
-
-```
-src/main/
-├── java/com/cultivapp/cultivapp/
-│   ├── auth/              # Login, JWT, security
-│   ├── model/             # JPA entities (Usuario, Cultivo, etc.)
-│   └── repository/        # Data access (Spring Data JPA)
-└── resources/
-    ├── application.yml         # Base config
-    ├── application-dev.yml     # Dev settings (H2)
-    ├── schema.sql              # DDL
-    └── data.sql                # Sample data
-```
-
----
-
-## Database
-
-**H2 file-based** (PostgreSQL-compatible):
-- Location: `server/.data/cultivapp-dev.mv.db`
-- Persists across restarts
-- No installation required
-
-See [Database Setup Guide](../doc/db-setup.md) for details.
-
----
-
-## Development
-
-**Run tests:**
 ```powershell
-.\mvnw.cmd test
+# Ejecutar con mvnw (recomendado en desarrollo)
+./mvnw.cmd spring-boot:run
+
+# O ejecutar el JAR después de build
+java -jar target\CULTIVAAPVDOS-0.0.1-SNAPSHOT.jar
 ```
 
-**Build JAR:**
-```powershell
-.\mvnw.cmd clean package
+La aplicación arranca por defecto en el puerto 8080.
+
+Rutas útiles (según `request.http` incluido en el repo):
+- POST `/api/auth/register` — Registrar usuario
+- POST `/api/auth/login` — Login (genera JWT)
+- CRUD `/api/especies` — Gestión de especies
+- CRUD `/api/cultivos` — Gestión de cultivos
+- GET `/api/cultivos/usuario/{id}` — cultivos por usuario
+
+## Base de datos
+- En desarrollo el proyecto usa H2 (dependencia `com.h2database:h2`), configurado en `application-dev.properties` en modo file: `jdbc:h2:file:./server/.data/cultivapp-dev`.
+- También hay dependencia de PostgreSQL agregada, por si quieres conectar a Postgres en producción.
+
+Si usas H2 puedes (opcional) habilitar la consola web editando `application-dev.properties`:
+
+```
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
 ```
 
-**Run JAR:**
-```powershell
-java -jar target\cultivapp-0.0.1-SNAPSHOT.jar
+La URL de conexión (según `application-dev.properties`) es similar a:
+
+```
+jdbc:h2:file:./server/.data/cultivapp-dev;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;AUTO_SERVER=TRUE
+user: sa
+password: (vacío)
 ```
 
----
+## Estándares y prácticas
+- Lombok para reducir código boilerplate (`@Getter/@Setter/@Builder` etc.).
+- JPA/Hibernate para persistencia.
+- JWT para autenticación; el `AuthService` genera un token con el claim `role` (rol del usuario).
+- Roles definidos en `models/enums/Roles.java` (ej.: `ADMIN`, `PRODUCTOR`).
+- Validaciones de request con `spring-boot-starter-validation`.
+- Los controladores usan rutas REST y devuelven respuestas JSON.
+- Si necesitas seguridad por roles, editar `SecurityConfig` para proteger rutas con `.requestMatchers(...).hasRole("ADMIN")` o usar `@PreAuthorize` en métodos.
 
-## Configuration
 
-**Database:** `application-dev.yml`  
-**Server port:** `application.yml` (default: 8080)  
-**JWT secret:** `application.yml` (change for production)
+## Versiones y herramientas
+- Java: 21 (ver `pom.xml` property `<java.version>`)
+- Maven: usa `mvnw` / `mvnw.cmd` incluidos
+- H2: dependencia runtime para desarrollo
+
