@@ -17,8 +17,8 @@
 - [Análisis](doc/analysis/index.md) — Requisitos y artefactos de la fase de análisis  
   - [Requisitos Funcionales](doc/analysis/requirements-fn.md) — 20 requisitos en notación Gherkin  
   - [Requisitos No Funcionales](doc/analysis/requirements-nfn.md) — 10 requisitos priorizados
- - [Diseño](doc/design/index.md) — Portal de la fase de diseño y decisiones arquitectónicas  
-  - [Frontend](doc/design/fe.md) — Decisiones de Frontend (React + Vite + TS)  
+ - [Diseño](doc/design/index.md) — Portal de la fase de diseño y decisiones arquitectónicas
+ - - [Frontend](doc/design/fe.md) — Decisiones de Frontend (React + Vite + TS)  
   - [Backend](doc/design/be.md) — Decisiones de Backend (Spring Boot)  
   - [UI](doc/design/ui.md) — Vistas
   - [UX](doc/design/ux.md) — Wireframes
