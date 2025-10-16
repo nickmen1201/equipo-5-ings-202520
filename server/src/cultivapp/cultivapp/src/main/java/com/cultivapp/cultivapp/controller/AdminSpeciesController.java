@@ -16,13 +16,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Admin controller for species (especies) management.
- * Implements REQ-003: Only accessible by users with ADMIN role.
+ * REQ-003: Admin controller for species (especies) management.
+ * Role-based access control: Only accessible by users with ADMIN role.
+ * PRODUCTOR users attempting access will receive HTTP 403 Forbidden.
+ * All CRUD operations require ADMIN authentication via JWT token.
  */
 
 @RestController
 @RequestMapping("/api/admin/especies")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN')") // REQ-003: Restrict to ADMIN role only
 @CrossOrigin(origins = "*")
 public class AdminSpeciesController {
     

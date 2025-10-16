@@ -8,6 +8,7 @@ import CropsPage from './pages/CropsPage';
 import Especies from './pages/Especies';
 
 
+// REQ-003: Role-based access control - Protected routes for authenticated users
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) {
@@ -17,6 +18,7 @@ function ProtectedRoute({ children }) {
       </div>
     );
   }
+  // REQ-003: Redirect to login if not authenticated
   return user ? children : <Navigate to="/login" replace />;
 }
 
