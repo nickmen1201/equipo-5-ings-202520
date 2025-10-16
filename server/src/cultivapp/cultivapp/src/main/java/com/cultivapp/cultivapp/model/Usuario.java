@@ -1,8 +1,23 @@
 package com.cultivapp.cultivapp.model;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
+
+import com.cultivapp.cultivapp.model.enums.Rol;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 // Usuario entity: represents a system user (admin or producer)
 // Enum stored as string to keep database portable
@@ -31,10 +46,7 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String apellido;
     
-    // Foreign key to ciudades table
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_ciudad")
-    private Ciudad ciudad;
+    private String ciudad;
     
     @Column(length = 20)
     private String telefono;

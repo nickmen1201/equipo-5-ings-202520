@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.cultivapp.cultivapp.model.Usuario;
+
 /**
  * Authentication Controller (REQ-001: Login)
  * 
@@ -40,5 +42,31 @@ public class AuthController {
         return ResponseEntity.status(403).body(new ErrorMsg(ex.getMessage()));
     }
 
+       @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest body) {
+    try {
+        Usuario nuevoUsuario = auth.register(
+            body.nombre(),
+            body.apellido(),
+            body.email(),
+            body.password()
+        );
+        
+        return ResponseEntity.ok(new RegisterResponse(
+            nuevoUsuario.getId(),
+            nuevoUsuario.getEmail(),
+            nuevoUsuario.getNombre(),
+            nuevoUsuario.getApellido(),
+            nuevoUsuario.getRol().name()
+        ));
+    }catch (AuthService.EmailAlreadyUsedException ex) {
+        return ResponseEntity.badRequest().body(new ErrorMsg(ex.getMessage()));
+    }
+    }
+
+    // DTOs
+    public record RegisterRequest(String nombre, String apellido, String email, String password) {}
+    record RegisterResponse(Integer id, String email, String nombre, String apellido, String rol) {}
+    record ErrorMsg(String message){}
     record ErrorMsg(String message){}
 }
