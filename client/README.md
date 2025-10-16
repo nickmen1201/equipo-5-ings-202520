@@ -1,90 +1,90 @@
-# Prueba Front Cultivos
+# Cultivos Frontend (Sample)
 
-Este proyecto es una aplicación frontend en React (Vite) para manejar cultivos y especies. A continuación se responden las preguntas indicadas en el archivo adjunto, y se incluyen instrucciones de instalación y ejecución para Windows PowerShell.
+This project is a React (Vite) frontend for managing crops and species. Below are answers to the questions from the provided attachment, plus installation and run instructions for Windows PowerShell.
 
-## ¿Qué hace esta carpeta / proyecto?
+## What does this folder / project do?
 
-- Esta carpeta contiene el frontend de una pequeña aplicación para gestionar cultivos y especies.
-- Está construída con React (v19) y Vite como bundler/desarrollo rápido.
-- Ofrece páginas para ver cultivos, especies, crear nuevos cultivos, y autenticación básica (login/register). Los componentes principales están en `src/components` y las páginas en `src/pages`.
+- This folder contains the frontend of a small application to manage crops and species.
+- It is built with React (v19) and uses Vite as the fast bundler/development server.
+- It provides pages to view crops and species, create new crops, and basic authentication (login/register). The main components live in `src/components` and pages in `src/pages`.
 
-## ¿Cómo se instala esta parte del proyecto?
+## How do I install this part of the project?
 
-Requisitos previos:
-- Node.js (recomendado: 18.x o 20.x) y npm (la versión moderna incluida con Node). Aunque el proyecto no exige una versión concreta en `package.json`, usar Node 18+ es una buena práctica con las dependencias actuales.
+Prerequisites:
+- Node.js (recommended: 18.x or 20.x) and npm (the modern npm shipped with Node). The project does not pin a Node version in `package.json`, but using Node 18+ is recommended for the current dependencies.
 
-Pasos (PowerShell):
+Steps (PowerShell):
 
 ```powershell
-# Sitúate en la carpeta del proyecto
+# Change to the project folder
 cd C:\Users\USER\pruebafrontcultivos
 
-# Instala dependencias
+# Install dependencies
 npm install
 ```
 
-Notas:
-- `package.json` incluye scripts útiles (`dev`, `build`, `preview`).
-- Si usas yarn o pnpm puedes adaptar los comandos (`yarn` / `pnpm install`).
+Notes:
+- `package.json` contains useful scripts (`dev`, `build`, `preview`).
+- If you use yarn or pnpm, adapt commands accordingly (`yarn` / `pnpm install`).
 
-## ¿Cómo se corre esta parte del proyecto?
+## How do I run this part of the project?
 
-Comandos principales (PowerShell):
+Main commands (PowerShell):
 
 ```powershell
-# Arrancar el servidor de desarrollo (Vite)
+# Start the development server (Vite)
 npm run dev
 
-# Construir la versión de producción
+# Build production bundle
 npm run build
 
-# Previsualizar la build (local)
+# Preview the built production site locally
 npm run preview
 ```
 
-El servidor de desarrollo abrirá normalmente en `http://localhost:5173` (Vite). Revisa la salida en consola para la URL exacta.
+The dev server usually serves at `http://localhost:5173` (Vite). Check the console output for the exact URL.
 
-## ¿Qué estándares debo tener en cuenta en esta parte del proyecto?
+## What standards should I follow for this part of the project?
 
-- Linter: El proyecto incluye `eslint` y un script `npm run lint`. Sigue las reglas configuradas por ESLint. No hay un archivo `eslintrc` mostrado aquí, pero `eslint.config.js` está presente en la raíz.
-- Documentación: Usa comentarios JSDoc simples en funciones compartidas si vas a exponer utilidades o servicios (por ejemplo, `services/authService.js`, `services/CultivoService.js`).
-- Estructura de carpetas: Mantener `components`, `pages`, `services` y `context` claros y coherentes.
+- Linter: The project includes `eslint` and a `npm run lint` script. Follow the ESLint rules configured in the repository. There is an `eslint.config.js` file in the root.
+- Documentation: Use simple JSDoc comments on shared functions if you expose utilities or services (for example, `services/authService.js`, `services/CultivoService.js`).
+- Folder structure: Keep `components`, `pages`, `services`, and `context` organized and consistent.
 
-## ¿Qué versión de JS (o Python o Java) usa?
+## Which language/version is used (JS/Python/Java)?
 
-- Esta es una aplicación frontend escrita en JavaScript (ES modules). El `package.json` usa `"type": "module"`, así que los imports usan sintaxis ESM.
-- No se usan Python ni Java en este repositorio.
+- This is a frontend application written in JavaScript (ES modules). The `package.json` declares `"type": "module"`, so imports use ESM syntax.
+- There is no Python or Java in this repository.
 
-## ¿Qué necesito para la base de datos?
+## What do I need for the database?
 
-- Este repositorio parece ser sólo el frontend. No incluye una base de datos ni un backend.
-- Para que la app funcione con persistencia, necesitarás un backend que exponga una API REST (o GraphQL) y una base de datos (por ejemplo, PostgreSQL, MySQL o MongoDB) según tus preferencias.
+- This repository appears to be frontend-only. It does not include a backend or a database.
+- To enable persistence, you'll need a backend that exposes a REST (or GraphQL) API and a database (for example, PostgreSQL, MySQL, or MongoDB), depending on your preference.
 
-Recomendación mínima para desarrollo local:
-- Un backend simple (Node/Express, FastAPI, etc.) que responda a los endpoints que espera el frontend (revisa `services/` para pistas de rutas usadas).
-- Una base de datos relacional (Postgres o MySQL) o NoSQL (MongoDB). Para prototipado, SQLite o una instancia local de PostgreSQL funcionan bien.
+Minimum recommendation for local development:
+- A simple backend (Node/Express, FastAPI, etc.) that implements the endpoints expected by the frontend (check `src/services/` for hints about routes).
+- A relational database (Postgres, MySQL) or a NoSQL DB (MongoDB). For quick prototyping, SQLite or a local PostgreSQL instance works fine.
 
-Campos a verificar en el backend (sugeridos):
-- Endpoints de autenticación: `/login`, `/register`.
-- Endpoints de cultivos y especies: `/cultivos`, `/especies`, `/cultivos/:id`.
+Backend fields/endpoints to verify (suggested):
+- Authentication endpoints: `/login`, `/register`.
+- Crops and species endpoints: `/cultivos`, `/especies`, `/cultivos/:id`.
 
-## Scripts y dependencias 
+## Scripts and dependencies
 
 - Scripts:
-  - `dev`: inicia Vite en modo desarrollo.
-  - `build`: crea la build de producción con Vite.
-  - `preview`: sirve la build producida localmente.
-  - `lint`: ejecuta ESLint en el proyecto.
-- Dependencias importantes:
+  - `dev`: starts Vite in development mode.
+  - `build`: creates a production build with Vite.
+  - `preview`: serves the produced build locally.
+  - `lint`: runs ESLint on the project.
+- Key dependencies:
   - `react` / `react-dom` (v19.x)
   - `react-router-dom` (v7)
-  - `tailwindcss` y `@tailwindcss/vite` (v4)
+  - `tailwindcss` and `@tailwindcss/vite` (v4)
   - `react-icons`
 
-## Desarrollo y buenas prácticas
+## Development and best practices
 
-- Mantener los componentes pequeños y reutilizables (`src/components`).
-- Colocar lógica de negocio y peticiones HTTP en `src/services`.
-- Uso de `context` para estado global (por ejemplo, `AuthContext.jsx`).
-- Ejecutar `npm run lint` antes de commits para mantener el estilo.
+- Keep components small and reusable (`src/components`).
+- Put business logic and HTTP requests in `src/services`.
+- Use `context` for global state (for example, `AuthContext.jsx`).
+- Run `npm run lint` before commits to keep code style consistent.
 
