@@ -8,8 +8,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,12 +25,12 @@ import java.util.List;
 /**
  * JWT authentication filter that validates tokens and sets authentication context.
  */
-@Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
-    @Value("${jwt.secret:cultivapp-dev-secret-please-change-32-bytes-min}")
+    @Value("${security.jwt.secret:cultivapp-dev-secret-please-change-32-bytes-min}")
     private String jwtSecret;
 
     private static final String AUTHORIZATION_HEADER = "Authorization";

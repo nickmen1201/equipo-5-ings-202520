@@ -1,14 +1,18 @@
 package com.cultivapp.cultivapp.controller;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.cultivapp.cultivapp.dto.EspecieDTO;
+import com.cultivapp.cultivapp.dto.EspecieRequest;
+import com.cultivapp.cultivapp.service.EspecieService;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,120 +20,113 @@ import java.util.Map;
  * Implements REQ-003: Only accessible by users with ADMIN role.
  */
 
-@Slf4j
 @RestController
-@RequestMapping("/especies")
-@RequiredArgsConstructor
+@RequestMapping("/api/admin/especies")
 @PreAuthorize("hasRole('ADMIN')")
+@CrossOrigin(origins = "*")
 public class AdminSpeciesController {
+    
+    private static final Logger log = LoggerFactory.getLogger(AdminSpeciesController.class);
+    private final EspecieService especieService;
+    
+    public AdminSpeciesController(EspecieService especieService) {
+        this.especieService = especieService;
+    }
 
     /**
-     * REQ-003: Admin can access species CRUD.
+     * REQ-003: Admin can access species CRUD - GET all species
      *
      * @param principal authenticated user principal
      * @return ResponseEntity with species list
      */
     @GetMapping
-    public ResponseEntity<?> getAllSpecies(Principal principal) {
-        log.info("Admin user '{}' accessing GET /especies", principal.getName());
+    public ResponseEntity<List<EspecieDTO>> getAllSpecies(Principal principal) {
+        log.info("Admin user '{}' accessing GET /api/admin/especies", principal.getName());
 
         try {
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Species list retrieved successfully");
-            response.put("user", principal.getName());
-            response.put("role", "ADMIN");
-            response.put("endpoint", "GET /especies");
-
-            log.debug("Successfully retrieved species list for admin: {}", principal.getName());
-            return ResponseEntity.ok(response);
+            List<EspecieDTO> especies = especieService.getAllEspecies();
+            log.debug("Successfully retrieved {} species for admin: {}", especies.size(), principal.getName());
+            return ResponseEntity.ok(especies);
 
         } catch (Exception e) {
             log.error("Error retrieving species for admin '{}': {}", principal.getName(), e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to retrieve species"));
+            throw e;
         }
     }
 
     /**
-     * REQ-003: Admin can create new species.
+     * REQ-003: Admin can create new species
      *
-     * @param speciesData species data to create
+     * @param request species data to create
      * @param principal authenticated user principal
      * @return ResponseEntity with created species
      */
     @PostMapping
-    public ResponseEntity<?> createSpecies(@RequestBody Map<String, Object> speciesData, Principal principal) {
-        log.info("Admin user '{}' creating new species", principal.getName());
+    public ResponseEntity<EspecieDTO> createSpecies(@Valid @RequestBody EspecieRequest request, Principal principal) {
+        log.info("Admin user '{}' creating new species: {}", principal.getName(), request.getNombre());
 
         try {
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Species created successfully");
-            response.put("user", principal.getName());
-            response.put("data", speciesData);
+            EspecieDTO created = especieService.createEspecie(request);
+            log.debug("Species created successfully by admin: {} - Species ID: {}", principal.getName(), created.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
 
-            log.debug("Species created successfully by admin: {}", principal.getName());
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
+        } catch (IllegalArgumentException e) {
+            log.warn("Invalid data for species creation by admin '{}': {}", principal.getName(), e.getMessage());
+            throw e;
         } catch (Exception e) {
             log.error("Error creating species for admin '{}': {}", principal.getName(), e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to create species"));
+            throw e;
         }
     }
 
     /**
-     * REQ-003: Admin can update existing species.
+     * REQ-003: Admin can update existing species
      *
      * @param id species ID to update
-     * @param speciesData updated species data
+     * @param request updated species data
      * @param principal authenticated user principal
      * @return ResponseEntity with updated species
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateSpecies(@PathVariable Long id, @RequestBody Map<String, Object> speciesData, Principal principal) {
+    public ResponseEntity<EspecieDTO> updateSpecies(@PathVariable Integer id, @Valid @RequestBody EspecieRequest request, Principal principal) {
         log.info("Admin user '{}' updating species with ID: {}", principal.getName(), id);
 
         try {
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Species updated successfully");
-            response.put("user", principal.getName());
-            response.put("id", id);
-            response.put("data", speciesData);
-
+            EspecieDTO updated = especieService.updateEspecie(id, request);
             log.debug("Species {} updated successfully by admin: {}", id, principal.getName());
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(updated);
 
+        } catch (IllegalArgumentException e) {
+            log.warn("Invalid data for species update by admin '{}': {}", principal.getName(), e.getMessage());
+            throw e;
         } catch (Exception e) {
             log.error("Error updating species {} for admin '{}': {}", id, principal.getName(), e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to update species"));
+            throw e;
         }
     }
 
     /**
-     * REQ-003: Admin can delete species.
+     * REQ-003: Admin can delete species
      *
      * @param id species ID to delete
      * @param principal authenticated user principal
-     * @return ResponseEntity with deletion confirmation
+     * @return ResponseEntity with no content
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSpecies(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<Void> deleteSpecies(@PathVariable Integer id, Principal principal) {
         log.info("Admin user '{}' deleting species with ID: {}", principal.getName(), id);
 
         try {
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Species deleted successfully");
-            response.put("user", principal.getName());
-            response.put("id", id);
-
+            especieService.deleteEspecie(id);
             log.debug("Species {} deleted successfully by admin: {}", id, principal.getName());
-            return ResponseEntity.ok(response);
+            return ResponseEntity.noContent().build();
 
+        } catch (IllegalStateException e) {
+            log.warn("Cannot delete species {} - has associated crops: {}", id, e.getMessage());
+            throw e;
         } catch (Exception e) {
             log.error("Error deleting species {} for admin '{}': {}", id, principal.getName(), e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to delete species"));
+            throw e;
         }
     }
 }

@@ -5,7 +5,6 @@ import com.cultivapp.cultivapp.dto.EspecieRequest;
 import com.cultivapp.cultivapp.model.Especie;
 import com.cultivapp.cultivapp.repository.CultivoRepository;
 import com.cultivapp.cultivapp.repository.EspecieRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +17,15 @@ import java.util.stream.Collectors;
  * Handles CRUD operations and business logic for species catalog
  */
 @Service
-@RequiredArgsConstructor
 public class EspecieService {
     
     private final EspecieRepository especieRepository;
     private final CultivoRepository cultivoRepository;
+    
+    public EspecieService(EspecieRepository especieRepository, CultivoRepository cultivoRepository) {
+        this.especieRepository = especieRepository;
+        this.cultivoRepository = cultivoRepository;
+    }
     
     /**
      * Get all active species (excludes soft-deleted records)

@@ -1,11 +1,11 @@
 package com.cultivapp.cultivapp.config;
 
 
-import com.cultivapp.security.CustomAccessDeniedHandler;
-import com.cultivapp.security.CustomAuthenticationEntryPoint;
-import com.cultivapp.security.JwtAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.cultivapp.cultivapp.security.CustomAccessDeniedHandler;
+import com.cultivapp.cultivapp.security.CustomAuthenticationEntryPoint;
+import com.cultivapp.cultivapp.security.JwtAuthenticationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,16 +23,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * Security configuration for CultivApp.
  * Implements role-based access control (RBAC) for Admin and Producer roles.
  */
-@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-@RequiredArgsConstructor
 public class SecurityConfig {
+    
+    private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
+                         CustomAccessDeniedHandler accessDeniedHandler,
+                         CustomAuthenticationEntryPoint authenticationEntryPoint) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.accessDeniedHandler = accessDeniedHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
 
     /**
      * Configures the security filter chain with role-based access control.
@@ -61,19 +69,21 @@ public class SecurityConfig {
                             // Public endpoints
                             .requestMatchers("/api/auth/**", "/api/public/**").permitAll()
                             .requestMatchers("/h2-console/**").permitAll()
+                            
+                            // Public species endpoints (allow all users to view species)
+                            .requestMatchers(HttpMethod.GET, "/api/especies/**").permitAll()
 
                             // Admin-only endpoints - REQ-003
-                            // Species management
-                            .requestMatchers(HttpMethod.GET, "/especies/**").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.POST, "/especies/**").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.PUT, "/especies/**").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.DELETE, "/especies/**").hasRole("ADMIN")
+                            // Species management (admin endpoints)
+                            .requestMatchers("/api/admin/especies/**").hasRole("ADMIN")
+                            
+                            // Species CUD operations (admin only)
+                            .requestMatchers(HttpMethod.POST, "/api/especies/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.PUT, "/api/especies/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/api/especies/**").hasRole("ADMIN")
 
-                            // Task management
-                            .requestMatchers(HttpMethod.GET, "/tareas/**").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.POST, "/tareas/**").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.PUT, "/tareas/**").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.DELETE, "/tareas/**").hasRole("ADMIN")
+                            // Task management (admin only)
+                            .requestMatchers("/api/admin/tareas/**").hasRole("ADMIN")
 
                             // Producer endpoints
                             .requestMatchers("/api/producer/**").hasRole("PRODUCTOR")
