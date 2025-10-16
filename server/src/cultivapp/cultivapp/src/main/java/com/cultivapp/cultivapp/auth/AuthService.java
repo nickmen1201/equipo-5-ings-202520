@@ -5,8 +5,8 @@ import com.cultivapp.cultivapp.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Map;
+import com.cultivapp.cultivapp.model.enums.Rol;
 
 /**
  * Authentication Service (REQ-001: Login)
@@ -51,4 +51,28 @@ public class AuthService {
     public static class DisabledException extends RuntimeException {
         public DisabledException(String m){ super(m); }
     }
+
+    public Usuario register(String nombre, String apellido, String email, String password) {
+        if (userRepo.findByEmail(email).isPresent()) {
+            throw new EmailAlreadyUsedException("El correo ya está registrado");
+        }
+
+        Usuario usuario = Usuario.builder()
+                .nombre(nombre)
+                .apellido(apellido)
+                .email(email)
+                .password(encoder.encode(password)) 
+                .rol(Rol.PRODUCTOR) 
+                .activo(true)
+                .build();
+
+        return userRepo.save(usuario);
+    }
+
+    // Excepciones custom
+    public static class EmailAlreadyUsedException extends RuntimeException {
+        public EmailAlreadyUsedException(String message) { super(message); }
+    }
+
+
 }

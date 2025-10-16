@@ -1,39 +1,6 @@
-/**
- * EspecieForm Component - Species Create/Edit Form (REQ-005)
- * 
- * Modal form for creating or editing a species with validation.
- * Supports both create and edit modes with the same form.
- * 
- * Fields:
- * - Common name (required)
- * - Scientific name
- * - Description
- * - Fertilization days (required)
- * - Image URL
- * - Cycle days (required)
- * - Germination days (required)
- * - Flowering days (required)
- * - Harvest days (required)
- * - Weekly water in mm
- * 
- * @author CultivApp Team
- * @version 1.0 (REQ-005)
- */
-
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-/**
- * EspecieForm Component
- * 
- * @param {Object} props - Component props
- * @param {boolean} props.isOpen - Whether modal is open
- * @param {Function} props.onClose - Callback to close modal
- * @param {Function} props.onSubmit - Callback when form is submitted
- * @param {Object} props.initialData - Initial data for edit mode (null for create)
- * @param {boolean} props.isLoading - Whether form is submitting
- * @returns {JSX.Element} Form modal component
- */
 export default function EspecieForm({ isOpen, onClose, onSubmit, initialData = null, isLoading = false }) {
     const [formData, setFormData] = useState({
         nombre: '',
@@ -50,7 +17,6 @@ export default function EspecieForm({ isOpen, onClose, onSubmit, initialData = n
 
     const [errors, setErrors] = useState({});
 
-    // Load initial data when editing
     useEffect(() => {
         if (initialData) {
             setFormData({

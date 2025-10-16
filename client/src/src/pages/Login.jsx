@@ -37,7 +37,7 @@ export default function Login() {
                 navigate('/admin');
             } else if (user.role === 'PRODUCTOR') {
                 // PRODUCTOR users go to producer dashboard  
-                navigate('/dashboard');
+                navigate('/home');
             } else {
                 // Fallback: Unknown role (should not happen)
                 // Route to generic home page

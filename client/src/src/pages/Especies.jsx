@@ -1,29 +1,8 @@
-/**
- * Especies Admin Page - Species Catalog Management (REQ-005)
- * 
- * Admin page for managing the species catalog at /admin/especies.
- * Allows admins to:
- * - View all species in a card grid
- * - Create new species
- * - Edit existing species
- * - Delete species (with validation for associated crops)
- * 
- * Features:
- * - Card-based layout with responsive grid
- * - Modal form for create/edit operations
- * - Delete confirmation dialog
- * - Error handling with user-friendly messages
- * - Loading states
- * 
- * @author CultivApp Team
- * @version 1.0 (REQ-005)
- */
-
 import React, { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import NavBar from '../Components/NavBar';
-import EspecieCard from '../Components/EspecieCard';
-import EspecieForm from '../Components/EspecieForm';
+import NavBar from '../components/NavBar';
+import EspecieCard from '../components/EspecieCard';
+import EspecieForm from '../components/EspecieForm';
 import { 
     getAllEspecies, 
     createEspecie, 
