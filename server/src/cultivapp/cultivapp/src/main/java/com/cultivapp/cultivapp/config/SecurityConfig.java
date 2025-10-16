@@ -20,8 +20,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Security configuration for CultivApp.
+ * REQ-003: Security configuration for CultivApp.
  * Implements role-based access control (RBAC) for Admin and Producer roles.
+ * Admin users have access to /admin/especies and /admin/tareas routes.
+ * Producer users are restricted from admin routes and receive 403 Forbidden.
  */
 @Configuration
 @EnableWebSecurity
@@ -43,12 +45,13 @@ public class SecurityConfig {
     }
 
     /**
-     * Configures the security filter chain with role-based access control.
+     * REQ-003: Configures the security filter chain with role-based access control.
      *
-     * Security Rules:
-     * - /especies/** endpoints: ADMIN role only
-     * - /tareas/** endpoints: ADMIN role only
-     * - /api/auth/** endpoints: Public access
+     * Security Rules (REQ-003 Compliance):
+     * - /admin/especies/** endpoints: ADMIN role only (403 for PRODUCTOR)
+     * - /admin/tareas/** endpoints: ADMIN role only (403 for PRODUCTOR)
+     * - /api/auth/** endpoints: Public access for login/register
+     * - JWT authentication required for all protected endpoints
      *
      * @param http HttpSecurity configuration
      * @return SecurityFilterChain configured security chain
