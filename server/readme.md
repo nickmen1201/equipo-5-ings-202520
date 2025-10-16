@@ -66,7 +66,36 @@ user: sa
 password: (vacío)
 ```
 
+
+---
+
 ## Estándares y prácticas
+
+# Server (Backend) — English Summary
+
+## What does this folder do?
+Spring Boot backend for CultivApp: authentication, role-based security, species and crops management.
+
+## How to install this part of the project?
+- Prerequisites: Java 21, Maven Wrapper (included).
+- From `server/src/cultivapp/cultivapp` run: `mvnw.cmd clean package -DskipTests` (Windows PowerShell).
+
+## How to run this part of the project?
+- Development: `mvnw.cmd spring-boot:run` in `server/src/cultivapp/cultivapp`.
+- Service will start on http://localhost:8080
+
+## Standards to consider
+- Spring MVC REST controllers, DTOs, and service layer separation.
+- Bean Validation (Jakarta) on requests.
+- JWT-based authentication; roles ADMIN and PRODUCTOR.
+- Prefer Javadoc on public classes (controllers/services).
+
+## Java version
+- Java 21
+
+## Database requirements
+- H2 file DB in development: configured in `src/main/resources/application.properties` and `application-dev.properties`.
+- Schema auto-created by JPA; seed data via `data.sql`.
 - Lombok para reducir código boilerplate (`@Getter/@Setter/@Builder` etc.).
 - JPA/Hibernate para persistencia.
 - JWT para autenticación; el `AuthService` genera un token con el claim `role` (rol del usuario).

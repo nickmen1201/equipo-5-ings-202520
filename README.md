@@ -1,3 +1,28 @@
+# Proyecto CultivApp - Monorepo
+
+This repository contains the full CultivApp project: a React frontend and a Spring Boot backend.
+
+## What does this folder do?
+Root folder orchestrates both applications, shared docs, and startup scripts.
+
+## How to install this part
+- No installation here. Install each app in its own folder (see `client/` and `server/`).
+
+## How to run this part
+- Use the helper scripts:
+  - Windows PowerShell: `./start-all.ps1`
+  - Batch: `start-frontend.bat` and `start-backend.bat`
+
+## Standards to consider
+- Conventional Commits for messages
+- EditorConfig/Prettier (frontend) and Checkstyle-like conventions (backend)
+
+## Language/runtime versions
+- Frontend: Node.js 20+, React 18
+- Backend: Java 21, Spring Boot 3.5.x
+
+## Database requirements
+- H2 file-based db for development (see `server/src/cultivapp/cultivapp/src/main/resources/application.properties`).
 # CultivApp
 
 **Decisiones de cultivo basadas en clima real + fenología del cultivo, sin hardware, asequible y útil.**
