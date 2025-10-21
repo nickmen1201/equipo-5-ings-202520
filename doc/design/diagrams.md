@@ -56,8 +56,3 @@ En este documento se presentan los diagramas UML que ilustran el comportamiento 
 ## 5. Diagrama de Componentes
 <img src="images/Dcomponentes-CultivApp.png" alt="Diagrama de componentes" width="700"/> 
 
-
-
-
-
-

@@ -31,21 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-# env files
-.env
-*.env
-**/.env
-**/*.env
-# node
-node_modules/
-# build outputs
-dist/
-build/
-# java/maven
-server/target/
-
-# H2 database files (runtime only)
-**/.data/
-*.lock.db
-
-JDK_SETUP_README.md
