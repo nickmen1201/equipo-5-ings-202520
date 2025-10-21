@@ -2,9 +2,13 @@ package com.cultivapp.cultivapp.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.cultivapp.cultivapp.model.enums.Estado;
+import com.cultivapp.cultivapp.model.enums.EtapaActual;
 
 // Cultivo entity: represents a farmer's crop
 // Enum stored as string to keep database portable

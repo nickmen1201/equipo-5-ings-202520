@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import CropsPage from './pages/CropsPage';
 import Especies from './pages/Especies';
+import CropForm from './Components/CropForm';
 
 
 function ProtectedRoute({ children }) {
@@ -67,6 +68,11 @@ function App() {
               <p className="text-gray-600">Página no encontrada</p>
             </div>
           </div>
+        } />
+        <Route path="/cultivo/nuevo" element={
+          <ProtectedRoute>
+            <CropForm />
+          </ProtectedRoute>
         } />
       </Routes>
     </>

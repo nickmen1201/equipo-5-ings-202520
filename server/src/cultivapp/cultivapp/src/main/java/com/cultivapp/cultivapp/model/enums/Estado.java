@@ -1,7 +1,5 @@
-package com.cultivapp.cultivapp.model;
+package com.cultivapp.cultivapp.model.enums;
 
-// Estado enumeration for crop status
-// Stored as string in database for portability
 public enum Estado {
     ACTIVO,     // Active crop
     COSECHADO,  // Harvested crop

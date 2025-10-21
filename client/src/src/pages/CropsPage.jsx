@@ -5,35 +5,33 @@ import NavBar from '../components/NavBar'
 import cropImage from'../assets/cropmage.png'
 import { IoIosAddCircle } from 'react-icons/io'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useAuth } from '../context/AuthContext'
+import { getCultivosByUsuarioId } from '../services/CultivoService'
 
 export default function CropsPage({city,image,temperature,rain}) {
-    const cultivos = [
-  {
-    nombre: "Maíz lote 1",
-    imagen: cropImage,
-    progreso: 60,
-  },
-  {
-    nombre: "Tomate invernadero",
-    imagen: cropImage,
-    progreso: 45,
-  },
-  {
-    nombre: "Fresas parcela 2",
-    imagen: cropImage,
-    progreso: 80,
-  },
-  {
-    nombre: "Café zona alta",
-    imagen: cropImage,
-    progreso: 30,
-  },
-  {
-    nombre: "Lechuga lote 3",
-    imagen: cropImage,
-    progreso: 90,
-  },
-]
+
+    const {user} = useAuth()
+
+    const [crops,setCrops] = useState([])
+
+
+ useEffect(() => {
+    if (!user?.id) return; 
+
+    console.log(user.id)
+
+    async function fetchCultivos() {
+      
+        const data = await getCultivosByUsuarioId(user.id);
+        setCrops(data);
+      
+    }
+
+    fetchCultivos();
+  }, [user?.id]);
+
+
 
   return (
     <div className=''>
@@ -57,17 +55,22 @@ export default function CropsPage({city,image,temperature,rain}) {
                 </div>
             </div>
         </div>
-        <div className='bg-[#DBEFD7] w-full p-4 '>
+        <div className='bg-[#DBEFD7] w-full p-4'>
           <div className='grid grid-cols-3 w-10/12 gap-2 '>
-            {cultivos.map(c=>(
+            {/* {cultivos.map(c=>(
                 <CropBox cropName={c.nombre} percentage={c.progreso} image={c.imagen} />
+            ))} */}{
+                crops && crops.map(c=>(
+                <CropBox cropName={c.nombre} />
             ))}
+            <Link to="/cultivo/nuevo">
             <div className="bg-white items-center justify-center p-2 flex flex-col gap-2 rounded-2xl shadow-md overflow-hidden w-full max-w-xs mx-auto transition-transform hover:scale-105">
               <IoIosAddCircle className='text-5xl text-green-200' />
               <p className="font-medium text-sm sm:text-base text-emerald-700 ">
-                Sembrar nuevo cultivo
+                Sembrar nuevo cultivo 
               </p>
             </div>
+            </Link>
           </div>
         </div>
     </div>

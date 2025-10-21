@@ -1,8 +1,7 @@
-package com.cultivapp.cultivapp.model;
+package com.cultivapp.cultivapp.model.enums;
 
-// Etapa actual enumeration for crop growth stages
-// Stored as string in database for portability
 public enum EtapaActual {
+    PREPARACION,
     GERMINACION,  // Germination stage
     CRECIMIENTO,  // Growth stage
     FLORACION,    // Flowering stage
