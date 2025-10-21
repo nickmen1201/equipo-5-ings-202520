@@ -35,7 +35,7 @@ public class CultivoService {
             c.getRendimientoKg(),
             c.getFechaCreacion(),
             c.getFechaActualizacion(),
-            c.getEspecie() != null ? c.getEspecie().getNombreComun() : null,
+            c.getEspecie() != null ? c.getEspecie().getNombre() : null,
             c.getUsuario() != null ? c.getUsuario().getId() : null
         )).collect(Collectors.toList());
     }
@@ -57,7 +57,7 @@ public class CultivoService {
         c.getRendimientoKg(),
         c.getFechaCreacion(),
         c.getFechaActualizacion(),
-        c.getEspecie() != null ? c.getEspecie().getNombreComun() : null,
+        c.getEspecie() != null ? c.getEspecie().getNombre() : null,
         c.getUsuario() != null ? c.getUsuario().getId() : null
     )).collect(Collectors.toList());
 }
