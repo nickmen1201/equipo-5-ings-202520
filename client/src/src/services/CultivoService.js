@@ -1,8 +1,19 @@
 const API_URL = 'http://localhost:8080/api/cultivos';
 
+// Helper function to get authorization headers
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : '',
+  };
+};
+
 export const getCultivosByUsuarioId = async (usuarioId) => {
   try {
-    const response = await fetch(`${API_URL}/usuario/${usuarioId}`);
+    const response = await fetch(`${API_URL}/usuario/${usuarioId}`, {
+      headers: getAuthHeaders(),
+    });
     if (!response.ok) {
       throw new Error('Error al obtener los cultivos del usuario');
     }
@@ -16,7 +27,9 @@ export const getCultivosByUsuarioId = async (usuarioId) => {
 
 export const getAllCultivos = async () => {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(API_URL, {
+      headers: getAuthHeaders(),
+    });
     if (!response.ok) {
       throw new Error('Error al obtener los cultivos');
     }
@@ -30,7 +43,9 @@ export const getAllCultivos = async () => {
 
 export const getCultivoById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/${id}`);
+    const response = await fetch(`${API_URL}/${id}`, {
+      headers: getAuthHeaders(),
+    });
     if (!response.ok) {
       throw new Error('Error al obtener el cultivo');
     }
@@ -46,9 +61,7 @@ export const createCultivo = async (cultivo) => {
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(cultivo),
     });
     if (!response.ok) {
@@ -66,9 +79,7 @@ export const updateCultivo = async (id, cultivo) => {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(cultivo),
     });
     if (!response.ok) {
@@ -86,6 +97,7 @@ export const deleteCultivo = async (id) => {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
       method: 'DELETE',
+      headers: getAuthHeaders(),
     });
     if (!response.ok) {
       throw new Error('Error al eliminar el cultivo');

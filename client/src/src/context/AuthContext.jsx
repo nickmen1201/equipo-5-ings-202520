@@ -41,7 +41,8 @@ export function AuthProvider({ children }) {
     
     // Create user object from backend response
     const userData = {
-      email: email,
+      id: data.userId, // User ID from backend
+      email: data.email, // Email from backend
       role: data.role // ADMIN or PRODUCTOR
     };
     

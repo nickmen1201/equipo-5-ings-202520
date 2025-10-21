@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,7 +16,35 @@ export default function CropForm() {
     rendimientoKg: ''
   })
 
+  const [especies, setEspecies] = useState([])
   const [message, setMessage] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  // Fetch especies when component mounts
+  useEffect(() => {
+    const fetchEspecies = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:8080/api/especies', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Error al obtener las especies')
+        }
+        const data = await response.json()
+        setEspecies(data)
+      } catch (error) {
+        console.error('Error fetching especies:', error)
+        setMessage('Error al cargar las especies')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchEspecies()
+  }, [])
 
   // Maneja los cambios en los campos del formulario
   const handleChange = (e) => {
@@ -45,9 +73,13 @@ export default function CropForm() {
     }
 
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:8080/api/cultivos', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(payload)
       })
 
@@ -76,6 +108,14 @@ export default function CropForm() {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-600">Cargando especies...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 mt-8">
       <h2 className="text-2xl font-semibold mb-4 text-green-700">Nuevo Cultivo</h2>
@@ -90,15 +130,20 @@ export default function CropForm() {
           required
         />
 
-        <input
-          type="number"
+        <select
           name="especieId"
           value={formData.especieId}
           onChange={handleChange}
-          placeholder="ID de la especie"
-          className="border p-2 rounded-md"
+          className="border p-2 pr-8 rounded-md"
           required
-        />
+        >
+          <option value="">Seleccionar especie</option>
+          {especies.map((especie) => (
+            <option key={especie.id} value={especie.id}>
+              {especie.nombre}
+            </option>
+          ))}
+        </select>
 
         <input
           type="date"
@@ -124,7 +169,7 @@ export default function CropForm() {
           name="etapaActual"
           value={formData.etapaActual}
           onChange={handleChange}
-          className="border p-2 rounded-md"
+          className="border p-2 pr-8 rounded-md"
           required
         >
           <option value="">Seleccionar etapa</option>
@@ -138,7 +183,7 @@ export default function CropForm() {
           name="estado"
           value={formData.estado}
           onChange={handleChange}
-          className="border p-2 rounded-md"
+          className="border p-2 pr-8 rounded-md"
           required
         >
           <option value="ACTIVO">Activo</option>

@@ -17,7 +17,7 @@ export default function Home() {
         <div className='flex gap-3 items-center justify-center mt-10'>
             {
             pages.map(page=>{return(
-                <PageBox page={page}  />
+                <PageBox key={page.link} page={page}  />
             )
             })
             }

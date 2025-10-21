@@ -38,11 +38,11 @@ public class AuthService {
         }
         
         String token = jwt.generate(user.getEmail(), Map.of("role", user.getRol().name()));
-        return new LoginResponse(token, user.getRol().name());
+        return new LoginResponse(token, user.getRol().name(), user.getId(), user.getEmail());
     }
 
     public record LoginRequest(String email, String password) {}
-    public record LoginResponse(String token, String role) {}
+    public record LoginResponse(String token, String role, Integer userId, String email) {}
 
     public static class AuthException extends RuntimeException {
         public AuthException(String m){ super(m); }
