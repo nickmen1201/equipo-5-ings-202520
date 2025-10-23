@@ -1,4 +1,5 @@
 const API_URL = "http://localhost:8080/api/admin/especies";
+const PUBLIC_API_URL = "http://localhost:8080/api/especies";
 
 /**
  * Get authorization header with JWT token
@@ -12,9 +13,30 @@ function getAuthHeaders() {
 }
 
 /**
- * Get all species (admin only)
+ * Get all species (public endpoint for regular users)
  */
 export async function getAllEspecies() {
+  try {
+    const response = await fetch(PUBLIC_API_URL, {
+      method: "GET",
+      headers: getAuthHeaders()
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al cargar especies");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+/**
+ * Get all species (admin only - admin endpoint)
+ */
+export async function getAllEspeciesAdmin() {
   try {
     const response = await fetch(API_URL, {
       method: "GET",

@@ -8,13 +8,15 @@ import com.cultivapp.cultivapp.model.enums.Estado;
 import com.cultivapp.cultivapp.model.enums.EtapaActual;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CultivoDTO {
+public class CultivoDetailDTO {
     private Integer id;
     private String nombre;
     private LocalDate fechaSiembra;
@@ -25,7 +27,27 @@ public class CultivoDTO {
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
     
-    private String especieNombre;
-    private String especieImagenUrl;
-    private Integer usuarioID;
+    private EspecieInfo especie;
+    private UsuarioInfo usuario;
+    
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class EspecieInfo {
+        private Integer id;
+        private String nombre;
+        private String nombreCientifico;
+        private String imagenUrl;
+        private Integer cicloDias;
+    }
+    
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UsuarioInfo {
+        private Integer id;
+        private String email;
+    }
 }

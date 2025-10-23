@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cultivapp.cultivapp.dto.CultivoDTO;
+import com.cultivapp.cultivapp.dto.CultivoDetailDTO;
 import com.cultivapp.cultivapp.model.Cultivo;
 import com.cultivapp.cultivapp.service.CultivoService;
 
@@ -38,8 +40,8 @@ public class CultivoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cultivo> getCultivoById(@PathVariable Integer id) {
-        return ResponseEntity.ok(cultivoService.getCultivoById(id));
+    public ResponseEntity<CultivoDetailDTO> getCultivoById(@PathVariable Integer id) {
+        return ResponseEntity.ok(cultivoService.getCultivoDetailById(id));
     }
 
     @PostMapping
@@ -59,9 +61,20 @@ public class CultivoController {
         cultivoService.deleteCultivo(id);
         return ResponseEntity.noContent().build();    
     }
+
+    @PatchMapping("/{id}/estado")
+    public ResponseEntity<Cultivo> toggleEstado(@PathVariable Integer id) {
+        Cultivo updated = cultivoService.toggleEstado(id);
+        return ResponseEntity.ok(updated);
+    }
   
     @ExceptionHandler(CultivoService.CultivoNotFoundException.class)
     public ResponseEntity<String> handleCultivoNotFound(CultivoService.CultivoNotFoundException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CultivoService.ArchivedCropException.class)
+    public ResponseEntity<String> handleArchivedCrop(CultivoService.ArchivedCropException ex) {
+        return ResponseEntity.status(400).body(ex.getMessage());
     }
 }

@@ -57,11 +57,8 @@ export default function CropsPage({city,image,temperature,rain}) {
         </div>
         <div className='bg-[#DBEFD7] w-full p-4'>
           <div className='grid grid-cols-3 w-10/12 gap-2 '>
-            {/* {cultivos.map(c=>(
-                <CropBox cropName={c.nombre} percentage={c.progreso} image={c.imagen} />
-            ))} */}{
-                crops && crops.map(c=>(
-                <CropBox cropName={c.nombre} />
+            {crops && crops.map(c=>(
+                <CropBox key={c.id} cropName={c.nombre} id={c.id} image={c.especieImagenUrl} />
             ))}
             <Link to="/cultivo/nuevo">
             <div className="bg-white items-center justify-center p-2 flex flex-col gap-2 rounded-2xl shadow-md overflow-hidden w-full max-w-xs mx-auto transition-transform hover:scale-105">

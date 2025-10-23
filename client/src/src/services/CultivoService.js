@@ -107,3 +107,20 @@ export const deleteCultivo = async (id) => {
     throw error;
   }
 };
+
+export const toggleEstadoCultivo = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/${id}/estado`, {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      throw new Error('Error al cambiar el estado del cultivo');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error toggling estado:', error);
+    throw error;
+  }
+};

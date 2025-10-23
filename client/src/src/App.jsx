@@ -7,6 +7,8 @@ import Register from './pages/Register';
 import CropsPage from './pages/CropsPage';
 import Especies from './pages/Especies';
 import CropForm from './Components/CropForm';
+import CultivoDetail from './pages/CultivoDetail';
+import CropEdit from './pages/CropEdit';
 
 
 function ProtectedRoute({ children }) {
@@ -35,6 +37,16 @@ function App() {
         <Route path="/cultivos" element={
           <ProtectedRoute>
             <CropsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/cultivos/:id" element={
+          <ProtectedRoute>
+            <CultivoDetail />
+          </ProtectedRoute>
+        } />
+        <Route path="/cultivos/:id/editar" element={
+          <ProtectedRoute>
+            <CropEdit />
           </ProtectedRoute>
         } />
         <Route path="/admin" element={

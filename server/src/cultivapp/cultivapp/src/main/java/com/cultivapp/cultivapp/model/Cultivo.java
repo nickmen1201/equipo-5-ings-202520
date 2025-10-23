@@ -1,5 +1,6 @@
 package com.cultivapp.cultivapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +11,6 @@ import java.time.LocalDateTime;
 import com.cultivapp.cultivapp.model.enums.Estado;
 import com.cultivapp.cultivapp.model.enums.EtapaActual;
 
-// Cultivo entity: represents a farmer's crop
-// Enum stored as string to keep database portable
 @Entity
 @Table(name = "cultivos")
 @Getter @Setter
@@ -24,14 +23,14 @@ public class Cultivo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    // Foreign key to usuarios table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario usuario;
     
-    // Foreign key to especies table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "especie_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Especie especie;
     
     @Column(nullable = false, length = 150)
@@ -62,14 +61,12 @@ public class Cultivo {
     @Column(name = "fecha_actualizacion")
     private LocalDateTime fechaActualizacion;
     
-    // Automatically set creation date before saving
     @PrePersist
     protected void onCreate() {
         fechaCreacion = LocalDateTime.now();
         fechaActualizacion = LocalDateTime.now();
     }
     
-    // Automatically update modification date before updating
     @PreUpdate
     protected void onUpdate() {
         fechaActualizacion = LocalDateTime.now();
