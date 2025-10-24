@@ -115,6 +115,8 @@ export const toggleEstadoCultivo = async (id) => {
       headers: getAuthHeaders(),
     });
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Toggle estado error:', response.status, errorText);
       throw new Error('Error al cambiar el estado del cultivo');
     }
     const data = await response.json();
