@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.cultivapp.cultivapp.model.enums.Estado;
-import com.cultivapp.cultivapp.model.enums.EtapaActual;
+import com.cultivapp.cultivapp.models.enums.Estado;
+import com.cultivapp.cultivapp.models.enums.EtapaActual;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

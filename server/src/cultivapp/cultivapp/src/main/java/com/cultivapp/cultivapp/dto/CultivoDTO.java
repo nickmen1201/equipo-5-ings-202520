@@ -1,11 +1,10 @@
 package com.cultivapp.cultivapp.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.cultivapp.cultivapp.model.enums.Estado;
-import com.cultivapp.cultivapp.model.enums.EtapaActual;
+import com.cultivapp.cultivapp.models.enums.Estado;
+import com.cultivapp.cultivapp.models.enums.EtapaActual;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class CultivoDTO {
     private Integer id;
     private String nombre;
-    private LocalDate fechaSiembra;
     private BigDecimal areaHectareas;
     private EtapaActual etapaActual;
     private Estado estado;
@@ -27,5 +25,6 @@ public class CultivoDTO {
     
     private String especieNombre;
     private String especieImagenUrl;
+    private String especieDescripcion;
     private Integer usuarioID;
 }

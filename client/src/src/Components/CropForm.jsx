@@ -9,7 +9,6 @@ export default function CropForm() {
   const [formData, setFormData] = useState({
     especieId: '',
     nombre: '',
-    fechaSiembra: '',
     areaHectareas: '',
     etapaActual: '',
     estado: 'ACTIVO',
@@ -91,7 +90,6 @@ export default function CropForm() {
       setFormData({
         especieId: '',
         nombre: '',
-        fechaSiembra: '',
         areaHectareas: '',
         etapaActual: '',
         estado: 'ACTIVO',
@@ -145,14 +143,7 @@ export default function CropForm() {
           ))}
         </select>
 
-        <input
-          type="date"
-          name="fechaSiembra"
-          value={formData.fechaSiembra}
-          onChange={handleChange}
-          className="border p-2 rounded-md"
-          required
-        />
+
 
         <input
           type="number"

@@ -153,35 +153,44 @@ export default function Login() {
                          * Placeholder: "email" (lowercase, minimal design)
                          * Focus state: Green ring (#60C37B) matches brand color
                          */}
-                        <input
-                            type="email"
-                            placeholder="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-                            required
-                            aria-label="Correo electrónico" // Accessibility: Label for screen readers
-                            autoComplete="email" // Accessibility: Enables autofill
-                        />
+                        <div className="flex flex-col">
+    <label
+      htmlFor="email"
+      className="text-gray-700 font-medium mb-1"
+    >
+      Correo electrónico
+    </label>
+    <input
+      id="email"
+      type="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+      required
+      aria-label="Correo electrónico"
+      autoComplete="email"
+    />
+  </div>
 
-                        {/* 
-                         * Password Input Field
-                         * Controlled component: value from state, updates via onChange
-                         * type="password" hides characters for security
-                         * required attribute ensures field must be filled
-                         * Placeholder: "contraseña" (Spanish for password)
-                         * Focus state: Green ring matches brand and email input
-                         */}
-                        <input
-                            type="password"
-                            placeholder="contraseña"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-                            required
-                            aria-label="Contraseña" // Accessibility: Label for screen readers
-                            autoComplete="current-password" // Accessibility: Enables autofill
-                        />
+  {/* Password Input */}
+  <div className="flex flex-col">
+    <label
+      htmlFor="password"
+      className="text-gray-700 font-medium mb-1"
+    >
+      Contraseña
+    </label>
+    <input
+      id="password"
+      type="password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+      required
+      aria-label="Contraseña"
+      autoComplete="current-password"
+    />
+  </div>
 
                         {/* 
                          * Submit Button - "Iniciar" (Start/Login)

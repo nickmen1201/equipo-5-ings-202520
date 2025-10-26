@@ -15,20 +15,6 @@ export default function Register() {
     setLoading(true);
     setError(null);
 
-    // Validate password match
-    if (password !== confirm) {
-      setError("Las contraseñas no coinciden");
-      setLoading(false);
-      return;
-    }
-
-    // Validate password length
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres");
-      setLoading(false);
-      return;
-    }
-
     try {
       const data = await registerUser(nombre, apellido, email, password);
       console.log("Usuario registrado:", data);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getCultivoById, toggleEstadoCultivo } from '../services/CultivoService';
-import NavBar from '../components/NavBar';
+import { getCultivoById, toggleEstadoCultivo } from '../services/CultivoService'
 import { FaArrowLeft } from 'react-icons/fa';
+import NavBar from '../components/NavBar';
 
 export default function CultivoDetail() {
   const { id } = useParams();
