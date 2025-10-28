@@ -30,10 +30,13 @@ export default function CultivoDetail() {
 
   const handleToggleEstado = async () => {
     try {
+      console.log('Toggling estado for cultivo:', id);
       await toggleEstadoCultivo(id);
+      console.log('Toggle successful, reloading...');
       fetchCultivo(); // Reload data
     } catch (err) {
-      alert('Error al cambiar el estado');
+      console.error('Toggle estado error:', err);
+      alert('Error al cambiar el estado: ' + err.message);
     }
   };
 

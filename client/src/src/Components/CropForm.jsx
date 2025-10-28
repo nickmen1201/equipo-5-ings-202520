@@ -61,18 +61,21 @@ export default function CropForm() {
     }
 
     const payload = {
-      usuario: { id: user.id },
-      especie: { id: Number(formData.especieId) },
+      usuarioId: parseInt(user.id),
+      especieId: parseInt(formData.especieId),
       nombre: formData.nombre,
-      fechaSiembra: formData.fechaSiembra,
       areaHectareas: parseFloat(formData.areaHectareas),
-      etapaActual: formData.etapaActual,
-      estado: formData.estado,
-      rendimientoKg: parseFloat(formData.rendimientoKg)
+      etapaActual: formData.etapaActual || null,
+      estado: formData.estado || 'ACTIVO',
+      rendimientoKg: formData.rendimientoKg ? parseFloat(formData.rendimientoKg) : null
     }
 
     try {
+      console.log('Creating cultivo with payload:', payload);
       const token = localStorage.getItem('token');
+      console.log('Token exists:', !!token);
+      console.log('Token value:', token ? token.substring(0, 20) + '...' : 'NO TOKEN');
+      
       const response = await fetch('http://localhost:8080/api/cultivos', {
         method: 'POST',
         headers: { 
@@ -82,11 +85,18 @@ export default function CropForm() {
         body: JSON.stringify(payload)
       })
 
+      console.log('Response status:', response.status);
+      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error creating cultivo:', errorText);
         throw new Error('Error al crear el cultivo')
       }
 
-      setMessage(' Cultivo creado exitosamente!')
+      const result = await response.json();
+      console.log('Created cultivo:', result);
+
+      setMessage('Cultivo creado exitosamente!')
       setFormData({
         especieId: '',
         nombre: '',
@@ -153,6 +163,7 @@ export default function CropForm() {
           onChange={handleChange}
           placeholder="Área (hectáreas)"
           className="border p-2 rounded-md"
+          min="0.01"
           required
         />
 
@@ -164,10 +175,12 @@ export default function CropForm() {
           required
         >
           <option value="">Seleccionar etapa</option>
+          <option value="PREPARACION">Preparación</option>
           <option value="GERMINACION">Germinación</option>
           <option value="CRECIMIENTO">Crecimiento</option>
           <option value="FLORACION">Floración</option>
-          <option value="COSECHA">Cosecha</option>
+          <option value="MADURACION">Maduración</option>
+          <option value="COSECHADO">Cosechado</option>
         </select>
 
         <select
@@ -178,7 +191,8 @@ export default function CropForm() {
           required
         >
           <option value="ACTIVO">Activo</option>
-          <option value="INACTIVO">Inactivo</option>
+          <option value="COSECHADO">Cosechado</option>
+          <option value="PERDIDO">Perdido</option>
         </select>
 
         <input
