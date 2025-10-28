@@ -1,27 +1,41 @@
 import React from 'react'
+import cropImage from '../assets/cropmage.png'
 
-export default function ({percentage,image,cropName}) {
-   return (
-    <div className="bg-white p-2 flex flex-col gap-2 rounded-2xl shadow-md overflow-hidden w-full max-w-xs mx-auto transition-transform hover:scale-105">
-      <div className="relative">
-        <span className={` text-xs font-semibold px-2 py-1 rounded-full ${percentage < 50 ? 'bg-red-100 text-red-600' : 
-          percentage >=50 && percentage<75 ? 'text-blue-600 bg-blue-100' : 
-          'text-green-600 bg-green-300'}`}
-        >
-          {percentage}%
-        </span>
-      </div>
+export default function ({ percentage, image, cropName, cropSpecie, cropHectares,description }) {
+  return (
+    <div className="bg-white flex flex-col rounded-2xl shadow-lg overflow-hidden w-full max-w-xs mx-auto transition-transform hover:scale-105">
+      {/* Imagen superior */}
       <img
-          src={image}
-          alt={cropName}
-          className="rounded-2xl w-11/12 h-36 object-cover sm:h-40 md:h-32 lg:h-32 bg-amber-700"
-        />
-      <div className="p-3">
-        <p className="text-gray-800 font-medium text-sm sm:text-base truncate">
-          {cropName}
+        src={image || cropImage}
+        alt={cropName}
+        className="w-full h-40 object-cover"
+      />
+
+      {/* Contenido central */}
+      <div className="flex flex-col items-center text-center px-4 py-3">
+        
+        <h2 className="font-bold text-xl text-gray-800">{cropName}</h2>
+        <p className="text-gray-500 text-sm mb-2">{cropSpecie}</p>
+        <p className="text-gray-600 text-sm">
+          {description}
         </p>
       </div>
-    </div>
-  );
-}
 
+      {/* Franja inferior tipo “stats” */}
+      <div className="flex justify-around bg-emerald-700 text-white py-2 text-center text-sm font-semibold rounded-b-2xl">
+        <div>
+          <p>{cropHectares} ha</p>
+          <span className="text-xs font-normal">ÁREA</span>
+        </div>
+        <div>
+          <p>{percentage}%</p>
+          <span className="text-xs font-normal">PROGRESO</span>
+        </div>
+        <div>
+          <p>12</p>
+          <span className="text-xs font-normal">TAREAS</span>
+        </div>
+      </div>
+    </div>
+  )
+}

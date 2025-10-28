@@ -1,12 +1,17 @@
 package com.cultivapp.cultivapp.auth;
 
-import com.cultivapp.cultivapp.model.Usuario;
-import com.cultivapp.cultivapp.repository.UsuarioRepository;
-import lombok.RequiredArgsConstructor;
+
+
+import java.util.Map;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import com.cultivapp.cultivapp.model.enums.Rol;
+
+import com.cultivapp.cultivapp.models.Usuario;
+import com.cultivapp.cultivapp.models.enums.Roles;
+import com.cultivapp.cultivapp.repositories.UsuarioRepository;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Authentication Service (REQ-001: Login)
@@ -38,11 +43,11 @@ public class AuthService {
         }
         
         String token = jwt.generate(user.getEmail(), Map.of("role", user.getRol().name()));
-        return new LoginResponse(token, user.getRol().name());
+        return new LoginResponse(token, user.getRol().name(),user.getId());
     }
 
     public record LoginRequest(String email, String password) {}
-    public record LoginResponse(String token, String role) {}
+    public record LoginResponse(String token, String role,Integer id) {}
 
     public static class AuthException extends RuntimeException {
         public AuthException(String m){ super(m); }
@@ -62,7 +67,7 @@ public class AuthService {
                 .apellido(apellido)
                 .email(email)
                 .password(encoder.encode(password)) 
-                .rol(Rol.PRODUCTOR) 
+                .rol(Roles.PRODUCTOR) 
                 .activo(true)
                 .build();
 

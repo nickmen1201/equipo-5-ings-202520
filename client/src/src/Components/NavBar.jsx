@@ -46,7 +46,7 @@ export default function NavBar() {
      * Flexbox layout: logo left, user controls right
      * Horizontal padding (px-4), vertical padding (py-2)
      */
-    <nav className="bg-[#60C37B] flex justify-between items-center px-4 py-2">
+    <nav className="bg-[#60C37B] flex justify-between items-center px-4 py-5">
       
       {/* 
        * LEFT SECTION: Logo and Branding
@@ -138,7 +138,7 @@ export default function NavBar() {
          */}
         <button
           onClick={logout}
-          className="text-white text-sm px-3 py-1 rounded hover:bg-white hover:bg-opacity-20 transition"
+          className="text-white text-sm px-3 py-1 rounded bg-green-700 hover:bg-emerald-700 transition duration-300 cursor-pointer"
           aria-label="Cerrar sesión" // Accessibility: Screen reader label
         >
           Cerrar Sesión

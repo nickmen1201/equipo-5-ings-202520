@@ -1,10 +1,17 @@
 package com.cultivapp.cultivapp.auth;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import com.cultivapp.cultivapp.model.Usuario;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cultivapp.cultivapp.models.Usuario;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Authentication Controller (REQ-001: Login)
@@ -25,7 +32,7 @@ public class AuthController {
      * POST /api/auth/login
      * Request: { "email": "user@example.com", "password": "password123" }
      * Response: { "token": "eyJhbGci...", "role": "ADMIN" }
-     */
+     */   
     @PostMapping("/login")
     public ResponseEntity<AuthService.LoginResponse> login(@RequestBody AuthService.LoginRequest body){
         var res = auth.login(body.email(), body.password());
@@ -42,7 +49,7 @@ public class AuthController {
         return ResponseEntity.status(403).body(new ErrorMsg(ex.getMessage()));
     }
 
-       @PostMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest body) {
     try {
         Usuario nuevoUsuario = auth.register(
@@ -59,13 +66,14 @@ public class AuthController {
             nuevoUsuario.getApellido(),
             nuevoUsuario.getRol().name()
         ));
-    }catch (AuthService.EmailAlreadyUsedException ex) {
+    }
+    catch (AuthService.EmailAlreadyUsedException ex) {
         return ResponseEntity.badRequest().body(new ErrorMsg(ex.getMessage()));
     }
-    }
+}
 
-    // DTOs
-    public record RegisterRequest(String nombre, String apellido, String email, String password) {}
-    record RegisterResponse(Integer id, String email, String nombre, String apellido, String rol) {}
-    record ErrorMsg(String message){}
+// DTOs
+public record RegisterRequest(String nombre, String apellido, String email, String password) {}
+record RegisterResponse(Integer id, String email, String nombre, String apellido, String rol) {}
+record ErrorMsg(String message){}
 }
