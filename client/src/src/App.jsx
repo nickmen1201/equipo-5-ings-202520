@@ -86,6 +86,11 @@ function App() {
             <CropForm />
           </ProtectedRoute>
         } />
+        <Route path="/admin/motor" element={
+          <ProtectedRoute>
+            <CropForm />
+        </ProtectedRoute>
+        } />
       </Routes>
     </>
   )
