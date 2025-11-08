@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JWT Authentication Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>JWT Authentication Test - CultivApp</h1>
+    
+    <div class="test">
+        <h2>1. Login Test</h2>
+        <input type="text" id="email" placeholder="Email" value="admin@cultivapp.com">
+        <input type="password" id="password" placeholder="Password" value="admin123">
+        <button onclick="testLogin()">Login</button>
+        <div id="loginResult"></div>
+    </div>
+
+    <div class="test">
+        <h2>2. Create Cultivo Test (Authenticated)</h2>
+        <button onclick="testCreateCultivo()">Create Cultivo</button>
+        <div id="createResult"></div>
+    </div>
+
+    <div class="test">
+        <h2>3. Get Cultivos Test (Authenticated)</h2>
+        <button onclick="testGetCultivos()">Get Cultivos</button>
+        <div id="getResult"></div>
+    </div>
+
+    <script>
+        let token = null;
+        let userId = null;
+
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('loginResult');
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    token = data.token;
+                    userId = data.id;
+                    resultDiv.className = 'success';
+                    resultDiv.innerHTML = `
+                        <h3>✓ Login Successful!</h3>
+                        <p><strong>Token:</strong> ${token.substring(0, 50)}...</p>
+                        <p><strong>User ID:</strong> ${userId}</p>
+                        <p><strong>Role:</strong> ${data.role}</p>
+                    `;
+                } else {
+                    resultDiv.className = 'error';
+                    resultDiv.innerHTML = `<h3>✗ Login Failed</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = `<h3>✗ Error</h3><pre>${error.message}</pre>`;
+            }
+        }
+
+        async function testCreateCultivo() {
+            const resultDiv = document.getElementById('createResult');
+            
+            if (!token) {
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = '<h3>✗ Please login first!</h3>';
+                return;
+            }
+
+            const cultivoData = {
+                especieId: 1,
+                usuarioId: userId,
+                areaHectareas: 5.5,
+                ubicacion: "Test Location",
+                etapaActual: "GERMINACION",
+                estado: "ACTIVO",
+                rendimientoKg: null
+            };
+
+            try {
+                console.log('Sending create request with token:', token.substring(0, 20) + '...');
+                const response = await fetch('http://localhost:8080/api/cultivos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(cultivoData)
+                });
+
+                console.log('Response status:', response.status);
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                if (response.ok) {
+                    const data = JSON.parse(responseText);
+                    resultDiv.className = 'success';
+                    resultDiv.innerHTML = `
+                        <h3>✓ Cultivo Created Successfully!</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.className = 'error';
+                    resultDiv.innerHTML = `
+                        <h3>✗ Failed with status ${response.status}</h3>
+                        <p><strong>This was the previous issue - if you see 401, the fix didn't work</strong></p>
+                        <pre>${responseText}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = `<h3>✗ Error</h3><pre>${error.message}</pre>`;
+            }
+        }
+
+        async function testGetCultivos() {
+            const resultDiv = document.getElementById('getResult');
+            
+            if (!token) {
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = '<h3>✗ Please login first!</h3>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/cultivos/usuario/${userId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.className = 'success';
+                    resultDiv.innerHTML = `
+                        <h3>✓ Cultivos Retrieved Successfully!</h3>
+                        <p><strong>Count:</strong> ${data.length}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    const errorText = await response.text();
+                    resultDiv.className = 'error';
+                    resultDiv.innerHTML = `<h3>✗ Failed with status ${response.status}</h3><pre>${errorText}</pre>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = `<h3>✗ Error</h3><pre>${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>

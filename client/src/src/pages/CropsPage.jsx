@@ -14,10 +14,13 @@ export default function CropsPage({ city, image, temperature, rain }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user?.id) return;
-
     async function fetchCultivos() {
       try {
+        if (!user?.id) {
+          console.error("Usuario no disponible");
+          setLoading(false);
+          return;
+        }
         const data = await getCultivosByUsuarioId(user.id);
         setCrops(data);
       } catch (error) {
@@ -28,14 +31,15 @@ export default function CropsPage({ city, image, temperature, rain }) {
     }
 
     fetchCultivos();
-  }, [user?.id]);
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col h-dvh">
       <NavBar />
 
       {/* Header con ciudad y clima */}
-      <header className="flex justify-between items-center bg-white shadow-sm p-4 md:p-6 border-b">
+      <header className="flex justify-between items-center bg-white shadow-sm p-2 md:p-3 border-b">
+
         <div className="flex items-center gap-3">
           <Link
             to="/home"
@@ -55,16 +59,17 @@ export default function CropsPage({ city, image, temperature, rain }) {
           </h1>
         </div>
 
-        <div className="flex gap-4">
-          <div className="rounded-xl flex flex-col p-2 items-center border bg-gray-50 w-24">
-            <TbTemperature className="text-orange-500 text-3xl mb-1" />
-            <p className="text-xl font-semibold">{temperature}°</p>
-            <p className="text-gray-500 text-sm">Temperatura</p>
+        <div className="flex gap-2 md:gap-3">
+          <div className="rounded-lg flex flex-col p-1 items-center border bg-gray-50 w-16 md:w-20">
+            <TbTemperature className="text-orange-500 text-2xl mb-0.5 md:text-3xl" />
+            <p className="text-sm md:text-base font-semibold">{temperature}°</p>
+            <p className="text-gray-500 text-[10px] md:text-xs">Temp.</p>
           </div>
-          <div className="rounded-xl flex flex-col p-2 items-center border bg-gray-50 w-24">
-            <FaCloudRain className="text-blue-500 text-3xl mb-1" />
-            <p className="text-xl font-semibold">{rain}%</p>
-            <p className="text-gray-500 text-sm">Lluvia</p>
+
+          <div className="rounded-lg flex flex-col p-1 items-center border bg-gray-50 w-16 md:w-20">
+            <FaCloudRain className="text-blue-500 text-2xl mb-0.5 md:text-3xl" />
+            <p className="text-sm md:text-base font-semibold">{rain}%</p>
+            <p className="text-gray-500 text-[10px] md:text-xs">Lluvia</p>
           </div>
         </div>
       </header>
@@ -92,7 +97,8 @@ export default function CropsPage({ city, image, temperature, rain }) {
             {crops && crops.length > 0 ? (
               crops.map((c, index) => (
                 <CropBox
-                  key={index}
+                  key={c.id || index}
+                  id={c.id}
                   cropName={c.nombre}
                   image={c.especieImagenUrl}
                   percentage={c.progreso}

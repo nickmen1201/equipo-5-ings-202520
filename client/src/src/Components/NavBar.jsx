@@ -1,21 +1,5 @@
 /**
- * Navigation Bar Component - Top App Bar with User Info (REQ-001: Login Authentication)
- * 
- * This component provides the main navigation bar displayed at the top of the application
- * for authenticated users. It shows branding, notifications, user avatar, and logout functionality.
- * 
- * Component Responsibilities:
- * - Displays CultivApp logo and branding.
- * - Shows notification bell with unread count badge.
- * - Displays user avatar (profile picture).
- * - Provides logout button to end user session.
- * - Shows current user's email for identification.
- * 
- * REQ-001 Integration:
- * - Only displayed after successful login (protected routes).
- * - Uses AuthContext to access user info and logout function.
- * - Logout button clears JWT token and redirects to login.
- * 
+  * NavBar.jsx
  * UI Design:
  * - Green background (#60C37B) matching brand color.
  * - Left: CultivApp logo with plant emoji.

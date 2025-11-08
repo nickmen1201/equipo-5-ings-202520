@@ -23,6 +23,28 @@ function ProtectedRoute({ children }) {
   return user ? children : <Navigate to="/login" replace />;
 }
 
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-600">Cargando...</p>
+      </div>
+    );
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (user.role !== 'ADMIN') {
+    return <Navigate to="/home" replace />;
+  }
+  
+  return children;
+}
+
 
 function App() {
   return (
@@ -50,7 +72,7 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/admin" element={
-          <ProtectedRoute>
+          <AdminRoute>
             <div>
               <NavBar />
               <div className="container mx-auto p-6">
@@ -60,7 +82,7 @@ function App() {
                 </p>
               </div>
             </div>
-          </ProtectedRoute>
+          </AdminRoute>
         } />
         <Route path="/home" element={
           <ProtectedRoute>
@@ -68,9 +90,9 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/admin/especies" element={
-          <ProtectedRoute>
+          <AdminRoute>
             <Especies />
-          </ProtectedRoute>
+          </AdminRoute>
         } />
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="*" element={
