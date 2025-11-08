@@ -128,17 +128,16 @@ public class CultivoService {
         Especie especie = especieRepository.findById(request.getEspecieId())
             .orElseThrow(() -> new RuntimeException("Especie no encontrada"));
         
-        // Build Cultivo entity with fechaSiembra defaulting to today if not provided
-        Cultivo cultivo = Cultivo.builder()
-            .nombre(request.getNombre())
-            .areaHectareas(request.getAreaHectareas())
-            .etapaActual(request.getEtapaActual())
-            .estado(request.getEstado())
-            .rendimientoKg(request.getRendimientoKg())
-            .fechaSiembra(request.getFechaSiembra() != null ? request.getFechaSiembra() : LocalDate.now())
-            .usuario(usuario)
-            .especie(especie)
-            .build();
+        // Create Cultivo entity with fechaSiembra defaulting to today
+        Cultivo cultivo = new Cultivo();
+        cultivo.setNombre(request.getNombre());
+        cultivo.setAreaHectareas(request.getAreaHectareas());
+        cultivo.setEtapaActual(request.getEtapaActual());
+        cultivo.setEstado(request.getEstado());
+        cultivo.setRendimientoKg(request.getRendimientoKg());
+        cultivo.setFechaSiembra(request.getFechaSiembra() != null ? request.getFechaSiembra() : LocalDate.now());
+        cultivo.setUsuario(usuario);
+        cultivo.setEspecie(especie);
         
         Cultivo saved = cultivoRepository.save(cultivo);
         

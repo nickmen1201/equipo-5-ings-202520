@@ -6,9 +6,11 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import CropsPage from './pages/CropsPage';
 import Especies from './pages/Especies';
-import CropForm from './Components/CropForm';
+import CropForm from './components/CropForm';
 import CultivoDetail from './pages/CultivoDetail';
 import CropEdit from './pages/CropEdit';
+import AdminHome from './pages/AdminHome';
+import RulesPage from './pages/RulesPage';
 
 
 function ProtectedRoute({ children }) {
@@ -73,15 +75,7 @@ function App() {
         } />
         <Route path="/admin" element={
           <AdminRoute>
-            <div>
-              <NavBar />
-              <div className="container mx-auto p-6">
-                <h1 className="text-3xl font-semibold mb-4">Panel de Administración</h1>
-                <p className="text-gray-600">
-                  Bienvenido al panel de administración de CultivApp.
-                </p>
-              </div>
-            </div>
+            <AdminHome />
           </AdminRoute>
         } />
         <Route path="/home" element={
@@ -92,6 +86,11 @@ function App() {
         <Route path="/admin/especies" element={
           <AdminRoute>
             <Especies />
+          </AdminRoute>
+        } />
+        <Route path="/admin/motor" element={
+          <AdminRoute>
+            <RulesPage />
           </AdminRoute>
         } />
         <Route path="/" element={<Navigate to="/login" replace />} />
@@ -107,11 +106,6 @@ function App() {
           <ProtectedRoute>
             <CropForm />
           </ProtectedRoute>
-        } />
-        <Route path="/admin/motor" element={
-          <ProtectedRoute>
-            <CropForm />
-        </ProtectedRoute>
         } />
       </Routes>
     </>

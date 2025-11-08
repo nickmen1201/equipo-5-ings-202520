@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cultivapp.cultivapp.dto.ReglaRequest;
 import com.cultivapp.cultivapp.models.Regla;
+import com.cultivapp.cultivapp.models.enums.TipoRegla;
 import com.cultivapp.cultivapp.services.ReglaService;
 
 import jakarta.validation.Valid;

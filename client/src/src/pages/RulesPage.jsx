@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
-import RuleBox from '../Components/RuleBox'
+import RuleBox from '../components/RuleBox'
 import { createRegla,deleteRegla,getAllReglas,getTiposDeReglas } from "../services/ReglaService";
 import { TiPointOfInterest } from 'react-icons/ti';
 
@@ -80,10 +80,10 @@ export default function RulesPage() {
     
 
     return (
-           <div className="h-screen bg-gray-100 flex ">
+           <div className="min-h-screen bg-gray-100">
             <NavBar />
-                <main className="max-w-7xl mx-auto  flex flex-col lg:flex-row gap-6 mt-16  items-center ">
-                <div className="bg-white  shadow-md rounded-lg p-6 h-9/12">
+                <main className="container mx-auto px-4 py-6 flex flex-col lg:flex-row gap-6">
+                <div className="bg-white shadow-md rounded-lg p-6 lg:w-1/2">
                     <h1 className="text-2xl font-semibold text-gray-800 mb-4">MOTOR DE REGLAS</h1>
 
                     <form className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end" onSubmit={handleSubmit}>
@@ -139,15 +139,15 @@ export default function RulesPage() {
                         </div>
                     </section>
                 </div>
-                 <aside className="w-full h-11/12  rounded-xl p-6 flex flex-col gap-5 overflow-hidden ">
+                 <aside className="lg:w-1/2 flex flex-col gap-5">
                         <div className='bg-gray-200 p-4 rounded-2xl'>
                             <h2 className="text-lg font-semibold text-gray-800 mb-3">
                             Tipo de regla
                             </h2>
                             <div className="flex flex-wrap gap-3">
                                 {
-                                    tiposRegla.map(tipo =>(
-                                        <button className="px-3 py-1.5 rounded-md bg-green-700 text-white hover:bg-green-700 transition">
+                                    tiposRegla.map((tipo, index) =>(
+                                        <button key={index} className="px-3 py-1.5 rounded-md bg-green-700 text-white hover:bg-green-800 transition">
                                              {tipo}
                                         </button>
                                     ) )
@@ -155,7 +155,7 @@ export default function RulesPage() {
                             </div>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto bg-white rounded-lg shadow-inner p-4 space-y-3 max-h-[70vh] aside-rules">
+                        <div className="flex-1 overflow-y-auto bg-white rounded-lg shadow-md p-4 space-y-3 max-h-[calc(100vh-300px)]">
                             {
                                 rules.map((r,i)=>{return <RuleBox key={i} id={r.id} descripcion={r.descripcion} tipo={r.tipo} intervaloDias={r.intervaloDias} onDelete={handleDelete} /> })
                             }

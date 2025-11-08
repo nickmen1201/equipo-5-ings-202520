@@ -18,9 +18,9 @@ const pages = [
 
 const adminPages = [
   {
-    name: 'Administrar Especies',
-    link: '/admin/especies',
-    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=300&fit=crop',
+    name: 'Panel de Administración',
+    link: '/admin',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=300&fit=crop',
   },
 ]
 

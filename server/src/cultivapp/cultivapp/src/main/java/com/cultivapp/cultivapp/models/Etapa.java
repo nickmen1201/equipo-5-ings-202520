@@ -1,11 +1,7 @@
 package com.cultivapp.cultivapp.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.cultivapp.cultivapp.models.enums.EtapaActual;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// Etapa entity: represents a crop growth stage for rules
+// Etapa entity: represents a crop growth stage
 @Entity
 @Table(name = "etapas")
 @Getter @Setter
@@ -42,8 +37,4 @@ public class Etapa {
     @ManyToOne
     @JoinColumn(name = "especie_id")
     private Especie especie;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "etapa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Regla> reglas = new ArrayList<>();
 }
