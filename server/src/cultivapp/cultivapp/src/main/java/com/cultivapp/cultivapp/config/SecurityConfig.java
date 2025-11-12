@@ -85,6 +85,9 @@ public class SecurityConfig {
                             // Task management (admin only)
                             .requestMatchers("/api/admin/tareas/**").hasRole("ADMIN")
 
+                            // Crop management - authenticated users (PRODUCTOR)
+                            .requestMatchers("/api/cultivos/**").authenticated()
+
                             // Producer endpoints
                             .requestMatchers("/api/producer/**").hasRole("PRODUCTOR")
 

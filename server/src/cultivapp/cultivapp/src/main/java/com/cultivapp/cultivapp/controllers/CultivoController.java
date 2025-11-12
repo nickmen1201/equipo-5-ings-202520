@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cultivapp.cultivapp.dto.CultivoDTO;
 import com.cultivapp.cultivapp.dto.CultivoDetailDTO;
+import com.cultivapp.cultivapp.dto.CultivoRequest;
 import com.cultivapp.cultivapp.models.Cultivo;
 import com.cultivapp.cultivapp.services.CultivoService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -43,14 +45,14 @@ public class CultivoController {
     }
 
     @PostMapping
-    public ResponseEntity<Cultivo> createCultivo(@RequestBody Cultivo cultivo) {
-        Cultivo created = cultivoService.createCultivo(cultivo);
+    public ResponseEntity<CultivoDTO> createCultivo(@Valid @RequestBody CultivoRequest request) {
+        CultivoDTO created = cultivoService.createCultivo(request);
         return ResponseEntity.ok(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cultivo> updateCultivo(@PathVariable Integer id, @RequestBody Cultivo cultivo) {
-        Cultivo updated = cultivoService.updateCultivo(id, cultivo);
+    public ResponseEntity<CultivoDTO> updateCultivo(@PathVariable Integer id, @Valid @RequestBody CultivoRequest request) {
+        CultivoDTO updated = cultivoService.updateCultivo(id, request);
         return ResponseEntity.ok(updated);
     }
 
@@ -61,8 +63,8 @@ public class CultivoController {
     }
 
     @PatchMapping("/{id}/estado")
-    public ResponseEntity<Cultivo> toggleEstado(@PathVariable Integer id) {
-        Cultivo updated = cultivoService.toggleEstado(id);
+    public ResponseEntity<CultivoDTO> toggleEstado(@PathVariable Integer id) {
+        CultivoDTO updated = cultivoService.toggleEstado(id);
         return ResponseEntity.ok(updated);
     }
   

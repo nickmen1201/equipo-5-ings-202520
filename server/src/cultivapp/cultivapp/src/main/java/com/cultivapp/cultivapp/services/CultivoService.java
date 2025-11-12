@@ -1,6 +1,7 @@
 package com.cultivapp.cultivapp.services;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,9 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.cultivapp.cultivapp.dto.CultivoDTO;
 import com.cultivapp.cultivapp.dto.CultivoDetailDTO;
+import com.cultivapp.cultivapp.dto.CultivoRequest;
 import com.cultivapp.cultivapp.models.Cultivo;
+import com.cultivapp.cultivapp.models.Especie;
+import com.cultivapp.cultivapp.models.Usuario;
 import com.cultivapp.cultivapp.models.enums.Estado;
 import com.cultivapp.cultivapp.repositories.CultivoRepository;
+import com.cultivapp.cultivapp.repositories.EspecieRepository;
+import com.cultivapp.cultivapp.repositories.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class CultivoService {
 
     private final CultivoRepository cultivoRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final EspecieRepository especieRepository;
 
 
     public List<CultivoDTO> getAllCultivos() {
@@ -99,6 +107,7 @@ public class CultivoService {
         return CultivoDetailDTO.builder()
             .id(cultivo.getId())
             .nombre(cultivo.getNombre())
+            .fechaSiembra(cultivo.getFechaCreacion() != null ? cultivo.getFechaCreacion().toLocalDate() : null)
             .areaHectareas(cultivo.getAreaHectareas())
             .etapaActual(cultivo.getEtapaActual())
             .estado(cultivo.getEstado())
@@ -111,12 +120,48 @@ public class CultivoService {
     }
 
 
-    public Cultivo createCultivo(Cultivo cultivo) {
-        return cultivoRepository.save(cultivo);
+    public CultivoDTO createCultivo(CultivoRequest request) {
+        // Fetch full entities from database
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
+        Especie especie = especieRepository.findById(request.getEspecieId())
+            .orElseThrow(() -> new RuntimeException("Especie no encontrada"));
+        
+        // Create Cultivo entity with fechaSiembra defaulting to today
+        Cultivo cultivo = new Cultivo();
+        cultivo.setNombre(request.getNombre());
+        cultivo.setAreaHectareas(request.getAreaHectareas());
+        cultivo.setEtapaActual(request.getEtapaActual());
+        cultivo.setEstado(request.getEstado());
+        cultivo.setRendimientoKg(request.getRendimientoKg());
+        cultivo.setFechaSiembra(request.getFechaSiembra() != null ? request.getFechaSiembra() : LocalDate.now());
+        cultivo.setUsuario(usuario);
+        cultivo.setEspecie(especie);
+        
+        Cultivo saved = cultivoRepository.save(cultivo);
+        
+        // Return DTO to avoid lazy-loading issues
+        return new CultivoDTO(
+            saved.getId(),
+            saved.getNombre(),
+            saved.getAreaHectareas(),
+            saved.getEtapaActual(),
+            saved.getEstado(),
+            saved.getRendimientoKg(),
+            saved.getFechaCreacion(),
+            saved.getFechaActualizacion(),
+            saved.getEspecie() != null ? saved.getEspecie().getNombre() : null,
+            saved.getEspecie() != null ? saved.getEspecie().getImagenUrl() : null,
+            saved.getEspecie() != null ? saved.getEspecie().getDescripcion() : null,
+            saved.getUsuario() != null ? saved.getUsuario().getId() : null
+        );
     }
 
 
-    public Cultivo updateCultivo(Integer id, Cultivo updated) {
+
+
+    public CultivoDTO updateCultivo(Integer id, CultivoRequest request) {
         Cultivo existing = getCultivoById(id);
 
         // Prevent editing archived crops
@@ -125,18 +170,51 @@ public class CultivoService {
             throw new ArchivedCropException("No editable mientras esté archivado o perdido");
         }
 
-        existing.setNombre(updated.getNombre());
-        existing.setEspecie(updated.getEspecie());
-        existing.setUsuario(updated.getUsuario());
-        existing.setAreaHectareas(updated.getAreaHectareas());
-        existing.setEtapaActual(updated.getEtapaActual());
-        existing.setEstado(updated.getEstado());
-        existing.setRendimientoKg(updated.getRendimientoKg());
+        // Debug logging
+        System.out.println("UPDATE REQUEST - ID: " + id);
+        System.out.println("  Current area: " + existing.getAreaHectareas());
+        System.out.println("  New area from request: " + request.getAreaHectareas());
 
-        return cultivoRepository.save(existing);
+        // Fetch full entities from database
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
+        Especie especie = especieRepository.findById(request.getEspecieId())
+            .orElseThrow(() -> new RuntimeException("Especie no encontrada"));
+
+        // Update fields
+        existing.setNombre(request.getNombre());
+        existing.setAreaHectareas(request.getAreaHectareas());
+        System.out.println("  After setter: " + existing.getAreaHectareas());
+        existing.setEtapaActual(request.getEtapaActual());
+        existing.setEstado(request.getEstado());
+        existing.setRendimientoKg(request.getRendimientoKg());
+        if (request.getFechaSiembra() != null) {
+            existing.setFechaSiembra(request.getFechaSiembra());
+        }
+        existing.setUsuario(usuario);
+        existing.setEspecie(especie);
+
+        Cultivo saved = cultivoRepository.save(existing);
+        
+        // Return DTO to avoid lazy-loading issues
+        return new CultivoDTO(
+            saved.getId(),
+            saved.getNombre(),
+            saved.getAreaHectareas(),
+            saved.getEtapaActual(),
+            saved.getEstado(),
+            saved.getRendimientoKg(),
+            saved.getFechaCreacion(),
+            saved.getFechaActualizacion(),
+            saved.getEspecie() != null ? saved.getEspecie().getNombre() : null,
+            saved.getEspecie() != null ? saved.getEspecie().getImagenUrl() : null,
+            saved.getEspecie() != null ? saved.getEspecie().getDescripcion() : null,
+            saved.getUsuario() != null ? saved.getUsuario().getId() : null
+        );
     }
 
-    public Cultivo toggleEstado(Integer id) {
+    public CultivoDTO toggleEstado(Integer id) {
         Cultivo existing = getCultivoById(id);
         
         // Toggle between ACTIVO and COSECHADO
@@ -146,7 +224,23 @@ public class CultivoService {
             existing.setEstado(Estado.ACTIVO);
         }
         
-        return cultivoRepository.save(existing);
+        Cultivo saved = cultivoRepository.save(existing);
+        
+        // Return DTO to avoid lazy-loading issues
+        return new CultivoDTO(
+            saved.getId(),
+            saved.getNombre(),
+            saved.getAreaHectareas(),
+            saved.getEtapaActual(),
+            saved.getEstado(),
+            saved.getRendimientoKg(),
+            saved.getFechaCreacion(),
+            saved.getFechaActualizacion(),
+            saved.getEspecie() != null ? saved.getEspecie().getNombre() : null,
+            saved.getEspecie() != null ? saved.getEspecie().getImagenUrl() : null,
+            saved.getEspecie() != null ? saved.getEspecie().getDescripcion() : null,
+            saved.getUsuario() != null ? saved.getUsuario().getId() : null
+        );
     }
 
 

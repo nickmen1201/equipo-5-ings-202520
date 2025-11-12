@@ -3,6 +3,7 @@ const API_URL = 'http://localhost:8080/api/cultivos';
 // Helper function to get authorization headers
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
+  console.log('getAuthHeaders - Token exists:', !!token);
   return {
     'Content-Type': 'application/json',
     'Authorization': token ? `Bearer ${token}` : '',
@@ -11,13 +12,18 @@ const getAuthHeaders = () => {
 
 export const getCultivosByUsuarioId = async (usuarioId) => {
   try {
-    const response = await fetch(`${API_URL}/usuario/${usuarioId}`, {
+    console.log('Calling API with usuarioId:', usuarioId);
+    const url = `${API_URL}/usuario/${usuarioId}`;
+    console.log('Full URL:', url);
+    const response = await fetch(url, {
       headers: getAuthHeaders(),
     });
+    console.log('Response status:', response.status);
     if (!response.ok) {
       throw new Error('Error al obtener los cultivos del usuario');
     }
     const data = await response.json();
+    console.log('Data received from API:', data);
     return data;
   } catch (error) {
     console.error('Error fetching cultivos:', error);
@@ -59,15 +65,20 @@ export const getCultivoById = async (id) => {
 
 export const createCultivo = async (cultivo) => {
   try {
+    console.log('Creating cultivo with data:', cultivo);
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify(cultivo),
     });
+    console.log('Create response status:', response.status);
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Create cultivo error:', errorText);
       throw new Error('Error al crear el cultivo');
     }
     const data = await response.json();
+    console.log('Created cultivo:', data);
     return data;
   } catch (error) {
     console.error('Error creating cultivo:', error);
@@ -77,15 +88,20 @@ export const createCultivo = async (cultivo) => {
 
 export const updateCultivo = async (id, cultivo) => {
   try {
+    console.log('Updating cultivo', id, 'with data:', cultivo);
     const response = await fetch(`${API_URL}/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(cultivo),
     });
+    console.log('Update response status:', response.status);
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Update cultivo error:', errorText);
       throw new Error('Error al actualizar el cultivo');
     }
     const data = await response.json();
+    console.log('Updated cultivo:', data);
     return data;
   } catch (error) {
     console.error('Error updating cultivo:', error);

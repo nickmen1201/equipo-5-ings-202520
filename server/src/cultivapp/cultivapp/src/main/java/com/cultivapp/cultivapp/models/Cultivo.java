@@ -1,10 +1,12 @@
 package com.cultivapp.cultivapp.models;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.cultivapp.cultivapp.models.enums.Estado;
 import com.cultivapp.cultivapp.models.enums.EtapaActual;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,19 +22,15 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 // Cultivo entity: represents a farmer's crop
-// Enum stored as string to keep database portable
 @Entity
 @Table(name = "cultivos")
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Cultivo {
     
     @Id
@@ -42,11 +40,13 @@ public class Cultivo {
     // Foreign key to usuarios table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "cultivos", "alertas", "tareas"})
     private Usuario usuario;
     
     // Foreign key to especies table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "especie_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "etapas", "cultivos"})
     private Especie especie;
     
     @Column(nullable = false, length = 150)
@@ -67,6 +67,10 @@ public class Cultivo {
     
     @Column(name = "rendimiento_kg", precision = 8, scale = 2)
     private BigDecimal rendimientoKg;
+    
+    // Planting date - required by database
+    @Column(name = "fecha_siembra", nullable = false)
+    private LocalDate fechaSiembra;
     
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;

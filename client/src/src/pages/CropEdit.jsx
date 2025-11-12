@@ -11,8 +11,10 @@ export default function CropEdit() {
   const [especies, setEspecies] = useState([]);
   const [formData, setFormData] = useState({
     nombre: '',
-    fechaSiembra: '',
     areaHectareas: '',
+    etapaActual: '',
+    estado: '',
+    rendimientoKg: '',
     especie: { id: '' },
     usuario: { id: '' }
   });
@@ -32,8 +34,10 @@ export default function CropEdit() {
       
       setFormData({
         nombre: cultivoData.nombre,
-        fechaSiembra: cultivoData.fechaSiembra,
         areaHectareas: cultivoData.areaHectareas,
+        etapaActual: cultivoData.etapaActual || '',
+        estado: cultivoData.estado || 'ACTIVO',
+        rendimientoKg: cultivoData.rendimientoKg || '',
         especie: { id: cultivoData.especie.id },
         usuario: { id: cultivoData.usuario.id }
       });
@@ -66,13 +70,25 @@ export default function CropEdit() {
     e.preventDefault();
     setError('');
 
-    if (!formData.nombre || !formData.fechaSiembra || !formData.areaHectareas || !formData.especie.id) {
+    if (!formData.nombre || !formData.areaHectareas || !formData.especie.id) {
       setError('Todos los campos son obligatorios');
       return;
     }
 
+    const payload = {
+      usuarioId: parseInt(formData.usuario.id),
+      especieId: parseInt(formData.especie.id),
+      nombre: formData.nombre,
+      areaHectareas: parseFloat(formData.areaHectareas),
+      etapaActual: formData.etapaActual || null,
+      estado: formData.estado || 'ACTIVO',
+      rendimientoKg: formData.rendimientoKg ? parseFloat(formData.rendimientoKg) : null
+    };
+
     try {
-      await updateCultivo(id, formData);
+      console.log('Submitting edit payload:', payload);
+      console.log('Area value:', formData.areaHectareas, '-> parsed:', parseFloat(formData.areaHectareas));
+      await updateCultivo(id, payload);
       navigate(`/cultivos/${id}`);
     } catch (err) {
       if (err.message.includes('archivado')) {
@@ -122,36 +138,15 @@ export default function CropEdit() {
 
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Especie <span className="text-red-500">*</span>
-            </label>
-            <select
-              name="especieId"
-              value={formData.especie.id}
-              onChange={handleChange}
-              className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              required
-            >
-              <option value="">Selecciona una especie</option>
-              {especies.map((especie) => (
-                <option key={especie.id} value={especie.id}>
-                  {especie.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Fecha de siembra <span className="text-red-500">*</span>
+              Especie
             </label>
             <input
-              type="date"
-              name="fechaSiembra"
-              value={formData.fechaSiembra}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              required
+              type="text"
+              value={especies.find(e => e.id === formData.especie.id)?.nombre || 'Cargando...'}
+              disabled
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
             />
+            <p className="text-sm text-gray-500 mt-1">La especie no puede ser modificada</p>
           </div>
 
           <div>
@@ -164,9 +159,60 @@ export default function CropEdit() {
               value={formData.areaHectareas}
               onChange={handleChange}
               step="0.01"
-              min="0"
+              min="0.01"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Etapa Actual
+            </label>
+            <select
+              name="etapaActual"
+              value={formData.etapaActual}
+              onChange={handleChange}
+              className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            >
+              <option value="">Seleccionar etapa</option>
+              <option value="PREPARACION">Preparación</option>
+              <option value="GERMINACION">Germinación</option>
+              <option value="CRECIMIENTO">Crecimiento</option>
+              <option value="FLORACION">Floración</option>
+              <option value="MADURACION">Maduración</option>
+              <option value="COSECHADO">Cosechado</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Estado
+            </label>
+            <select
+              name="estado"
+              value={formData.estado}
+              onChange={handleChange}
+              className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            >
+              <option value="ACTIVO">Activo</option>
+              <option value="COSECHADO">Cosechado</option>
+              <option value="PERDIDO">Perdido</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Rendimiento (kg)
+            </label>
+            <input
+              type="number"
+              name="rendimientoKg"
+              value={formData.rendimientoKg}
+              onChange={handleChange}
+              step="0.01"
+              min="0"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
             />
           </div>
 
