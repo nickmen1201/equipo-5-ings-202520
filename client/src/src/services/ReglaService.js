@@ -10,7 +10,6 @@ const getAuthHeaders = () => {
   };
 };
 
-
 export const getAllReglas = async () => {
   try {
     const response = await fetch(API_URL, {
@@ -44,6 +43,35 @@ export const getTiposDeReglas = async () => {
   }
 };
 
+/**
+ * Search reglas by one or more tipos using the backend controller
+ * GET /api/reglas/search?tipos=TIPO1&tipos=TIPO2
+ * @param {Array<string>} tipos - optional array of TipoRegla values
+ */
+export const searchReglas = async (tipos = []) => {
+  try {
+    let url = `${API_URL}/search`;
+    if (Array.isArray(tipos) && tipos.length > 0) {
+      const params = new URLSearchParams();
+      tipos.forEach(t => params.append('tipos', t));
+      url += `?${params.toString()}`;
+    }
+
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(errText || 'Error al buscar reglas');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error searching Reglas:', error);
+    throw error;
+  }
+};
 
 
 export const createRegla = async (regla) => {
@@ -66,7 +94,6 @@ export const createRegla = async (regla) => {
 };
 
 
-
 export const deleteRegla = async (id) => {
   try {
     const response = await fetch(`${API_URL}/${id}`, {
@@ -81,3 +108,4 @@ export const deleteRegla = async (id) => {
     throw error;
   }
 };
+

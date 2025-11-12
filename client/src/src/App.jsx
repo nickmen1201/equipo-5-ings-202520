@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
-import NavBar from './components/NavBar'
 import Login from './pages/Login'
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -10,7 +9,9 @@ import CropForm from './components/CropForm';
 import CultivoDetail from './pages/CultivoDetail';
 import CropEdit from './pages/CropEdit';
 import AdminHome from './pages/AdminHome';
-import RulesPage from './pages/RulesPage';
+import Rules from './pages/Rules';
+import NotificationCenter from './pages/NotificationsCenter';
+import Alertas from './Components/Alertas';
 
 
 function ProtectedRoute({ children }) {
@@ -60,7 +61,7 @@ function App() {
        
         <Route path="/cultivos" element={
           <ProtectedRoute>
-            <CropsPage />
+            <CropsPage city="Medellín" rain={30} temperature={22}  />
           </ProtectedRoute>
         } />
         <Route path="/cultivos/:id" element={
@@ -83,14 +84,14 @@ function App() {
             <Home />
           </ProtectedRoute>
         } />
+         <Route path="/alertas" element={
+          <ProtectedRoute>
+            <Alertas />
+          </ProtectedRoute>
+        } />
         <Route path="/admin/especies" element={
           <AdminRoute>
             <Especies />
-          </AdminRoute>
-        } />
-        <Route path="/admin/motor" element={
-          <AdminRoute>
-            <RulesPage />
           </AdminRoute>
         } />
         <Route path="/" element={<Navigate to="/login" replace />} />
@@ -107,6 +108,12 @@ function App() {
             <CropForm />
           </ProtectedRoute>
         } />
+        <Route path="/admin/motor" element={
+          <AdminRoute>
+            <Rules/>
+          </AdminRoute>
+        } />
+        <Route path="/notificaciones" element={<NotificationCenter/>} />
       </Routes>
     </>
   )
