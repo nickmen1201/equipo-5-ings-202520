@@ -11,7 +11,7 @@ import CropEdit from './pages/CropEdit';
 import AdminHome from './pages/AdminHome';
 import Rules from './pages/Rules';
 import NotificationCenter from './pages/NotificationsCenter';
-import Alertas from './Components/Alertas';
+
 
 
 function ProtectedRoute({ children }) {
@@ -84,11 +84,7 @@ function App() {
             <Home />
           </ProtectedRoute>
         } />
-         <Route path="/alertas" element={
-          <ProtectedRoute>
-            <Alertas />
-          </ProtectedRoute>
-        } />
+         
         <Route path="/admin/especies" element={
           <AdminRoute>
             <Especies />
