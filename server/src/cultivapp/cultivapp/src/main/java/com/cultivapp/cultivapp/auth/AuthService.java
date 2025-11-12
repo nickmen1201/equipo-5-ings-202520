@@ -57,7 +57,7 @@ public class AuthService {
         public DisabledException(String m){ super(m); }
     }
 
-    public Usuario register(String nombre, String apellido, String email, String password) {
+    public Usuario register(String nombre, String apellido, String email, String password, String ciudad) {
         if (userRepo.findByEmail(email).isPresent()) {
             throw new EmailAlreadyUsedException("El correo ya está registrado");
         }
@@ -69,6 +69,7 @@ public class AuthService {
                 .password(encoder.encode(password)) 
                 .rol(Roles.PRODUCTOR) 
                 .activo(true)
+                .ciudad(ciudad)
                 .build();
 
         return userRepo.save(usuario);

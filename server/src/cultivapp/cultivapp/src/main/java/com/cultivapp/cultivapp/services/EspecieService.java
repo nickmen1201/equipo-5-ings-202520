@@ -20,13 +20,18 @@ import com.cultivapp.cultivapp.repositories.EspecieRepository;
  */
 @Service
 public class EspecieService {
+
+    private final NotificacionService notificacionService;
     
     private final EspecieRepository especieRepository;
     private final CultivoRepository cultivoRepository;
+    private final EtapaService etapaService;
     
-    public EspecieService(EspecieRepository especieRepository, CultivoRepository cultivoRepository) {
+    public EspecieService(EspecieRepository especieRepository, CultivoRepository cultivoRepository, EtapaService etapaService, NotificacionService notificacionService) {
         this.especieRepository = especieRepository;
         this.cultivoRepository = cultivoRepository;
+        this.etapaService = etapaService;
+        this.notificacionService = notificacionService;
     }
     
     /**
@@ -91,12 +96,7 @@ public class EspecieService {
             especie.setNombre(request.getNombre());
             especie.setNombreCientifico(request.getNombreCientifico());
             especie.setDescripcion(request.getDescripcion());
-            especie.setDiasFertilizacion(request.getDiasFertilizacion());
             especie.setImagenUrl(request.getImagenUrl());
-            especie.setCicloDias(request.getCicloDias());
-            especie.setDiasGerminacion(request.getDiasGerminacion());
-            especie.setDiasFloracion(request.getDiasFloracion());
-            especie.setDiasCosecha(request.getDiasCosecha());
             especie.setAguaSemanalMm(request.getAguaSemanalMm());
             especie.setActivo(true);  // Reactivate species
             
@@ -109,17 +109,25 @@ public class EspecieService {
             .nombre(request.getNombre())
             .nombreCientifico(request.getNombreCientifico())
             .descripcion(request.getDescripcion())
-            .diasFertilizacion(request.getDiasFertilizacion())
             .imagenUrl(request.getImagenUrl())
-            .cicloDias(request.getCicloDias())
-            .diasGerminacion(request.getDiasGerminacion())
-            .diasFloracion(request.getDiasFloracion())
-            .diasCosecha(request.getDiasCosecha())
             .aguaSemanalMm(request.getAguaSemanalMm())
             .activo(true)
             .build();
         
         Especie saved = especieRepository.save(especie);
+
+        String mensaje = "Nueva Especie Añadida: " + saved.getNombre();
+
+        notificacionService.createNotificacionParaTodos(mensaje);
+
+        // Crear las etapas asociadas
+        if (request.getEtapas() != null) {
+            for (EtapaRequest etapaRequest : request.getEtapas()) {
+                etapaRequest.setEspecieId(saved.getId());
+                etapaService.createEtapa(etapaRequest);
+            }
+        }
+        
         return toDTO(saved);
     }
     
@@ -149,16 +157,27 @@ public class EspecieService {
         especie.setNombre(request.getNombre());
         especie.setNombreCientifico(request.getNombreCientifico());
         especie.setDescripcion(request.getDescripcion());
-        especie.setDiasFertilizacion(request.getDiasFertilizacion());
         especie.setImagenUrl(request.getImagenUrl());
-        especie.setCicloDias(request.getCicloDias());
-        especie.setDiasGerminacion(request.getDiasGerminacion());
-        especie.setDiasFloracion(request.getDiasFloracion());
-        especie.setDiasCosecha(request.getDiasCosecha());
         especie.setAguaSemanalMm(request.getAguaSemanalMm());
         
         // Save changes to database - this persists the updates
         Especie updated = especieRepository.save(especie);
+
+        // Actualizar las etapas si se proporcionaron
+        if (request.getEtapas() != null) {
+            // Primero eliminar todas las etapas existentes
+            var etapasActuales = etapaService.getEtapasByEspecie(id);
+            for (var etapaDTO : etapasActuales) {
+                etapaService.deleteEtapa(etapaDTO.getId());
+            }
+
+            // Crear las nuevas etapas
+            for (EtapaRequest etapaRequest : request.getEtapas()) {
+                etapaRequest.setEspecieId(updated.getId());
+                etapaService.createEtapa(etapaRequest);
+            }
+        }
+        
         return toDTO(updated);
     }
     
@@ -208,20 +227,19 @@ public class EspecieService {
      * @return DTO
      */
     private EspecieDTO toDTO(Especie especie) {
-        return EspecieDTO.builder()
+        var dto = EspecieDTO.builder()
             .id(especie.getId())
             .nombre(especie.getNombre())
             .nombreCientifico(especie.getNombreCientifico())
             .descripcion(especie.getDescripcion())
-            .diasFertilizacion(especie.getDiasFertilizacion())
             .imagenUrl(especie.getImagenUrl())
-            .cicloDias(especie.getCicloDias())
-            .diasGerminacion(especie.getDiasGerminacion())
-            .diasFloracion(especie.getDiasFloracion())
-            .diasCosecha(especie.getDiasCosecha())
             .aguaSemanalMm(especie.getAguaSemanalMm())
             .activo(especie.getActivo())
             .build();
+        
+        // Agregar las etapas al DTO
+        dto.setEtapas(etapaService.getEtapasByEspecie(especie.getId()));
+        return dto;
     }
     
     // Custom exceptions

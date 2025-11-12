@@ -1,8 +1,12 @@
 package com.cultivapp.cultivapp.dto;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,26 +28,12 @@ public class EspecieRequest {
     
     private String descripcion;
     
-    @Positive(message = "Los días de fertilización deben ser positivos")
-    private Integer diasFertilizacion;
-    
     private String imagenUrl;
     
-    @NotNull(message = "El ciclo de días es obligatorio")
-    @Positive(message = "El ciclo de días debe ser positivo")
-    private Integer cicloDias;
-    
-    @NotNull(message = "Los días de germinación son obligatorios")
-    @Positive(message = "Los días de germinación deben ser positivos")
-    private Integer diasGerminacion;
-    
-    @NotNull(message = "Los días de floración son obligatorios")
-    @Positive(message = "Los días de floración deben ser positivos")
-    private Integer diasFloracion;
-    
-    @NotNull(message = "Los días de cosecha son obligatorios")
-    @Positive(message = "Los días de cosecha deben ser positivos")
-    private Integer diasCosecha;
-    
-    private Integer aguaSemanalMm;   
+    private Integer aguaSemanalMm;
+
+    @NotNull(message = "La lista de etapas es obligatoria")
+    @Size(min = 3, message = "Debe especificar al menos 3 etapas para la especie")
+    @Valid
+    private List<EtapaRequest> etapas;
 }

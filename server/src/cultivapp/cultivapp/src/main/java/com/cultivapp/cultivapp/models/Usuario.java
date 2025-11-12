@@ -2,6 +2,8 @@ package com.cultivapp.cultivapp.models;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.cultivapp.cultivapp.models.enums.Roles;
 
@@ -12,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -46,11 +49,9 @@ public class Usuario {
     
     @Column(nullable = false, length = 100)
     private String apellido;
-    
+   
+    @Column(nullable = false, length = 100)
     private String ciudad;
-    
-    @Column(length = 20)
-    private String telefono;
     
     // Enum stored as string for readability and portability
     @Enumerated(EnumType.STRING)
@@ -62,6 +63,12 @@ public class Usuario {
     
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
+
+        // Un usuario puede tener muchas notificaciones
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Notificacion> notificaciones = new ArrayList<>();
+
     
     // Automatically set registration date before saving
     @PrePersist

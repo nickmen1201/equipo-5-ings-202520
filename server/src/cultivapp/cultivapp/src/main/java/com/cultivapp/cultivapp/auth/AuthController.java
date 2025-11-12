@@ -56,7 +56,8 @@ public class AuthController {
             body.nombre(),
             body.apellido(),
             body.email(),
-            body.password()
+            body.password(),
+            body.ciudad()
         );
         
         return ResponseEntity.ok(new RegisterResponse(
@@ -73,7 +74,7 @@ public class AuthController {
 }
 
 // DTOs
-public record RegisterRequest(String nombre, String apellido, String email, String password) {}
+public record RegisterRequest(String nombre, String apellido, String email, String password,String ciudad) {}
 record RegisterResponse(Integer id, String email, String nombre, String apellido, String rol) {}
 record ErrorMsg(String message){}
 }

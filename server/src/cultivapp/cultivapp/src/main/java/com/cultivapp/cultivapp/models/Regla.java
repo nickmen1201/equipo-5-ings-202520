@@ -6,8 +6,8 @@ import com.cultivapp.cultivapp.models.enums.TipoRegla;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,13 +43,9 @@ public class Regla {
     @Column(name = "tipo")
     private TipoRegla tipo;
 
-    // Interval in days for this rule to be executed (e.g., 2 = every 2 days)
     @Column(name = "intervalo_dias")
     private Integer intervaloDias;
 
-    // Stores the last time this rule was executed
-    @Column(name = "ultima_ejecucion")
-    private LocalDateTime ultimaEjecucion;
     
     // Automatically set generation date before saving
     @PrePersist
