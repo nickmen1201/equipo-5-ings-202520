@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from '../Components/NavBar'
+import NavBar from '../components/NavBar'
 import RuleBox from '../components/RuleBox'
 import { createRegla, searchReglas, deleteRegla, getAllReglas, getTiposDeReglas } from "../services/ReglaService"
 import { FaArrowLeft } from 'react-icons/fa'

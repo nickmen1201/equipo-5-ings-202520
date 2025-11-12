@@ -30,7 +30,7 @@ export default function CropBox({ id, percentage, image, cropName, cropSpecie, c
             <span className="text-xs font-normal">ÁREA</span>
           </div>
           <div>
-            <p>{percentage || 0}%</p>
+            <p>{Math.round(percentage * 10) / 10 || 0}%</p>
             <span className="text-xs font-normal">PROGRESO</span>
           </div>
           <div>

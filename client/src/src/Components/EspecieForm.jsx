@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import CropsStage from './CropsStage';
 
-export default function EspecieForm({ isOpen, onClose, onSubmit, initialData = null, isLoading = false }) {
+export default function EspecieForm({ isOpen, onClose, onSubmit: parentOnSubmit, initialData = null, isLoading = false }) {
     const [formData, setFormData] = useState({
         nombre: '',
         nombreCientifico: '',
         descripcion: '',
-        diasFertilizacion: '',
         imagenUrl: '',
-        cicloDias: '',
-        diasGerminacion: '',
-        diasFloracion: '',
-        diasCosecha: '',
         aguaSemanalMm: ''
     });
 
     const [errors, setErrors] = useState({});
+    const [etapasFromCrops, setEtapasFromCrops] = useState([]);
 
     useEffect(() => {
+      
         if (initialData) {
             setFormData({
                 nombre: initialData.nombre || '',
                 nombreCientifico: initialData.nombreCientifico || '',
                 descripcion: initialData.descripcion || '',
-                diasFertilizacion: initialData.diasFertilizacion || '',
                 imagenUrl: initialData.imagenUrl || '',
-                cicloDias: initialData.cicloDias || '',
-                diasGerminacion: initialData.diasGerminacion || '',
-                diasFloracion: initialData.diasFloracion || '',
-                diasCosecha: initialData.diasCosecha || '',
                 aguaSemanalMm: initialData.aguaSemanalMm || ''
             });
         } else {
@@ -37,12 +30,7 @@ export default function EspecieForm({ isOpen, onClose, onSubmit, initialData = n
                 nombre: '',
                 nombreCientifico: '',
                 descripcion: '',
-                diasFertilizacion: '',
                 imagenUrl: '',
-                cicloDias: '',
-                diasGerminacion: '',
-                diasFloracion: '',
-                diasCosecha: '',
                 aguaSemanalMm: ''
             });
         }
@@ -65,7 +53,7 @@ export default function EspecieForm({ isOpen, onClose, onSubmit, initialData = n
         }
     };
 
-    // Validate form
+    // Validate form    añadir las etapas
     const validate = () => {
         const newErrors = {};
 
@@ -73,59 +61,58 @@ export default function EspecieForm({ isOpen, onClose, onSubmit, initialData = n
             newErrors.nombre = 'El nombre es obligatorio';
         }
 
-        if (!formData.cicloDias || formData.cicloDias <= 0) {
-            newErrors.cicloDias = 'El ciclo de días es obligatorio y debe ser positivo';
+        if (etapasFromCrops.length < 3) {
+            newErrors.etapas = 'Se requieren al menos 3 etapas.';
         }
 
-        if (!formData.diasGerminacion || formData.diasGerminacion <= 0) {
-            newErrors.diasGerminacion = 'Los días de germinación son obligatorios y deben ser positivos';
+        if(!newErrors.etapas){
+        for (const etapa of etapasFromCrops) {
+            if (!etapa.reglaIds || etapa.reglaIds.length < 1) {
+            newErrors.etapas = 'Cada etapa debe tener al menos 1 regla.';
+            }
         }
+        
+        }
+        // if(!newErrors.etapas){
+        // for (const etapa of etapasFromCrops) {
+        //     if (etapa.duracionDias <= 0) {
+        //     newErrors.etapas = 'Cada etapa debe durar al menos 1 dia.';
+        //     }
+        // }
+        
+        // }
 
-        if (!formData.diasFloracion || formData.diasFloracion <= 0) {
-            newErrors.diasFloracion = 'Los días de floración son obligatorios y deben ser positivos';
-        }
-
-        if (!formData.diasCosecha || formData.diasCosecha <= 0) {
-            newErrors.diasCosecha = 'Los días de cosecha son obligatorios y deben ser positivos';
-        }
-
-        if (formData.diasFertilizacion && formData.diasFertilizacion <= 0) {
-            newErrors.diasFertilizacion = 'Los días de fertilización deben ser positivos';
-        }
+        
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     // Handle form submission
-    const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!validate()) {
-            return;
+        console.log(errors)
+
+        console.log(etapasFromCrops)
+        if (!validate()) return;
+
+        const submitData = { ...formData, etapas: etapasFromCrops };
+
+        try {
+            await parentOnSubmit(submitData);
+        } catch (error) {
+            console.error("Error saving especie:", error);
+            setErrors({ form: 'Error al guardar la especie. Inténtalo de nuevo.' });
         }
+    }
 
-        // Convert numeric fields to integers
-        const submitData = {
-            ...formData,
-            cicloDias: parseInt(formData.cicloDias),
-            diasGerminacion: parseInt(formData.diasGerminacion),
-            diasFloracion: parseInt(formData.diasFloracion),
-            diasCosecha: parseInt(formData.diasCosecha),
-            diasFertilizacion: formData.diasFertilizacion ? parseInt(formData.diasFertilizacion) : null,
-            aguaSemanalMm: formData.aguaSemanalMm ? parseInt(formData.aguaSemanalMm) : null
-        };
-
-        onSubmit(submitData);
-    };
-
-    if (!isOpen) return null;
+    if (!isOpen) return null
 
     return (
         /* Modal Overlay */
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div  className="fixed inset-0 backdrop-blur-sm bg-black/55  flex items-center justify-center z-50 p-4">
             {/* Modal Container */}
-            <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div  className="bg-white  rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] ">
                 {/* Modal Header */}
                 <div className="flex justify-between items-center p-6 border-b">
                     <h2 className="text-2xl font-bold text-gray-800">
@@ -206,108 +193,35 @@ export default function EspecieForm({ isOpen, onClose, onSubmit, initialData = n
 
                         {/* Growth Parameters - Grid */}
                         <div className="grid grid-cols-2 gap-4">
-                            {/* Fertilization Days */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Días de Fertilización
-                                </label>
-                                <input
-                                    type="number"
-                                    name="diasFertilizacion"
-                                    value={formData.diasFertilizacion}
-                                    onChange={handleChange}
-                                    min="1"
-                                    className={`w-full border ${errors.diasFertilizacion ? 'border-red-500' : 'border-gray-300'} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400`}
-                                    placeholder="Ej: 20"
-                                />
-                                {errors.diasFertilizacion && <p className="text-red-500 text-xs mt-1">{errors.diasFertilizacion}</p>}
-                            </div>
+                        {/* Weekly Water */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Agua Semanal (mm)
+                            </label>
+                            <input
+                            type="number"
+                            name="aguaSemanalMm"
+                            value={formData.aguaSemanalMm}
+                            onChange={handleChange}
+                            min="0"
+                            className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+                            placeholder="Ej: 50"
+                            />
+                        </div>
 
-                            {/* Cycle Days */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Ciclo (días) <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    name="cicloDias"
-                                    value={formData.cicloDias}
-                                    onChange={handleChange}
-                                    min="1"
-                                    className={`w-full border ${errors.cicloDias ? 'border-red-500' : 'border-gray-300'} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400`}
-                                    placeholder="Ej: 120"
-                                />
-                                {errors.cicloDias && <p className="text-red-500 text-xs mt-1">{errors.cicloDias}</p>}
-                            </div>
-
-                            {/* Germination Days */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Germinación (días) <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    name="diasGerminacion"
-                                    value={formData.diasGerminacion}
-                                    onChange={handleChange}
-                                    min="1"
-                                    className={`w-full border ${errors.diasGerminacion ? 'border-red-500' : 'border-gray-300'} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400`}
-                                    placeholder="Ej: 7"
-                                />
-                                {errors.diasGerminacion && <p className="text-red-500 text-xs mt-1">{errors.diasGerminacion}</p>}
-                            </div>
-
-                            {/* Flowering Days */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Floración (días) <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    name="diasFloracion"
-                                    value={formData.diasFloracion}
-                                    onChange={handleChange}
-                                    min="1"
-                                    className={`w-full border ${errors.diasFloracion ? 'border-red-500' : 'border-gray-300'} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400`}
-                                    placeholder="Ej: 60"
-                                />
-                                {errors.diasFloracion && <p className="text-red-500 text-xs mt-1">{errors.diasFloracion}</p>}
-                            </div>
-
-                            {/* Harvest Days */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Cosecha (días) <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    name="diasCosecha"
-                                    value={formData.diasCosecha}
-                                    onChange={handleChange}
-                                    min="1"
-                                    className={`w-full border ${errors.diasCosecha ? 'border-red-500' : 'border-gray-300'} rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400`}
-                                    placeholder="Ej: 120"
-                                />
-                                {errors.diasCosecha && <p className="text-red-500 text-xs mt-1">{errors.diasCosecha}</p>}
-                            </div>
-
-                            {/* Weekly Water */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Agua Semanal (mm)
-                                </label>
-                                <input
-                                    type="number"
-                                    name="aguaSemanalMm"
-                                    value={formData.aguaSemanalMm}
-                                    onChange={handleChange}
-                                    min="0"
-                                    className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-                                    placeholder="Ej: 50"
-                                />
-                            </div>
+                        {/* CropsStage */}
+                        <div>
+                            <CropsStage onEtapasChange={setEtapasFromCrops} />
+                            {errors.etapas && (
+                            <p className="text-red-500 text-xs mt-1 italic">{errors.etapas}</p>
+                            )}
+                        </div>
+                        </div>
+                        <div>
+                            {initialData && initialData.etapas && initialData.etapas.map(etapa => (<div>{etapa.nombre}</div>))}
                         </div>
                     </div>
+                    
 
                     {/* Form Actions */}
                     <div className="flex gap-3 mt-6">

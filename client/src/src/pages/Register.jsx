@@ -1,30 +1,52 @@
 import React, { useState } from "react";
-import { registerUser } from "../services/authService";
+import { loginUser, registerUser } from "../services/authService";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Register() {
+
+   const { login } = useAuth();
+
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
+  const [ciudad, setCiudad] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
- const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    setLoading(true);
-    setError(null);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
 
-    try {
-      const data = await registerUser(nombre, apellido, email, password);
-      console.log("Usuario registrado:", data);
-      window.location.href = "/login"; 
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (password !== confirm) {
+    setError("Las contraseñas no coinciden");
+    setLoading(false);
+    return;
+  }
+
+  try {
+    // Registrar el usuario
+    await registerUser(nombre, apellido, email, password,ciudad);
+
+    // Usar la función login del contexto (esta ya hace setUser y guarda en localStorage)
+    const user = await login(email, password);
+    console.log("Login automático exitoso:", user);
+
+    // Redirigir según el rol que retorna login
+    if (user.role === "ADMIN") navigate("/admin");
+    else navigate("/home");
+
+  } catch (err) {
+    console.error(err);
+    setError(err.message || "Error al registrarse");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
@@ -62,6 +84,14 @@ export default function Register() {
               placeholder="Apellido"
               value={apellido}
               onChange={(e) => setApellido(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+             <input
+              type="text"
+              placeholder="Ciudad"
+              value={ciudad}
+              onChange={(e) => setCiudad(e.target.value)}
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />

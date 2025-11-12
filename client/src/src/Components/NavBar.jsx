@@ -1,27 +1,13 @@
-/**
-  * NavBar.jsx
- * UI Design:
- * - Green background (#60C37B) matching brand color.
- * - Left: CultivApp logo with plant emoji.
- * - Right: Notifications, user info, logout button.
- * - Responsive layout with flexbox.
- * 
- * @author CultivApp Team
- * @version 1.0 (REQ-001)
- */
-
-import React from 'react'
 import { FaBell } from "react-icons/fa6";
 import { useAuth } from '../context/AuthContext';
+import { useState } from "react";
+import NotificationCenter from "../pages/NotificationsCenter";
 
-/**
- * NavBar Component - Main navigation bar.
- * 
- * @returns {JSX.Element} Navigation bar with branding and user controls.
- */
+
 export default function NavBar() {
   // Get user info and logout function from authentication context
   const { user, logout } = useAuth();
+  const [isOpen,setIsOpen]=useState(false);
 
   return (
     /* 
@@ -30,7 +16,8 @@ export default function NavBar() {
      * Flexbox layout: logo left, user controls right
      * Horizontal padding (px-4), vertical padding (py-2)
      */
-    <nav className="bg-[#60C37B] flex justify-between items-center px-4 py-5">
+    <nav className="bg-[#60C37B] fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 py-3 shadow-md">
+
       
       {/* 
        * LEFT SECTION: Logo and Branding
@@ -70,8 +57,10 @@ export default function NavBar() {
          */}
         <div className="relative">
           {/* Bell icon from react-icons library */}
-          <FaBell className='text-white' />
-          
+          <FaBell onClick={()=>setIsOpen(!isOpen)} className='text-white' />
+          {
+            isOpen && (<NotificationCenter setIsOpen={setIsOpen} />)
+          }
           {/* 
            * Notification Badge
            * Red circle with white text showing unread count
@@ -79,7 +68,7 @@ export default function NavBar() {
            * Future: Conditionally render only if count > 0
            */}
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-1.5">
-            10
+            
           </span>
         </div>
 

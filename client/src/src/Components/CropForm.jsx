@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { FaArrowLeft } from 'react-icons/fa'
 
 export default function CropForm() {
   const { user } = useAuth() // obtenemos el usuario actual (para incluir su id)
@@ -125,24 +126,52 @@ export default function CropForm() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 mt-8">
-      <h2 className="text-2xl font-semibold mb-4 text-green-700">Nuevo Cultivo</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+  <div className="max-w-md mx-auto  from-green-50 to-white shadow-2xl rounded-3xl p-8 mt-10 border border-green-100">
+    {/* 🔙 Botón volver */}
+    <Link
+      to="/cultivos"
+      className="flex items-center text-gray-600 hover:text-green-700 transition mb-4"
+    >
+      <FaArrowLeft className="mr-2" />
+      Volver
+    </Link>
+
+    {/* 🌾 Título */}
+    <h2 className="text-3xl font-bold mb-6 text-green-700 text-center">
+      Nuevo Cultivo
+    </h2>
+
+    {/* 🌱 Formulario */}
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-5"
+    >
+      {/* Nombre */}
+      <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-600 mb-1">
+          Nombre del cultivo
+        </label>
         <input
           type="text"
           name="nombre"
           value={formData.nombre}
           onChange={handleChange}
-          placeholder="Nombre del cultivo"
-          className="border p-2 rounded-md"
+          placeholder="Ej: Palmeras, Tomates..."
+          className="border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 p-3 rounded-lg outline-none transition"
           required
         />
+      </div>
 
+      {/* Especie */}
+      <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-600 mb-1">
+          Especie
+        </label>
         <select
           name="especieId"
           value={formData.especieId}
           onChange={handleChange}
-          className="border p-2 pr-8 rounded-md"
+          className="border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 p-3 rounded-lg outline-none transition appearance-none"
           required
         >
           <option value="">Seleccionar especie</option>
@@ -152,70 +181,42 @@ export default function CropForm() {
             </option>
           ))}
         </select>
+      </div>
 
-
-
+      {/* Área */}
+      <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-600 mb-1">
+          Área (hectáreas)
+        </label>
         <input
           type="number"
           step="0.01"
           name="areaHectareas"
           value={formData.areaHectareas}
           onChange={handleChange}
-          placeholder="Área (hectáreas)"
-          className="border p-2 rounded-md"
+          placeholder="Ej: 5.5"
+          className="border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 p-3 rounded-lg outline-none transition"
           min="0.01"
           required
         />
+      </div>
 
-        <select
-          name="etapaActual"
-          value={formData.etapaActual}
-          onChange={handleChange}
-          className="border p-2 pr-8 rounded-md"
-          required
-        >
-          <option value="">Seleccionar etapa</option>
-          <option value="PREPARACION">Preparación</option>
-          <option value="GERMINACION">Germinación</option>
-          <option value="CRECIMIENTO">Crecimiento</option>
-          <option value="FLORACION">Floración</option>
-          <option value="MADURACION">Maduración</option>
-          <option value="COSECHADO">Cosechado</option>
-        </select>
+      {/* Botón enviar */}
+      <button
+        type="submit"
+        className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5"
+      >
+        Crear Cultivo
+      </button>
+    </form>
 
-        <select
-          name="estado"
-          value={formData.estado}
-          onChange={handleChange}
-          className="border p-2 pr-8 rounded-md"
-          required
-        >
-          <option value="ACTIVO">Activo</option>
-          <option value="COSECHADO">Cosechado</option>
-          <option value="PERDIDO">Perdido</option>
-        </select>
+    {/* Mensaje */}
+    {message && (
+      <p className="text-center mt-5 text-sm text-gray-700 bg-green-50 border border-green-100 p-3 rounded-lg">
+        {message}
+      </p>
+    )}
+  </div>
+);
 
-        <input
-          type="number"
-          step="0.01"
-          name="rendimientoKg"
-          value={formData.rendimientoKg}
-          onChange={handleChange}
-          placeholder="Rendimiento (kg)"
-          className="border p-2 rounded-md"
-        />
-
-        <button
-          type="submit"
-          className="bg-green-600 hover:bg-green-700 text-white p-2 rounded-md transition"
-        >
-          Crear Cultivo
-        </button>
-      </form>
-
-      {message && (
-        <p className="text-center mt-4 text-sm text-gray-700">{message}</p>
-      )}
-    </div>
-  )
 }

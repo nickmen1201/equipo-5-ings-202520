@@ -1,37 +1,8 @@
-/**
- * EspecieCard Component - Species Card Display (REQ-005)
- * 
- * Displays a single species as a card with:
- * - Image (or placeholder if no image)
- * - Common name
- * - Scientific name
- * - Description (truncated)
- * - Edit button
- * - Delete button (with confirmation)
- * 
- * @author CultivApp Team
- * @version 1.0 (REQ-005)
- */
-
 import React from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
-/**
- * EspecieCard Component
- * 
- * @param {Object} props - Component props
- * @param {Object} props.especie - Species data object
- * @param {number} props.especie.id - Species ID
- * @param {string} props.especie.nombre - Common name
- * @param {string} props.especie.nombreCientifico - Scientific name
- * @param {string} props.especie.descripcion - Description
- * @param {string} props.especie.imagenUrl - Image URL
- * @param {number} props.especie.diasFertilizacion - Fertilization days
- * @param {Function} props.onEdit - Callback when Edit button is clicked
- * @param {Function} props.onDelete - Callback when Delete button is clicked
- * @returns {JSX.Element} Species card component
- */
 export default function EspecieCard({ especie, onEdit, onDelete }) {
+
     // Truncate description to 120 characters
     const truncateText = (text, maxLength) => {
         if (!text) return "Sin descripción";
@@ -40,15 +11,15 @@ export default function EspecieCard({ especie, onEdit, onDelete }) {
             : text;
     };
 
-    // Default placeholder image for species without image
-    const defaultImage = "https://via.placeholder.com/300x200/60C37B/ffffff?text=🌱";
+ ;
+
 
     return (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div  className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
             {/* Species Image */}
             <div className="h-48 bg-gray-200 overflow-hidden">
                 <img
-                    src={especie.imagenUrl || defaultImage}
+                    src={especie.imagenUrl || "https://assets.weforum.org/article/image/0TyeFjEH-JWAtAkDM2avJddpN9K6weGrlYTefabtFi0.jpeg"}
                     alt={especie.nombre}
                     className="w-full h-full object-cover"
                     onError={(e) => { e.target.src = defaultImage; }}
@@ -74,14 +45,6 @@ export default function EspecieCard({ especie, onEdit, onDelete }) {
                     {truncateText(especie.descripcion, 120)}
                 </p>
 
-                {/* Fertilization Info */}
-                {especie.diasFertilizacion && (
-                    <div className="mb-4">
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                            🌿 Fertilización cada {especie.diasFertilizacion} días
-                        </span>
-                    </div>
-                )}
 
                 {/* Action Buttons */}
                 <div className="flex gap-2">
