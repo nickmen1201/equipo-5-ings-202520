@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cultivapp.cultivapp.services.TareaService;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -14,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "*")
 public class TareaController {
     
-    private final tareaService tareaService;
+    private final TareaService tareaService;
 
     @PostMapping("/ejecutar")
     public void ejecutarTarea(@RequestBody Integer tareaId) {

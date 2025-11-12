@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cultivapp.cultivapp.dto.EspecieDTO;
 import com.cultivapp.cultivapp.dto.EspecieRequest;
+import com.cultivapp.cultivapp.dto.EtapaRequest;
 import com.cultivapp.cultivapp.models.Especie;
 import com.cultivapp.cultivapp.repositories.CultivoRepository;
 import com.cultivapp.cultivapp.repositories.EspecieRepository;

@@ -1,6 +1,15 @@
 package com.cultivapp.cultivapp.services;
 
-import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cultivapp.cultivapp.models.Tarea;
+import com.cultivapp.cultivapp.repositories.CultivoRepository;
+import com.cultivapp.cultivapp.repositories.TareaRepository;
+import com.cultivapp.cultivapp.services.strategies.EstrategiaRegla;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Service
 @RequiredArgsConstructor

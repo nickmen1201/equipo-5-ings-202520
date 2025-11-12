@@ -1,8 +1,9 @@
 package com.cultivapp.cultivapp.services.strategies;
 
-import com.cultivapp.cultivapp.models.Cultivo;
+
+import com.cultivapp.cultivapp.models.Tarea;
 
 public interface EstrategiaRegla {
     
-    public void ejecutarTarea(Cultivo cultivo);
+    public void ejecutarTarea(Tarea tarea);
 }

@@ -3,13 +3,19 @@ package com.cultivapp.cultivapp.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.cultivapp.cultivapp.dto.EtapaDTO;
 import com.cultivapp.cultivapp.dto.EtapaRequest;
 import com.cultivapp.cultivapp.dto.ReglaRequest;
+import com.cultivapp.cultivapp.models.Etapa;
 import com.cultivapp.cultivapp.models.Regla;
+import com.cultivapp.cultivapp.repositories.EspecieRepository;
+import com.cultivapp.cultivapp.repositories.EtapaRepository;
+import com.cultivapp.cultivapp.repositories.ReglaRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
