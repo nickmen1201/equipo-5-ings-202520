@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.cultivapp.cultivapp.models.enums.Roles;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

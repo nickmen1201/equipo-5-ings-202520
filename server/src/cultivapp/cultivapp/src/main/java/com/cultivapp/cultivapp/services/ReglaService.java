@@ -4,10 +4,12 @@ package com.cultivapp.cultivapp.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.cultivapp.cultivapp.dto.ReglaRequest;
 import com.cultivapp.cultivapp.models.Regla;
+import com.cultivapp.cultivapp.models.enums.TipoRegla;
 import com.cultivapp.cultivapp.repositories.ReglaRepository;
 
 import jakarta.transaction.Transactional;

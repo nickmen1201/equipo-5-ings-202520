@@ -1,7 +1,6 @@
 package com.cultivapp.cultivapp.services;
 
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cultivapp.cultivapp.dto.CultivoDTO;
 import com.cultivapp.cultivapp.dto.CultivoDetailDTO;
@@ -22,9 +22,9 @@ import com.cultivapp.cultivapp.models.Usuario;
 import com.cultivapp.cultivapp.models.enums.Estado;
 import com.cultivapp.cultivapp.repositories.CultivoRepository;
 import com.cultivapp.cultivapp.repositories.EspecieRepository;
+import com.cultivapp.cultivapp.repositories.EtapaRepository;
 import com.cultivapp.cultivapp.repositories.UsuarioRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service

@@ -1,5 +1,21 @@
 package com.cultivapp.cultivapp.services;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cultivapp.cultivapp.models.Cultivo;
+import com.cultivapp.cultivapp.models.Etapa;
+import com.cultivapp.cultivapp.models.Regla;
+import com.cultivapp.cultivapp.models.Tarea;
+import com.cultivapp.cultivapp.repositories.CultivoRepository;
+import com.cultivapp.cultivapp.repositories.TareaRepository;
+import com.cultivapp.cultivapp.services.strategies.EstrategiaRegla;
+
 @Service
 public class TareaScheduler {
 
@@ -13,7 +29,7 @@ public class TareaScheduler {
     private NotificacionService notificacionService;
 
     @Autowired
-    private ReglaContext strategyFactory; // antes ReglaContext
+    private ReglaContext strategyFactory; 
 
     /**
      * Se ejecuta cada día (puedes ajustar el horario según lo necesites)

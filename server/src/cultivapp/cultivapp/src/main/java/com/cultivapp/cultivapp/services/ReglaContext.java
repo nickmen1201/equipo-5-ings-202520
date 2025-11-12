@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.cultivapp.cultivapp.models.enums.TipoRegla;
 import com.cultivapp.cultivapp.services.strategies.EstrategiaRegla;
+import com.cultivapp.cultivapp.services.strategies.FertilizacionStrategy;
+import com.cultivapp.cultivapp.services.strategies.MantenimientoStrategy;
+import com.cultivapp.cultivapp.services.strategies.RiegoStrategy;
 
 @Component
 public class ReglaContext {
