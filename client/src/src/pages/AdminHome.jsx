@@ -1,12 +1,13 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
+import especies from '../assets/Especies.png'
 import PageBox from '../components/PageBox'
 
 export default function AdminHome() {
     const pages = [
       { name: 'Especies',
         link: '/admin/especies',
-        image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=300&fit=crop'
+        image: especies
      }, 
       {
         name: 'Motor de Reglas',

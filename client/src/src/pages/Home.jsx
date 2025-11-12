@@ -3,6 +3,7 @@ import NavBar from '../components/NavBar'
 import PageBox from '../components/PageBox'
 import alerts from '../assets/alerts.png'
 import tasks from '../assets/tasksimage.png'
+import cafe from '../assets/mataCafe.png'
 import { useAuth } from '../context/AuthContext'
 
 const pages = [
@@ -18,9 +19,9 @@ const pages = [
 
 const adminPages = [
   {
-    name: 'Panel de Administración',
-    link: '/admin',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=300&fit=crop',
+    name: 'Administrar Especies',
+    link: '/admin/especies',
+    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=300&fit=crop',
   },
 ]
 
@@ -31,18 +32,20 @@ export default function Home() {
   const displayPages = user?.role === 'ADMIN' ? [...pages, ...adminPages] : pages;
   
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <div className="flex flex-col min-h-screen relative overflow-hidden">
+      <img src={cafe} className='absolute left-[-300px] bottom-[-160px] h-full   -z-10' />
       <NavBar />
 
       {/* Encabezado */}
-      <div className="text-center mt-10 mb-6">
+      <div className="text-center  mb-6 mt-16 ">
         <h1 className="text-3xl font-bold text-gray-800">
           Bienvenido a <span className="text-emerald-600">CultivApp</span>
         </h1>
         <p className="text-gray-500 mt-2 text-sm">
-          Gestiona tus cultivos, tareas y alertas de manera eficiente 🌱
+          Gestiona tus cultivos, tareas y alertas de manera eficiente 
         </p>
       </div>
+      
 
       {/* Contenedor de secciones */}
       <div className="flex flex-wrap justify-center gap-6 px-6 pb-10">

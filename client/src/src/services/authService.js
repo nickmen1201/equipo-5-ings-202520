@@ -52,11 +52,11 @@ export function isAuthenticated() {
 }
 
 
-export async function registerUser(nombre, apellido, email, password) {
+export async function registerUser(nombre, apellido, email, password,ciudad) {
   const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, apellido, email, password }),
+    body: JSON.stringify({ nombre, apellido, email, password,ciudad }),
   });
 
   if (!response.ok) {

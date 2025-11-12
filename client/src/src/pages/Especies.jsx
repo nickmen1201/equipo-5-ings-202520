@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaArrowLeft, FaPlus } from 'react-icons/fa';
 import NavBar from '../components/NavBar';
 import EspecieCard from '../components/EspecieCard';
 import EspecieForm from '../components/EspecieForm';
@@ -9,6 +9,7 @@ import {
     updateEspecie, 
     deleteEspecie 
 } from '../services/especiesService';
+import { Link } from 'react-router-dom';
 
 export default function Especies() {
     const [especies, setEspecies] = useState([]);
@@ -37,13 +38,14 @@ export default function Especies() {
             setLoading(true);
             setError(null);
             const data = await getAllEspecies();
-            setEspecies(data);
+            setEspecies([...data].reverse());
         } catch (err) {
             setError('Error al cargar especies: ' + err.message);
         } finally {
             setLoading(false);
         }
-    };
+    }
+
 
     /**
      * Open form for creating new species
@@ -109,7 +111,7 @@ export default function Especies() {
         setDeleteConfirm(especie);
     };
 
-    /**
+    /** 
      * Confirm and execute deletion
      */
     const handleDeleteConfirm = async () => {
@@ -141,15 +143,19 @@ export default function Especies() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div style={{backgroundImage:"url(https://www.transparenttextures.com/patterns/clean-gray-paper.png)"}} className="min-h-screen bg-gray-50 mt-14 ">
             {/* Navigation Bar */}
             <NavBar />
-
+            
             {/* Main Content */}
             <div className="container mx-auto px-4 py-8">
                 {/* Page Header */}
                 <div className="flex justify-between items-center mb-8">
                     <div>
+                        <Link to="/admin" className="flex items-center text-gray-600 hover:text-gray-800">
+                            <FaArrowLeft className="mr-2" />
+                            Volver
+                        </Link>
                         <h1 className="text-3xl font-bold text-gray-800">
                             Administrar Especies
                         </h1>

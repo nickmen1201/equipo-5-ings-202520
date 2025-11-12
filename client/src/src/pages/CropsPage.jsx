@@ -38,7 +38,7 @@ export default function CropsPage({ city, image, temperature, rain }) {
       <NavBar />
 
       {/* Header con ciudad y clima */}
-      <header className="flex justify-between items-center bg-white shadow-sm p-2 md:p-3 border-b">
+      <header className="flex justify-between items-center mt-16 bg-white shadow-sm p-2 md:p-3 border-b">
 
         <div className="flex items-center gap-3">
           <Link
@@ -54,6 +54,9 @@ export default function CropsPage({ city, image, temperature, rain }) {
               className="w-14 h-14 rounded-xl object-cover border"
             />
           )}
+          
+        </div>
+        <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
             {city}
           </h1>
@@ -75,9 +78,9 @@ export default function CropsPage({ city, image, temperature, rain }) {
       </header>
 
       {/* Contenido principal */}
-      <main className="flex-1 bg-[#E8F5E9] py-8 px-6 md:px-16 overflow-y-scroll">
+      <main style={{backgroundImage:'url("https://www.transparenttextures.com/patterns/skulls.png")'}} className="flex-1 bg-[#738f76] py-8 px-6 md:px-16 overflow-y-scroll">
         {loading ? (
-          <div className="flex justify-center items-center h-64 text-gray-500">
+          <div className="flex justify-center items-center h-64 text-white">
             Cargando cultivos...
           </div>
         ) : (
@@ -87,7 +90,7 @@ export default function CropsPage({ city, image, temperature, rain }) {
               to="/cultivo/nuevo"
               className="bg-white p-6 flex flex-col items-center justify-center gap-3 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-transform w-full max-w-xs"
             >
-              <IoIosAddCircle className="text-6xl text-emerald-300" />
+              <IoIosAddCircle className="text-6xl text-[#738f76]" />
               <p className="font-semibold text-emerald-700 text-center">
                 Sembrar nuevo cultivo
               </p>
@@ -95,20 +98,20 @@ export default function CropsPage({ city, image, temperature, rain }) {
 
             {/* Lista de cultivos */}
             {crops && crops.length > 0 ? (
-              crops.map((c, index) => (
+              crops.reverse().map((c, index) => (
                 <CropBox
                   key={c.id || index}
                   id={c.id}
                   cropName={c.nombre}
                   image={c.especieImagenUrl}
-                  percentage={c.progreso}
+                  percentage={(c.etapaActual*100)/c.totalEtapas}
                   cropSpecie={c.especieNombre}
                   cropHectares={c.areaHectareas}
                   description={c.especieDescripcion}
                 />
               ))
             ) : (
-              <p className="col-span-full text-gray-500 text-center mt-4">
+              <p className="col-span-full text-gray-200 text-center mt-4">
                 No tienes cultivos registrados aún.
               </p>
             )}

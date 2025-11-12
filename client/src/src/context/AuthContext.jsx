@@ -1,5 +1,3 @@
-
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { loginUser as loginUserService, logoutUser as logoutUserService, getToken } from '../services/authService';
 
@@ -41,9 +39,9 @@ export function AuthProvider({ children }) {
     
     // Create user object from backend response
     const userData = {
-      email: email,
-      role: data.role, // ADMIN or PRODUCTOR
-      id:data.id
+      id: data.id, // User ID from backend
+      email: email, // Email from login form (backend doesn't return it)
+      role: data.role // ADMIN or PRODUCTOR
     };
     
     // Update state - triggers re-render of components using AuthContext
