@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
-import NavBar from './components/NavBar'
 import Login from './pages/Login'
 import Home from './pages/Home';
 import Register from './pages/Register';
@@ -9,6 +8,10 @@ import Especies from './pages/Especies';
 import CropForm from './Components/CropForm';
 import CultivoDetail from './pages/CultivoDetail';
 import CropEdit from './pages/CropEdit';
+import AdminHome from './pages/AdminHome';
+import Rules from './pages/Rules';
+import NotificationCenter from './pages/NotificationsCenter';
+import Alertas from './Components/Alertas';
 
 
 function ProtectedRoute({ children }) {
@@ -21,6 +24,28 @@ function ProtectedRoute({ children }) {
     );
   }
   return user ? children : <Navigate to="/login" replace />;
+}
+
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-600">Cargando...</p>
+      </div>
+    );
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (user.role !== 'ADMIN') {
+    return <Navigate to="/home" replace />;
+  }
+  
+  return children;
 }
 
 
@@ -36,7 +61,7 @@ function App() {
        
         <Route path="/cultivos" element={
           <ProtectedRoute>
-            <CropsPage />
+            <CropsPage city="Medellín" rain={30} temperature={22}  />
           </ProtectedRoute>
         } />
         <Route path="/cultivos/:id" element={
@@ -50,27 +75,24 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/admin" element={
-          <ProtectedRoute>
-            <div>
-              <NavBar />
-              <div className="container mx-auto p-6">
-                <h1 className="text-3xl font-semibold mb-4">Panel de Administración</h1>
-                <p className="text-gray-600">
-                  Bienvenido al panel de administración de CultivApp.
-                </p>
-              </div>
-            </div>
-          </ProtectedRoute>
+          <AdminRoute>
+            <AdminHome />
+          </AdminRoute>
         } />
         <Route path="/home" element={
           <ProtectedRoute>
             <Home />
           </ProtectedRoute>
         } />
-        <Route path="/admin/especies" element={
+         <Route path="/alertas" element={
           <ProtectedRoute>
-            <Especies />
+            <Alertas />
           </ProtectedRoute>
+        } />
+        <Route path="/admin/especies" element={
+          <AdminRoute>
+            <Especies />
+          </AdminRoute>
         } />
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="*" element={
@@ -87,10 +109,11 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/admin/motor" element={
-          <ProtectedRoute>
-            <CropForm />
-        </ProtectedRoute>
+          <AdminRoute>
+            <Rules/>
+          </AdminRoute>
         } />
+        <Route path="/notificaciones" element={<NotificationCenter/>} />
       </Routes>
     </>
   )
