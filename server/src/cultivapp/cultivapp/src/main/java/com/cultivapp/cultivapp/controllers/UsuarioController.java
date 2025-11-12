@@ -20,7 +20,7 @@ public class UsuarioController {
     private final UsuarioRepository repo;
 
     public UsuarioController(UsuarioRepository repo) {
-        this.repo = repo;
+        this.repo = repo;   
     }
 
     @GetMapping
@@ -41,5 +41,5 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable int id) {
         repo.deleteById(id);
-    }
+    }   
 }

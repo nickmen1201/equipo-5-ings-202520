@@ -40,6 +40,27 @@ public class ReglaService {
         return reglaRepository.findAll();
     }
 
+    /**
+     * Filter reglas dynamically. Any parameter may be null to skip that filter.
+     * @param tipo filter by TipoRegla
+     * @param minIntervalo minimum intervaloDias (inclusive)
+     * @param maxIntervalo maximum intervaloDias (inclusive)
+     * @param descripcion substring match (case-insensitive)
+     * @return matching reglas
+     */
+    public List<Regla> filterReglas(List<TipoRegla> tipos) {
+        // If no types provided, return all reglas
+        if (tipos == null || tipos.isEmpty()) {
+            return reglaRepository.findAll();
+        }
+
+        Specification<Regla> spec = (root, query, cb) -> {
+            return root.get("tipo").in(tipos);
+        };
+
+        return reglaRepository.findAll(spec);
+    }
+
     /** Get regla by id. */
     public Optional<Regla> getById(Integer id) {
         return reglaRepository.findById(id);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cultivapp.cultivapp.dto.ReglaRequest;
@@ -58,7 +59,16 @@ public class ReglaController {
         return TipoRegla.values();
     }
 
-    //actualizar 
-    //filtros
+    /**
+     * Search reglas by one or more types.
+     * Provide a comma-separated list of TipoRegla names, e.g. ?tipos=RIEGO,FERTILIZACION
+     * If no tipos provided, returns all reglas.
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<Regla>> searchReglas(@RequestParam(name = "tipos", required = false) List<TipoRegla> tipos) {
+        List<Regla> resultados = reglaService.filterReglas(tipos);
+        return ResponseEntity.ok(resultados);
+    }
+
         
 }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cultivapp.cultivapp.dto.CultivoDTO;
 import com.cultivapp.cultivapp.dto.CultivoDetailDTO;
 import com.cultivapp.cultivapp.dto.CultivoRequest;
-import com.cultivapp.cultivapp.models.Cultivo;
 import com.cultivapp.cultivapp.services.CultivoService;
 
 import jakarta.validation.Valid;
@@ -78,3 +77,4 @@ public class CultivoController {
     //     return ResponseEntity.status(400).body(ex.getMessage());
     // }
 }
+

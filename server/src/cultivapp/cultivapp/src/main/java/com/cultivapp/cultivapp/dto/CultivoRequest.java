@@ -1,10 +1,6 @@
 package com.cultivapp.cultivapp.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-
-import com.cultivapp.cultivapp.models.enums.Estado;
-import com.cultivapp.cultivapp.models.enums.EtapaActual;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -24,10 +20,7 @@ public class CultivoRequest {
     @DecimalMin(value = "0.01", message = "El área debe ser mayor a 0")
     private BigDecimal areaHectareas;
     
-    private EtapaActual etapaActual;
-    private Estado estado;
     private BigDecimal rendimientoKg;
-    private LocalDate fechaSiembra; // Optional - defaults to today if not provided
     private Integer usuarioId;
     private Integer especieId;
 }

@@ -21,6 +21,7 @@ import com.cultivapp.cultivapp.dto.EspecieRequest;
 import com.cultivapp.cultivapp.services.EspecieService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * REST Controller for managing Especies (REQ-005)
@@ -36,16 +37,13 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/especies")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class EspecieController {
     
     private final EspecieService especieService;
-
-    // Explicit constructor to initialize final service (avoids Lombok/IDE diagnostics)
-    public EspecieController(EspecieService especieService) {
-        this.especieService = especieService;
-    }
     
+
     /**
      * GET /api/especies
      * Get all active species
@@ -68,7 +66,7 @@ public class EspecieController {
         EspecieDTO especie = especieService.getEspecieById(id);
         return ResponseEntity.ok(especie);
     }
-     
+    
     /**
      * POST /api/especies
      * Create new species (Admin only)
@@ -135,3 +133,4 @@ public class EspecieController {
      */
     record ErrorMessage(String message) {}
 }
+

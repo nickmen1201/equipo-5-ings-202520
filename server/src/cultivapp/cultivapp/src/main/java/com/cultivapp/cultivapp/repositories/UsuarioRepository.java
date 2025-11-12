@@ -11,4 +11,3 @@ import com.cultivapp.cultivapp.models.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByEmail(String email);
 }
-

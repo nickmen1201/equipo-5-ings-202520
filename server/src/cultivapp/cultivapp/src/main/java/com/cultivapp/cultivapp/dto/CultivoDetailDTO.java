@@ -3,9 +3,9 @@ package com.cultivapp.cultivapp.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.cultivapp.cultivapp.models.enums.Estado;
-import com.cultivapp.cultivapp.models.enums.EtapaActual;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,11 +21,17 @@ public class CultivoDetailDTO {
     private String nombre;
     private LocalDate fechaSiembra;
     private BigDecimal areaHectareas;
-    private EtapaActual etapaActual;
+    private Short etapaActual;
     private Estado estado;
     private BigDecimal rendimientoKg;
+    private double saludRiego;
+    private double saludMantenimiento;
+    private double saludFertilizacion;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
+    private EtapaInfo etapaActualInfo;
+    private List<TareaInfo> tareas;
+   
     
     private EspecieInfo especie;
     private UsuarioInfo usuario;
@@ -39,15 +45,54 @@ public class CultivoDetailDTO {
         private String nombre;
         private String nombreCientifico;
         private String imagenUrl;
-        private Integer cicloDias;
+        private int totalEtapas;
+       
+    }
+
+   @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class EtapaInfo {
+        private Integer id;
+        private String nombre;
+        private Integer duracionDias;
+        private Short orden;
+        private List<ReglaInfo> reglas; 
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ReglaInfo {
+        private Integer id;
+        private String tipo;
+        private String descripcion;
+        private Integer intervaloDias;
     }
     
     @Data
-    @Builder
+    @Builder 
     @AllArgsConstructor
     @NoArgsConstructor
     public static class UsuarioInfo {
         private Integer id;
         private String email;
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TareaInfo {
+        private Integer id;
+        private String descripcionRegla;
+        private boolean activa;
+        private boolean realizada;
+        private boolean vencida;
+        private LocalDateTime fechaCreacion;
+        private LocalDateTime fechaProgramada;
+        private LocalDateTime fechaVencimiento;
     }
 }
