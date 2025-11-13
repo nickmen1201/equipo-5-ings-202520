@@ -138,15 +138,16 @@ const handleRuleSelect = (selectedRules) => {
 
   const newIds = selectedRules.map(r => r.id);
 
-  setStageRuleIds(prev => ({
-    ...prev,
-    [currentStage]: Array.from(new Set([...prev[currentStage] || [], ...newIds]))
-  }));
+ setStageRuleIds(prev => {
+  const current = Array.isArray(prev[currentStage]) ? prev[currentStage] : []
+  const merged = Array.from(new Set([...current, ...newIds]))
+  return { ...prev, [currentStage]: merged }
+})
 
-  setRuleCounts(prev => ({
-    ...prev,
-    [currentStage]: Array.from(new Set([...prev[currentStage] || [], ...newIds])).length
-  }));
+setRuleCounts(prev => ({
+  ...prev,
+  [currentStage]: (Array.isArray(prev[currentStage]) ? prev[currentStage].length : 0) + newIds.length
+}))
 
   setIsRuleFinderOpen(false);
   setCurrentStage(null);
