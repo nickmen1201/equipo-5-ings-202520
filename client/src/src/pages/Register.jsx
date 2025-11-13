@@ -17,11 +17,75 @@ export default function Register() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Validar en tiempo real mientras escriben
+  const handleNombreChange = (e) => {
+    const value = e.target.value;
+    // Solo permitir letras y espacios
+    if (/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/.test(value)) {
+      setNombre(value);
+    }
+  };
+
+  const handleApellidoChange = (e) => {
+    const value = e.target.value;
+    // Solo permitir letras y espacios
+    if (/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/.test(value)) {
+      setApellido(value);
+    }
+  };
+
+  const handleCiudadChange = (e) => {
+    const value = e.target.value;
+    // Solo permitir letras, espacios y guiones
+    if (/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\-]*$/.test(value)) {
+      setCiudad(value);
+    }
+  };
+
   const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
   setError(null);
 
+  // Validar nombre (solo letras y espacios, mínimo 2 caracteres)
+  const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{2,50}$/;
+  if (!nameRegex.test(nombre.trim())) {
+    setError("El nombre debe contener solo letras y tener entre 2 y 50 caracteres");
+    setLoading(false);
+    return;
+  }
+
+  // Validar apellido (solo letras y espacios, mínimo 2 caracteres)
+  if (!nameRegex.test(apellido.trim())) {
+    setError("El apellido debe contener solo letras y tener entre 2 y 50 caracteres");
+    setLoading(false);
+    return;
+  }
+
+  // Validar ciudad (letras, espacios y guiones, mínimo 2 caracteres)
+  const cityRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\-]{2,50}$/;
+  if (!cityRegex.test(ciudad.trim())) {
+    setError("La ciudad debe contener solo letras y tener entre 2 y 50 caracteres");
+    setLoading(false);
+    return;
+  }
+
+  // Validar email (estructura básica)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.trim())) {
+    setError("El correo electrónico no tiene una estructura válida");
+    setLoading(false);
+    return;
+  }
+
+  // Validar contraseña (mínimo 6 caracteres)
+  if (password.length < 6) {
+    setError("La contraseña debe tener mínimo 6 caracteres");
+    setLoading(false);
+    return;
+  }
+
+  // Validar que las contraseñas coincidan
   if (password !== confirm) {
     setError("Las contraseñas no coinciden");
     setLoading(false);
@@ -75,7 +139,7 @@ export default function Register() {
               type="text"
               placeholder="Nombre"
               value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              onChange={handleNombreChange}
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
@@ -83,7 +147,7 @@ export default function Register() {
               type="text"
               placeholder="Apellido"
               value={apellido}
-              onChange={(e) => setApellido(e.target.value)}
+              onChange={handleApellidoChange}
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
@@ -91,7 +155,7 @@ export default function Register() {
               type="text"
               placeholder="Ciudad"
               value={ciudad}
-              onChange={(e) => setCiudad(e.target.value)}
+              onChange={handleCiudadChange}
               className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
               required
             />
