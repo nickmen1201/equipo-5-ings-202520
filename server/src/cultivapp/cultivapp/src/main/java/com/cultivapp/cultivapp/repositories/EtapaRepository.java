@@ -16,6 +16,8 @@ import com.cultivapp.cultivapp.models.Etapa;
 @Repository
 public interface EtapaRepository extends JpaRepository<Etapa, Integer> {
     List<Etapa> findByEspecieOrderByOrden(Especie especie);
+    
+    long countByEspecieId(Integer especieId);
 
     @Query("""
     SELECT e FROM Etapa e
