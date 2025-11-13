@@ -69,9 +69,7 @@ export default function RuleFinder({
       } catch (err) {
         console.error(' Error al filtrar reglas:', err)
         // setMessage({ type: 'error', text: 'Error al filtrar las reglas.' })
-      } finally {
-        setLoading(false)
-      }
+      } 
     }
   
 
