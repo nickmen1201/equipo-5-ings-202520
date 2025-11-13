@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaArrowLeft } from 'react-icons/fa'
 
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+
 export default function CropForm() {
   const { user } = useAuth() // obtenemos el usuario actual (para incluir su id)
   const navigate = useNavigate()
@@ -25,7 +27,7 @@ export default function CropForm() {
     const fetchEspecies = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/api/especies', {
+        const response = await fetch(`${BASE_URL}/api/especies`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -77,7 +79,7 @@ export default function CropForm() {
       console.log('Token exists:', !!token);
       console.log('Token value:', token ? token.substring(0, 20) + '...' : 'NO TOKEN');
       
-      const response = await fetch('http://localhost:8080/api/cultivos', {
+      const response = await fetch(`${BASE_URL}/api/cultivos`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

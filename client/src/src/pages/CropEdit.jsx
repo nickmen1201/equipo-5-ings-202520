@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCultivoById, updateCultivo } from '../services/CultivoService';
 import { getAllEspecies } from '../services/especiesService';
-import NavBar from '../components/NavBar';
+import NavBar from '../Components/NavBar';
 
 export default function CropEdit() {
   const { id } = useParams();

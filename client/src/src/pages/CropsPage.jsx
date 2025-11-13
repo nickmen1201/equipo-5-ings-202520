@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { TbTemperature } from "react-icons/tb";
 import { FaArrowLeft, FaCloudRain } from "react-icons/fa";
 import { IoIosAddCircle } from "react-icons/io";
-import NavBar from "../components/NavBar";
-import CropBox from "../components/CropBox";
+import NavBar from "../Components/NavBar";
+import CropBox from "../Components/CropBox";
 import { useAuth } from "../context/AuthContext";
 import { getCultivosByUsuarioId } from "../services/CultivoService";
 

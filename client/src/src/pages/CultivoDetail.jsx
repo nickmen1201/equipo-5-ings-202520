@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getCultivoById, toggleEstadoCultivo } from '../services/CultivoService'
 import { FaArrowLeft, FaSmile } from 'react-icons/fa';
-import NavBar from '../components/NavBar';
+import NavBar from '../Components/NavBar';
 import { GiFertilizerBag, GiWateringCan } from 'react-icons/gi';
 import { GrTools } from 'react-icons/gr';
 import ProgressBar from '../Components/ProgressBar';

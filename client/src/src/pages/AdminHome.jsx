@@ -1,7 +1,7 @@
 import React from 'react'
-import NavBar from '../components/NavBar'
+import NavBar from '../Components/NavBar'
 import especies from '../assets/Especies.png'
-import PageBox from '../components/PageBox'
+import PageBox from '../Components/PageBox'
 
 export default function AdminHome() {
     const pages = [

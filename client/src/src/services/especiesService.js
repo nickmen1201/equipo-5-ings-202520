@@ -1,5 +1,7 @@
-const API_URL = "http://localhost:8080/api/admin/especies";
-const PUBLIC_API_URL = "http://localhost:8080/api/especies";
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = `${BASE_URL}/api/admin/especies`;
+const PUBLIC_API_URL = `${BASE_URL}/api/especies`;
+
 
 /**
  * Get authorization header with JWT token

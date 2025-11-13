@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaPlus } from 'react-icons/fa';
-import NavBar from '../components/NavBar';
-import EspecieCard from '../components/EspecieCard';
-import EspecieForm from '../components/EspecieForm';
+import NavBar from '../Components/NavBar';
+import EspecieCard from '../Components/EspecieCard';
+import EspecieForm from '../Components/EspecieForm';
 import { 
     getAllEspecies, 
     createEspecie, 

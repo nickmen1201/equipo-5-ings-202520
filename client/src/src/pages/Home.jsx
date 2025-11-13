@@ -1,8 +1,8 @@
 import React from 'react'
-import NavBar from '../components/NavBar'
-import PageBox from '../components/PageBox'
+import NavBar from '../Components/NavBar'
+import PageBox from '../Components/PageBox'
 import alerts from '../assets/alerts.png'
-import tasks from '../assets/tasksimage.png'
+import tasks from '../assets/tasksImage.png'
 import cafe from '../assets/mataCafe.png'
 import { useAuth } from '../context/AuthContext'
 
