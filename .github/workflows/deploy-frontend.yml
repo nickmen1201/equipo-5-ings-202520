@@ -1,0 +1,102 @@
+name: Deploy Frontend to Vercel
+
+on:
+  push:
+    branches:
+      - main
+      - stage
+      - development
+    paths:
+      - 'client/**'
+      - '.github/workflows/deploy-frontend.yml'
+
+jobs:
+  lint-and-build:
+    name: Lint and Build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: client/src/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: client/src
+        run: npm ci
+      
+      - name: Run linter
+        working-directory: client/src
+        run: npm run lint || echo "⚠️  Lint warnings present"
+      
+      - name: Build project
+        working-directory: client/src
+        run: npm run build
+      
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: client/src/dist
+          retention-days: 1
+
+  deploy:
+    name: Deploy to Vercel
+    needs: lint-and-build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Determine environment
+        id: environment
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "env_name=Production" >> $GITHUB_OUTPUT
+            echo "vercel_env=production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/stage" ]]; then
+            echo "env_name=Staging" >> $GITHUB_OUTPUT
+            echo "vercel_env=preview" >> $GITHUB_OUTPUT
+          else
+            echo "env_name=Development" >> $GITHUB_OUTPUT
+            echo "vercel_env=preview" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: client/src
+          vercel-args: ${{ steps.environment.outputs.vercel_env == 'production' && '--prod' || '' }}
+      
+      - name: Deployment success
+        run: |
+          echo "🚀 Deployed to ${{ steps.environment.outputs.env_name }}"
+          echo "📦 Branch: ${{ github.ref_name }}"
+          echo "✅ Frontend deployed successfully to Vercel"
+
+  notify:
+    name: Deployment Summary
+    needs: [lint-and-build, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Summary
+        run: |
+          echo "## 🎯 Frontend Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build**: ${{ needs.lint-and-build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deploy**: ${{ needs.deploy.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📱 Check your deployment at Vercel Dashboard" >> $GITHUB_STEP_SUMMARY

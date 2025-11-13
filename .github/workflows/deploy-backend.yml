@@ -1,0 +1,111 @@
+name: Deploy Backend to Production
+
+on:
+  push:
+    branches:
+      - main
+      - stage
+      - development
+    paths:
+      - 'server/**'
+      - '.github/workflows/deploy-backend.yml'
+
+jobs:
+  test:
+    name: Run Smoke Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+      
+      - name: Run smoke tests
+        working-directory: server/src/cultivapp/cultivapp
+        run: ./mvnw test -Dtest="*SmokeTest"
+      
+      - name: Display test results
+        if: always()
+        run: echo "Smoke tests completed"
+
+  build:
+    name: Build JAR
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+      
+      - name: Build with Maven
+        working-directory: server/src/cultivapp/cultivapp
+        run: ./mvnw clean package -DskipTests
+      
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cultivapp-jar
+          path: server/src/cultivapp/cultivapp/target/*.jar
+          retention-days: 1
+
+  deploy:
+    name: Deploy to Environment
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: cultivapp-jar
+      
+      - name: Determine environment
+        id: environment
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "env_name=production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/stage" ]]; then
+            echo "env_name=staging" >> $GITHUB_OUTPUT
+          else
+            echo "env_name=development" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Deploy notification
+        run: |
+          echo "🚀 Deploying to ${{ steps.environment.outputs.env_name }}"
+          echo "📦 Branch: ${{ github.ref_name }}"
+          echo "✅ JAR built successfully"
+          echo ""
+          echo "⚠️  MANUAL STEP REQUIRED:"
+          echo "   Download the JAR from artifacts and deploy to your server"
+          echo "   Or configure deployment to Railway/Render/Heroku"
+
+  notify:
+    name: Deployment Summary
+    needs: [test, build, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Summary
+        run: |
+          echo "## 🎯 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tests**: ${{ needs.test.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build**: ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deploy**: ${{ needs.deploy.result }}" >> $GITHUB_STEP_SUMMARY
