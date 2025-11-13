@@ -21,6 +21,8 @@ public class CultivoRequest {
     private BigDecimal areaHectareas;
     
     private BigDecimal rendimientoKg;
+    private Short etapaActual;
+    private String estado;
     private Integer usuarioId;
     private Integer especieId;
 }

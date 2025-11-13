@@ -282,6 +282,21 @@ public class CultivoService {
         existing.setNombre(request.getNombre());
         existing.setAreaHectareas(request.getAreaHectareas());
         existing.setRendimientoKg(request.getRendimientoKg());
+        
+        // Update etapaActual if provided
+        if (request.getEtapaActual() != null) {
+            existing.setEtapaActual(request.getEtapaActual());
+        }
+        
+        // Update estado if provided
+        if (request.getEstado() != null && !request.getEstado().isEmpty()) {
+            try {
+                existing.setEstado(Estado.valueOf(request.getEstado()));
+            } catch (IllegalArgumentException e) {
+                // If invalid estado, ignore it
+            }
+        }
+        
         existing.setUsuario(usuario);
         existing.setEspecie(especie);
 

@@ -42,6 +42,9 @@ export default function CultivoDetail() {
       const data = await getCultivoById(id);
       setCultivo(data);
       console.log('Cultivo data:', data);
+      console.log('etapaActual:', data.etapaActual);
+      console.log('etapaActualInfo:', data.etapaActualInfo);
+      console.log('totalEtapas:', data.especie?.totalEtapas);
     } catch (err) {
       setError('Error al cargar el cultivo');
       console.error(err);
@@ -126,9 +129,9 @@ export default function CultivoDetail() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-6rem)]">
-  {/* --- Columna Izquierda (fija) --- */}
-  <div className="lg:col-span-1 ">
-    <div className="bg-white rounded-2xl shadow-md p-4 sticky top-20 h-fit">
+  {/* --- Left Column (sticky) --- */}
+  <div className="lg:col-span-1">
+    <div className="bg-white rounded-2xl shadow-md p-4 sticky top-20 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 6rem)' }}>
       <img
         src={
           cultivo.especie?.imagenUrl ||
@@ -155,7 +158,7 @@ export default function CultivoDetail() {
         <div>
           <p className="text-sm text-gray-500">Etapa Actual</p>
           <p className={`font-medium ${estadoColor}`}>
-            {cultivo.etapaActualInfo?.nombre || 'N/A'}
+            {cultivo.etapaActualInfo?.nombre || cultivo.etapaActual || 'N/A'}
           </p>
         </div>
 
@@ -165,10 +168,18 @@ export default function CultivoDetail() {
             <div className="flex-1 bg-gray-200 rounded-full h-3">
               <div
                 className="bg-green-500 h-3 rounded-full transition-all"
-                style={{ width: `${Math.round((cultivo.etapaActual*100)/cultivo.especie.totalEtapas)*10/10}%` }}
+                style={{ 
+                  width: `${cultivo.especie?.totalEtapas && cultivo.etapaActual
+                    ? Math.min(Math.round((cultivo.etapaActual / cultivo.especie.totalEtapas) * 100), 100) 
+                    : 0}%` 
+                }}
               ></div>
             </div>
-            <span className="text-sm font-medium">{Math.round((cultivo.etapaActual*100)/cultivo.especie.totalEtapas)*10/10}%</span>
+            <span className="text-sm font-medium">
+              {cultivo.especie?.totalEtapas && cultivo.etapaActual
+                ? `${Math.min(Math.round((cultivo.etapaActual / cultivo.especie.totalEtapas) * 100), 100)}%`
+                : `Etapa ${cultivo.etapaActual || 0} de ${cultivo.especie?.totalEtapas || '?'}`}
+            </span>
           </div>
         </div>
 
@@ -192,12 +203,12 @@ export default function CultivoDetail() {
     </div>
   </div>
 
-  {/* --- Columna Derecha (scrollable) --- */}
+  {/* --- Right Column (scrollable) --- */}
   <div
     className="lg:col-span-2 overflow-y-auto pr-2 pb-8 space-y-4"
     style={{ maxHeight: 'calc(100vh - 6rem)' }}
   >
-    {/* 🔹 SECCIÓN DE SALUD */}
+    {/* 🔹 HEALTH SECTION */}
     <div className="bg-white rounded-2xl shadow-md p-6">
       <h3 className="text-xl font-bold text-gray-800 mb-4">Salud</h3>
       <div className="space-y-3">
@@ -239,7 +250,7 @@ export default function CultivoDetail() {
   
 
     
-    {/* 🔹 TAREAS */}
+    {/* 🔹 TASKS */}
 <div className="bg-white rounded-2xl shadow-md p-6">
   <h3 className="text-xl font-bold text-gray-800 mb-4">Tareas del cultivo</h3>
 
@@ -303,7 +314,7 @@ export default function CultivoDetail() {
   )}
 </div>
 
-    {/* 🔹 BOTONES */}
+    {/* 🔹 BUTTONS */}
     <div className="flex gap-4">
       <button
         onClick={handleEdit}

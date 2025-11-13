@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCultivoById, updateCultivo } from '../services/CultivoService';
 import { getAllEspecies } from '../services/especiesService';
+import { getEtapasByEspecie } from '../services/EtapaService';
 import NavBar from '../Components/NavBar';
 
 export default function CropEdit() {
@@ -9,6 +10,7 @@ export default function CropEdit() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [especies, setEspecies] = useState([]);
+  const [etapas, setEtapas] = useState([]);
   const [formData, setFormData] = useState({
     nombre: '',
     areaHectareas: '',
@@ -42,6 +44,12 @@ export default function CropEdit() {
         usuario: { id: cultivoData.usuario.id }
       });
       setEspecies(especiesData);
+      
+      // Fetch etapas for the current especie
+      if (cultivoData.especie.id) {
+        const etapasData = await getEtapasByEspecie(cultivoData.especie.id);
+        setEtapas(etapasData.sort((a, b) => a.orden - b.orden));
+      }
     } catch (err) {
       setError('Error al cargar los datos');
       console.error(err);
@@ -80,7 +88,7 @@ export default function CropEdit() {
       especieId: parseInt(formData.especie.id),
       nombre: formData.nombre,
       areaHectareas: parseFloat(formData.areaHectareas),
-      etapaActual: formData.etapaActual || null,
+      etapaActual: formData.etapaActual ? parseInt(formData.etapaActual) : null,
       estado: formData.estado || 'ACTIVO',
       rendimientoKg: formData.rendimientoKg ? parseFloat(formData.rendimientoKg) : null
     };
@@ -160,6 +168,7 @@ export default function CropEdit() {
               onChange={handleChange}
               step="0.01"
               min="0.01"
+              max="100000"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               required
             />
@@ -176,12 +185,11 @@ export default function CropEdit() {
               className="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
             >
               <option value="">Seleccionar etapa</option>
-              <option value="PREPARACION">Preparación</option>
-              <option value="GERMINACION">Germinación</option>
-              <option value="CRECIMIENTO">Crecimiento</option>
-              <option value="FLORACION">Floración</option>
-              <option value="MADURACION">Maduración</option>
-              <option value="COSECHADO">Cosechado</option>
+              {etapas.map((etapa) => (
+                <option key={etapa.id} value={etapa.orden}>
+                  {etapa.orden}. {etapa.nombre.replace(/_/g, ' ')}
+                </option>
+              ))}
             </select>
           </div>
 
