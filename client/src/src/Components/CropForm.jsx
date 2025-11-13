@@ -199,6 +199,7 @@ export default function CropForm() {
           placeholder="Ej: 5.5"
           className="border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 p-3 rounded-lg outline-none transition"
           min="0.01"
+          max="100000"
           required
         />
       </div>
