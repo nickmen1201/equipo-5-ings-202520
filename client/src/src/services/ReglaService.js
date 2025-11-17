@@ -1,0 +1,113 @@
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = `${BASE_URL}/api/reglas`;
+
+
+// Helper function to get authorization headers
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  console.log('getAuthHeaders - Token exists:', !!token);
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : '',
+  };
+};
+
+export const getAllReglas = async () => {
+  try {
+    const response = await fetch(API_URL, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      throw new Error('Error al obtener las reglas');
+    }
+    const data = await response.json();
+    return data;
+  }
+  catch (error) {
+    console.error('Error fetching Reglas:', error);
+    throw error;
+  }
+};
+export const getTiposDeReglas = async () => {
+  try {
+    const response = await fetch(`${API_URL}/tipos`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      throw new Error('Error al obtener los tipos de reglas');
+    }
+    const data = await response.json();
+    return data;
+  }
+  catch (error) {
+    console.error('Error fetching Reglas:', error);
+    throw error;
+  }
+};
+
+/**
+ * Search reglas by one or more tipos using the backend controller
+ * GET /api/reglas/search?tipos=TIPO1&tipos=TIPO2
+ * @param {Array<string>} tipos - optional array of TipoRegla values
+ */
+export const searchReglas = async (tipos = []) => {
+  try {
+    let url = `${API_URL}/search`;
+    if (Array.isArray(tipos) && tipos.length > 0) {
+      const params = new URLSearchParams();
+      tipos.forEach(t => params.append('tipos', t));
+      url += `?${params.toString()}`;
+    }
+
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(errText || 'Error al buscar reglas');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error searching Reglas:', error);
+    throw error;
+  }
+};
+
+
+export const createRegla = async (regla) => {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(regla),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error('Error al crear la regla');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating Regla:', error);
+    throw error;
+  }
+};
+
+
+export const deleteRegla = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      throw new Error('Error al eliminar la regla');
+    }
+  } catch (error) {
+    console.error('Error deleting regla:', error);
+    throw error;
+  }
+};
+

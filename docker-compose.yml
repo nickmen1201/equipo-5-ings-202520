@@ -1,0 +1,17 @@
+services:
+  postgres-cultivapp:
+    image: postgres:15-alpine
+    container_name: cultivapp-postgres
+    environment:
+      POSTGRES_DB: cultivapp_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - cultivapp-postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  cultivapp-postgres-data:
+    name: cultivapp-postgres-data
